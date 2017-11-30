@@ -1,5 +1,6 @@
 package me.blackness.black.element;
 
+import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -33,23 +34,45 @@ public class LiveElement implements Element {
     private final Plugin plugin;
     private final int period;
     private final Element[] frames;
-    private Element currentFrame;
 
     public LiveElement(Plugin plugin, int period, Element... frames) {
         this.plugin = plugin;
         this.period = period;
         this.frames = frames;
-        currentFrame = frames[0];
+    }
+
+    private Element nullElement() {
+        return new BasicElement(new ItemStack(Material.PAPER), (ne) -> {}, "nullElement");
+    }
+
+    private Element findFrame(ItemStack icon) {
+        for (Element frame : frames) {
+            if (frame.equals(icon)) {
+                return frame;
+            }
+        }
+
+        return nullElement();
+    }
+
+    private boolean contains(Element element) {
+        for (Element frame : frames) {
+            if (frame.equals(element)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
     public void accept(InventoryClickEvent event) {
-        currentFrame.accept(event);
+        findFrame(event.getCurrentItem()).accept(event);
     }
 
     @Override
     public void displayOn(Inventory inventory, int locX, int locY) {
-        currentFrame.displayOn(inventory, locX, locY);
+        frames[0].displayOn(inventory, locX, locY);
 
         new BukkitRunnable(){
             private int i;
@@ -72,18 +95,18 @@ public class LiveElement implements Element {
                     ? i + 1
                     : 0;
 
-                return currentFrame = frames[i];
+                return frames[i];
             }
         }.runTaskTimer(plugin, 1, period);
     }
 
     @Override
     public boolean equals(ItemStack icon) {
-        return currentFrame.equals(icon);
+        return findFrame(icon).equals(icon);
     }
 
     @Override
     public boolean equals(Element element) {
-        return currentFrame.equals(element);
+        return contains(element);
     }
 }

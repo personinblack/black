@@ -128,7 +128,7 @@ decorator pattern is one of the best design patterns for object-oriented
 programming i have ever seen. it replaces the bad keyword called "extends", makes
 your code composable and much more flexible than before.
 
-how you can use it? well, for example if you want to create a liveelement you have
+how you can use it? well, for example if you want to create a live element you have
 to do this:
 
 ```java
@@ -141,8 +141,8 @@ final Element liveElement = new LiveElement(this, 20,
 );
 ```
 
-as you can see, we have created elements inside element. this way you can do
-infinite amount of stuff.
+in this example above, we have two basic elements inside a live element and that live element will
+show those basic elements in the order we insert them.
 
 you may also want to create your own custom element object. to do this you have to
 implement the interface called "element" and in your ctor (contructor)

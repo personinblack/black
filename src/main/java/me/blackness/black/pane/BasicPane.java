@@ -48,6 +48,14 @@ public final class BasicPane implements Pane {
         }
     }
 
+    public BasicPane(int locX, int locY, int height, int length, Element... elements) {
+        this(locX, locY, height, length);
+
+        for (Element element : elements) {
+            add(element);
+        }
+    }
+
     private int length() {
         return elements.length;
     }
