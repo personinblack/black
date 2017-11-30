@@ -66,7 +66,6 @@ public final class BasicPane implements Pane {
     @Override
     public void fill(Element element) {
         Objects.requireNonNull(element);
-
         for (int x = 0; x < length(); x++) {
             Arrays.fill(elements[x], element);
         }
@@ -107,7 +106,6 @@ public final class BasicPane implements Pane {
     @Override
     public void add(Element element) {
         Objects.requireNonNull(element);
-
         for (int x = 0; isWithinBounds(x, 0); x++) {
             for (int y = 0; isWithinBounds(x, y); y++) {
                 if (elements[x][y].equals(emptyElement())) {
@@ -128,7 +126,6 @@ public final class BasicPane implements Pane {
     @Override
     public void insert(Element element, int locX, int locY, boolean shift) throws Exception {
         Objects.requireNonNull(element);
-
         if (!isWithinBounds(locX, locY)) {
             throw new Exception(
                 String.format(
@@ -160,7 +157,7 @@ public final class BasicPane implements Pane {
 
     @Override
     public void accept(InventoryClickEvent event) {
-        event.getSlot();
+        Objects.requireNonNull(event);
         for (int x = 0; isWithinBounds(x, 0); x++) {
             for (int y = 0; isWithinBounds(x, y); y++) {
                 if ((locX + x) + (locY + y) * 9 == event.getSlot()) {
@@ -172,6 +169,7 @@ public final class BasicPane implements Pane {
 
     @Override
     public void displayOn(Inventory inventory) {
+        Objects.requireNonNull(inventory);
         for (int x = 0; isWithinBounds(x, 0); x++) {
             for (int y = 0; isWithinBounds(x, y); y++) {
                 elements[x][y].displayOn(inventory, locX + x, locY + y);
