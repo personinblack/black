@@ -40,8 +40,6 @@ public final class BasicElement implements Element {
     private final Consumer<InventoryClickEvent> function;
 
     public BasicElement(ItemStack icon, Consumer<InventoryClickEvent> function, String id) {
-        Objects.requireNonNull(icon);
-
         this.id = id;
         this.icon = icon.getType().equals(Material.AIR)
             ? icon
@@ -54,21 +52,25 @@ public final class BasicElement implements Element {
     }
 
     private ItemStack encrypted(ItemStack itemStack, String textToEncrypt) {
-        final StringBuilder encryptedText = new StringBuilder();
-        for (char ch : textToEncrypt.toCharArray()) {
-            encryptedText.append(ChatColor.COLOR_CHAR).append(ch);
-        }
-
         final ItemMeta itemMeta = itemStack.getItemMeta();
         final List<String> lore = itemMeta.getLore() != null
             ? itemMeta.getLore()
             : new ArrayList<String>();
-        lore.add(encryptedText.toString());
+        lore.add(encrypted(textToEncrypt));
         itemMeta.setLore(lore);
 
         final ItemStack encryptedItemStack = itemStack.clone();
         encryptedItemStack.setItemMeta(itemMeta);
         return encryptedItemStack;
+    }
+
+    private String encrypted(String textToEncrypt) {
+        final StringBuilder encryptedText = new StringBuilder();
+        for (char ch : textToEncrypt.toCharArray()) {
+            encryptedText.append(ChatColor.COLOR_CHAR).append(ch);
+        }
+
+        return encryptedText.toString();
     }
 
     private String decrypted(ItemStack itemStack) throws Exception {

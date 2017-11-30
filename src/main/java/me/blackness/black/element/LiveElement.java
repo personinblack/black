@@ -49,32 +49,32 @@ public class LiveElement implements Element {
 
     @Override
     public void displayOn(Inventory inventory, int locX, int locY) {
+        currentFrame.displayOn(inventory, locX, locY);
+
         new BukkitRunnable(){
-            private int i = -1;
+            private int i;
 
             @Override
             public void run() {
                 if (inventory.getViewers().isEmpty()) {
                     this.cancel();
-                    return;
-                }
+                } else {
+                    nextFrame().displayOn(inventory, locX, locY);
 
-                nextFrame();
-                currentFrame.displayOn(inventory, locX, locY);
-
-                for (HumanEntity player : inventory.getViewers()) {
-                    ((Player) player).updateInventory();
+                    for (HumanEntity player : inventory.getViewers()) {
+                        ((Player) player).updateInventory();
+                    }
                 }
             }
 
-            private void nextFrame() {
+            private final Element nextFrame() {
                 i = i + 1 < frames.length
                     ? i + 1
                     : 0;
 
-                currentFrame = frames[i];
+                return currentFrame = frames[i];
             }
-        }.runTaskTimer(plugin, 0, period);
+        }.runTaskTimer(plugin, 1, period);
     }
 
     @Override

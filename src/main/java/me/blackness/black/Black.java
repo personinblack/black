@@ -25,7 +25,7 @@ import org.bukkit.plugin.Plugin;
                                                         |
  */
 public final class Black {
-    public final void prepareTheBlacknessFor(Plugin plugin) {
+    public void prepareTheBlacknessFor(Plugin plugin) {
         Bukkit.getPluginManager().registerEvents(
             new InventoryActionsListener(),
             Objects.requireNonNull(plugin)
