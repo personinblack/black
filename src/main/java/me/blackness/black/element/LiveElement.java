@@ -1,8 +1,6 @@
 package me.blackness.black.element;
 
 import org.bukkit.Material;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -83,10 +81,6 @@ public class LiveElement implements Element {
                     this.cancel();
                 } else {
                     nextFrame().displayOn(inventory, locX, locY);
-
-                    for (HumanEntity player : inventory.getViewers()) {
-                        ((Player) player).updateInventory();
-                    }
                 }
             }
 
