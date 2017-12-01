@@ -25,10 +25,16 @@ import org.bukkit.plugin.Plugin;
                                                         |
  */
 public final class Black {
+    private static boolean readyAlready = false;
+
     public void prepareTheBlacknessFor(Plugin plugin) {
-        Bukkit.getPluginManager().registerEvents(
-            new InventoryActionsListener(),
-            Objects.requireNonNull(plugin)
-        );
+        if (!readyAlready) {
+            Bukkit.getPluginManager().registerEvents(
+                new InventoryActionsListener(),
+                Objects.requireNonNull(plugin)
+            );
+
+            readyAlready = true;
+        }
     }
 }
