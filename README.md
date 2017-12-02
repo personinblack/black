@@ -2,6 +2,8 @@
 
 black is an extensive and object-oriented inventory framework designed for spigot.
 
+[a live demonstration of how black works](https://my.mixtape.moe/vemebo.webm)
+
 with black you can:
 - create infinite amount of pages
 - link those pages
