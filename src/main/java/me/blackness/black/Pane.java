@@ -2,6 +2,7 @@ package me.blackness.black;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 /*
        .                                                    .
@@ -24,10 +25,11 @@ import org.bukkit.inventory.Inventory;
  */
 public interface Pane {
     void fill(Element element);
-    void add(Element element);
-    void add(Element... element);
+    boolean add(Element element);
+    Element[] add(Element... elements);
     void insert(Element element, int locX, int locY, boolean shift) throws Exception;
     void remove(int locX, int locY) throws Exception;
+    boolean contains(ItemStack icon);
     void accept(InventoryClickEvent event);
     void displayOn(Inventory inventory);
 }

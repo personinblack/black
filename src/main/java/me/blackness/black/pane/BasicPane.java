@@ -1,5 +1,6 @@
 package me.blackness.black.pane;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -112,23 +113,31 @@ public final class BasicPane implements Pane {
     }
 
     @Override
-    public void add(Element element) {
+    public boolean add(Element element) {
         Objects.requireNonNull(element);
         for (int x = 0; isWithinBounds(x, 0); x++) {
             for (int y = 0; isWithinBounds(x, y); y++) {
                 if (elements[x][y].equals(emptyElement())) {
                     elements[x][y] = element;
-                    return;
+                    return true;
                 }
             }
         }
+
+        return false;
     }
 
     @Override
-    public void add(Element... elements) {
+    public Element[] add(Element... elements) {
+        final ArrayList<Element> s = new ArrayList<>();
+
         for (Element element : elements) {
-            add(element);
+            if (!add(element)) {
+                s.add(element);
+            }
         }
+
+        return s.toArray(new Element[]{});
     }
 
     @Override
@@ -161,6 +170,21 @@ public final class BasicPane implements Pane {
         } else {
             elements[locX][locY] = emptyElement();
         }
+    }
+
+    @Override
+    public boolean contains(ItemStack icon) {
+        Objects.requireNonNull(icon);
+
+        for (int x = 0; isWithinBounds(x, 0); x++) {
+            for (int y = 0; isWithinBounds(x, y); y++) {
+                if (elements[x][y].equals(icon)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override
