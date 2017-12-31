@@ -1,10 +1,11 @@
-# black, black and black
+# black
 
 black is an extensive and object-oriented inventory framework designed for spigot.
 
 [a live demonstration of how black works](https://my.mixtape.moe/vemebo.webm)
 
 with black you can:
+
 - create infinite amount of pages
 - link those pages
 - have panes inside pages for dividing your pages into sections
@@ -12,6 +13,7 @@ with black you can:
 - create animated elements with changing actions and icons
 
 black does not contain:
+
 - `static` but not `private` variables
 - getters and setters
 - `static` methods
@@ -22,7 +24,7 @@ black does not contain:
 - any method that has more than one purpose
 - any not `final` but `public` method without `@Override` annotation
 
-# how can i use this?
+## how can i use this
 
 first register it by saying
 `new Black().prepareTheBlacknessFor(yourPluginsInstance);`
@@ -71,7 +73,6 @@ private void showMinigameMenuTo(Player player) {
 but to get this beauty you have to shadow/shade (extract it to your jar file) black into your plugin.
 for gradle you can begin with this build.gradle example:
 
-
 ```groovy
 buildscript {
     repositories {
@@ -107,7 +108,7 @@ compileJava {
 dependencies {
     // compileOnly for not shading/shadowing
     compileOnly group: 'org.spigotmc', name: 'spigot-api', version: 'spigotVersion'
-    compile group: 'me.blackness', name: 'black', version: 'currentLatestVersion'
+    compile files('/location/to/black.jar')
 }
 
 shadowJar {
@@ -125,7 +126,8 @@ build.dependsOn shadowJar
 
 and run gradle task named "build" to generate your jar file.
 
-# what is decorator pattern and how can i use it
+## what is decorator pattern and how can i use it
+
 decorator pattern is one of the best design patterns for object-oriented
 programming i have ever seen. it replaces the bad keyword called "extends", makes
 your code composable and much more flexible than before.
@@ -210,4 +212,4 @@ as "Personinblack#6059"
 
 ----------
 
-<sub><sup>stay black!</sup><sub>
+<sub><sub><sub><sup>stay black!
