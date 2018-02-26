@@ -81,15 +81,19 @@ public final class BasicPane implements Pane {
     }
 
     private void validate() throws Exception {
-        if (locY + height() > 6 || locX + length() > 9
-                || elements.length == 0
-                || elements[0].length == 0) {
+        final boolean locXFaulty = locX + height() > 9;
+        final boolean locYFaulty = locY + height() > 6;
+        final boolean heightFaulty = height() <= 0;
+        final boolean lengthFaulty = length() <= 0;
 
+        if (locXFaulty || locYFaulty || heightFaulty || lengthFaulty) {
             throw new Exception(
                 String.format(
-                    "The BasicPane created, failed the validation.\n" +
-                    "locX %s, locY %s, height %s, length %s",
-                    locX, locY, height(), length()
+                    "Validation for the newest created Pane failed.\n" +
+                        "locX %s failed: %s, locY %s failed: %s, " +
+                        "height %s failed: %s, length %s failed: %s",
+                    locX, locXFaulty, locY, locYFaulty, height(), heightFaulty, length(),
+                        lengthFaulty
                 )
             );
         }
