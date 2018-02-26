@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'maven'
 
 group = 'me.blackness.black'
 version = '1.0.3'
@@ -8,6 +9,7 @@ targetCompatibility = '1.8'
 
 repositories {
     maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
     mavenCentral()
     mavenLocal()
 }
