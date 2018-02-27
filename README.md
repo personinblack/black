@@ -74,28 +74,32 @@ but to get this beauty you have to shadow/shade (extract it to your jar file) bl
 for gradle you can begin with this build.gradle example:
 
 ```groovy
+// for Gradle < 2.1
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:latestVersionNumber'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:<latestVersionNumber>'
     }
 }
 
 apply plugin: 'com.github.johnrengelman.shadow'
+
+// for newer versions
+plugins { id "com.github.johnrengelman.shadow" version "2.0.2" }
+
 apply plugin: 'java'
 
-group = 'me.blackness.test'
-version = '0.0.0'
+group = '<group>'
+version = '<version>'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
 repositories {
-    maven {
-        url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
-    }
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     mavenCentral()
     mavenLocal()
 }
@@ -107,12 +111,12 @@ compileJava {
 
 dependencies {
     // compileOnly for not shading/shadowing
-    compileOnly group: 'org.spigotmc', name: 'spigot-api', version: 'spigotVersion'
-    compile files('/location/to/black.jar')
+    compileOnly group: 'org.spigotmc', name: 'spigot-api', version: '<spigotVersion>'
+    compile group: 'com.github.Personinblack', name: 'black', version: '<latestReleaseTag> (1.0.3.2 at the moment)'
 }
 
 shadowJar {
-    baseName = 'jarfilename'
+    baseName = '<outputJarName>'
     classifier = null
 }
 
