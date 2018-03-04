@@ -74,8 +74,13 @@ public final class BasicElement implements Element {
     }
 
     private String decrypted(ItemStack itemStack) throws Exception {
-        if (!itemStack.hasItemMeta() || !itemStack.getItemMeta().hasLore()) {
-            throw new Exception("The itemStack couldn't be decrypted because it has no lore");
+        if (itemStack.getType().equals(Material.AIR)) {
+            return "";
+        } else if (!itemStack.hasItemMeta() || !itemStack.getItemMeta().hasLore()) {
+            throw new Exception(
+                "The itemStack couldn't be decrypted because it has no lore\n" +
+                itemStack
+            );
         } else {
             final List<String> lore = itemStack.getItemMeta().getLore();
             return lore.get(lore.size() - 1).replace(String.valueOf(ChatColor.COLOR_CHAR), "");

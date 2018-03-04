@@ -67,8 +67,8 @@ public final class BasicPane implements Pane {
 
     private Element emptyElement() {
         return new BasicElement(
-            new ItemStack(Material.AIR),
-            (event) -> event.setCancelled(true), "emptyElement"
+            new ItemStack(Material.TNT),
+            (event) -> {}, "emptyElement"
         );
     }
 
@@ -208,7 +208,10 @@ public final class BasicPane implements Pane {
         Objects.requireNonNull(inventory);
         for (int x = 0; isWithinBounds(x, 0); x++) {
             for (int y = 0; isWithinBounds(x, y); y++) {
-                elements[x][y].displayOn(inventory, locX + x, locY + y);
+                final Element element = elements[x][y];
+                if (!element.equals(emptyElement())) {
+                    element.displayOn(inventory, locX + x, locY + y);
+                }
             }
         }
     }
