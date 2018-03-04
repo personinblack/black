@@ -101,7 +101,7 @@ public final class BasicElement implements Element {
         }
 
         try {
-            return icon.equals(itemStack) && decrypted(itemStack).equals(id);
+            return decrypted(itemStack).equals(id);
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
