@@ -25,6 +25,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public interface Pane {
     void fill(Element element);
+    void clear();
     boolean add(Element element);
     Element[] add(Element... elements);
     void insert(Element element, int locX, int locY, boolean shift) throws Exception;

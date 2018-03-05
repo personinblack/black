@@ -61,6 +61,13 @@ public final class LivePane implements Pane {
     }
 
     @Override
+    public void clear() {
+        for (Pane frame : frames) {
+            frame.clear();
+        }
+    }
+
+    @Override
     public boolean add(Element element) {
         for (Pane frame : frames) {
             if (frame.add(element)) {

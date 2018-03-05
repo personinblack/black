@@ -80,6 +80,10 @@ public final class BasicPane implements Pane {
         }
     }
 
+    @Override
+    public void clear() {
+        fill(emptyElement());
+    }
     private void validate() throws Exception {
         final boolean locXFaulty = locX + height() > 9;
         final boolean locYFaulty = locY + height() > 6;
