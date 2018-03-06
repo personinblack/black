@@ -49,12 +49,14 @@ public final class BasicPane implements Pane {
         }
     }
 
+    public BasicPane(int locX, int locY, int height, int length, Element element) {
+        this(locX, locY, height, length);
+        fill(element);
+    }
+
     public BasicPane(int locX, int locY, int height, int length, Element... elements) {
         this(locX, locY, height, length);
-
-        for (Element element : elements) {
-            add(element);
-        }
+        Arrays.stream(elements).forEach(this::add);
     }
 
     private int length() {
