@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 group = 'me.blackness.black'
-version = '1.0.3'
+version = '1.0.4'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'

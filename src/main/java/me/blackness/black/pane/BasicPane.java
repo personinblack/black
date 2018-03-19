@@ -40,8 +40,8 @@ public final class BasicPane implements Pane {
     public BasicPane(int locX, int locY, int height, int length) {
         this.locX = locX;
         this.locY = locY;
-        elements = new Element[length][height];
-        fill(emptyElement());
+        elements = new Element[height][length];
+        clear();
         try {
             validate();
         } catch(Exception ex) {
@@ -60,11 +60,11 @@ public final class BasicPane implements Pane {
     }
 
     private int length() {
-        return elements.length;
+        return elements[0].length;
     }
 
     private int height() {
-        return elements[0].length;
+        return elements.length;
     }
 
     private Element emptyElement() {
@@ -77,8 +77,8 @@ public final class BasicPane implements Pane {
     @Override
     public void fill(Element element) {
         Objects.requireNonNull(element);
-        for (int x = 0; x < length(); x++) {
-            Arrays.fill(elements[x], element);
+        for (int y = 0; y < height(); y++) {
+            Arrays.fill(elements[y], element);
         }
     }
 
@@ -86,18 +86,19 @@ public final class BasicPane implements Pane {
     public void clear() {
         fill(emptyElement());
     }
+
     private void validate() throws Exception {
-        final boolean locXFaulty = locX + height() > 9;
-        final boolean locYFaulty = locY + height() > 6;
-        final boolean heightFaulty = height() <= 0;
-        final boolean lengthFaulty = length() <= 0;
+        final boolean locXFaulty = locX < 0;
+        final boolean locYFaulty = locY < 0;
+        final boolean heightFaulty = locY + height() > 6;
+        final boolean lengthFaulty = locX + length() > 9;
 
         if (locXFaulty || locYFaulty || heightFaulty || lengthFaulty) {
             throw new Exception(
                 String.format(
                     "Validation for the newest created Pane failed.\n" +
-                        "locX %s failed: %s, locY %s failed: %s, " +
-                        "height %s failed: %s, length %s failed: %s",
+                        "locX (%s) is faulty: %s, locY (%s) is faulty: %s, " +
+                        "height (%s) is faulty: %s, length (%s) is faulty: %s",
                     locX, locXFaulty, locY, locYFaulty, height(), heightFaulty, length(),
                         lengthFaulty
                 )
@@ -110,25 +111,25 @@ public final class BasicPane implements Pane {
     }
 
     private void shiftElementAt(int locX, int locY) {
-        for (int x = elements.length - 1; x >= locX; x--) {
-            for (int y = elements[x].length - 1; y >= locY; y--) {
-                if (x + 1 < elements.length) {
-                    elements[x + 1][y] = elements[x][y];
-                } else if (y + 1 < elements[x].length) {
-                    elements[0][y + 1] = elements[x][y];
+        for (int y = elements.length - 1; y >= locY; y--) {
+            for (int x = elements[y].length - 1; x >= locX; x--) {
+                if (y + 1 < elements.length) {
+                    elements[y + 1][x] = elements[y][x];
+                } else if (x + 1 < elements[y].length) {
+                    elements[0][x + 1] = elements[y][x];
                 }
             }
         }
-        elements[locX][locY] = emptyElement();
+        elements[locY][locX] = emptyElement();
     }
 
     @Override
     public boolean add(Element element) {
         Objects.requireNonNull(element);
-        for (int x = 0; isWithinBounds(x, 0); x++) {
-            for (int y = 0; isWithinBounds(x, y); y++) {
-                if (elements[x][y].equals(emptyElement())) {
-                    elements[x][y] = element;
+        for (int y = 0; isWithinBounds(0, y); y++) {
+            for (int x = 0; isWithinBounds(x, y); x++) {
+                if (elements[y][x].equals(emptyElement())) {
+                    elements[y][x] = element;
                     return true;
                 }
             }
@@ -139,15 +140,15 @@ public final class BasicPane implements Pane {
 
     @Override
     public Element[] add(Element... elements) {
-        final ArrayList<Element> s = new ArrayList<>();
+        final ArrayList<Element> remainings = new ArrayList<>();
 
         for (Element element : elements) {
             if (!add(element)) {
-                s.add(element);
+                remainings.add(element);
             }
         }
 
-        return s.toArray(new Element[]{});
+        return remainings.toArray(new Element[]{});
     }
 
     @Override
@@ -160,8 +161,8 @@ public final class BasicPane implements Pane {
                     locX, locY
                 )
             );
-        } else if (!shift || (shift && elements[locX][locY].equals(emptyElement()))) {
-            elements[locX][locY] = element;
+        } else if (!shift || (shift && elements[locY][locX].equals(emptyElement()))) {
+            elements[locY][locX] = element;
         } else {
             shiftElementAt(locX, locY);
             insert(element, locX, locY, !shift);
@@ -178,7 +179,7 @@ public final class BasicPane implements Pane {
                 )
             );
         } else {
-            elements[locX][locY] = emptyElement();
+            elements[locY][locX] = emptyElement();
         }
     }
 
@@ -186,9 +187,9 @@ public final class BasicPane implements Pane {
     public boolean contains(ItemStack icon) {
         Objects.requireNonNull(icon);
 
-        for (int x = 0; isWithinBounds(x, 0); x++) {
-            for (int y = 0; isWithinBounds(x, y); y++) {
-                if (elements[x][y].equals(icon)) {
+        for (int y = 0; isWithinBounds(0, y); y++) {
+            for (int x = 0; isWithinBounds(x, y); x++) {
+                if (elements[y][x].equals(icon)) {
                     return true;
                 }
             }
@@ -200,10 +201,10 @@ public final class BasicPane implements Pane {
     @Override
     public void accept(InventoryClickEvent event) {
         Objects.requireNonNull(event);
-        for (int x = 0; isWithinBounds(x, 0); x++) {
-            for (int y = 0; isWithinBounds(x, y); y++) {
+        for (int y = 0; isWithinBounds(0, y); y++) {
+            for (int x = 0; isWithinBounds(x, y); x++) {
                 if ((locX + x) + (locY + y) * 9 == event.getSlot()) {
-                    elements[x][y].accept(event);
+                    elements[y][x].accept(event);
                 }
             }
         }
@@ -212,9 +213,9 @@ public final class BasicPane implements Pane {
     @Override
     public void displayOn(Inventory inventory) {
         Objects.requireNonNull(inventory);
-        for (int x = 0; isWithinBounds(x, 0); x++) {
-            for (int y = 0; isWithinBounds(x, y); y++) {
-                final Element element = elements[x][y];
+        for (int y = 0; isWithinBounds(0, y); y++) {
+            for (int x = 0; isWithinBounds(x, y); x++) {
+                final Element element = elements[y][x];
                 if (!element.equals(emptyElement())) {
                     element.displayOn(inventory, locX + x, locY + y);
                 }
