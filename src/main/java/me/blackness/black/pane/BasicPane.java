@@ -42,11 +42,6 @@ public final class BasicPane implements Pane {
         this.locY = locY;
         elements = new Element[height][length];
         clear();
-        try {
-            validate();
-        } catch(Exception ex) {
-            ex.printStackTrace();
-        }
     }
 
     public BasicPane(int locX, int locY, int height, int length, Element element) {
@@ -87,10 +82,10 @@ public final class BasicPane implements Pane {
         fill(emptyElement());
     }
 
-    private void validate() throws Exception {
+    private void validate(int inventorySize) throws Exception {
         final boolean locXFaulty = locX < 0;
         final boolean locYFaulty = locY < 0;
-        final boolean heightFaulty = locY + height() > 6;
+        final boolean heightFaulty = locY + height() > inventorySize / 9;
         final boolean lengthFaulty = locX + length() > 9;
 
         if (locXFaulty || locYFaulty || heightFaulty || lengthFaulty) {
@@ -213,6 +208,11 @@ public final class BasicPane implements Pane {
     @Override
     public void displayOn(Inventory inventory) {
         Objects.requireNonNull(inventory);
+        try {
+            validate(inventory.getSize());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         for (int y = 0; isWithinBounds(0, y); y++) {
             for (int x = 0; isWithinBounds(x, y); x++) {
                 final Element element = elements[y][x];
