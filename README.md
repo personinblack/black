@@ -100,6 +100,7 @@ targetCompatibility = '1.8'
 repositories {
     maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'https://jitpack.io' }
     mavenCentral()
     mavenLocal()
 }
@@ -112,7 +113,7 @@ compileJava {
 dependencies {
     // compileOnly for not shading/shadowing
     compileOnly group: 'org.spigotmc', name: 'spigot-api', version: '<spigotVersion>'
-    compile group: 'com.github.Personinblack', name: 'black', version: '<latestReleaseTag> (1.0.3.2 at the moment)'
+    compile group: 'com.github.Personinblack', name: 'black', version: '<latestReleaseTag> (1.0.5 at the moment)'
 }
 
 shadowJar {
