@@ -115,7 +115,7 @@ if you are asking the question `but why the f***??!!?`, check out `encapsulation
 
 a pane is a group of elements that has a size (height and length)
 and a position (x and y locations). panes can be stacked on top of each other
-like layers inside pages.
+like layers, inside pages.
 
 there are two pane objects that comes with black. those are `BasicPane` and `LivePane`.
 
