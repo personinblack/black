@@ -85,8 +85,8 @@ public final class BasicPane implements Pane {
     private void validate(int inventorySize) throws Exception {
         final boolean locXFaulty = locX < 0;
         final boolean locYFaulty = locY < 0;
-        final boolean heightFaulty = locY + height() > inventorySize / 9;
-        final boolean lengthFaulty = locX + length() > 9;
+        final boolean heightFaulty = locY + height() > inventorySize / 9 || height() <= 0;
+        final boolean lengthFaulty = locX + length() > 9 || length() <= 0;
 
         if (locXFaulty || locYFaulty || heightFaulty || lengthFaulty) {
             throw new Exception(
