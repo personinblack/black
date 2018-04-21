@@ -183,7 +183,7 @@ mySecondPane.insert(
 ```
 
 live pane is the animated version of the basic pane you can create out of basic panes.
-its using the same concept as the live pane so i am not going to write an example for it.
+its using the same concept as the live element so i am not going to write an example for it.
 
 ### and finally the page
 
