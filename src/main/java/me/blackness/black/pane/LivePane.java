@@ -1,5 +1,8 @@
 package me.blackness.black.pane;
 
+import java.util.Arrays;
+import java.util.Observer;
+
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -106,6 +109,11 @@ public final class LivePane implements Pane {
 
     public void remove(int frame, int locX, int locY) throws Exception {
         frames[frame].remove(locX, locY);
+    }
+
+    @Override
+    public void subscribe(Observer observer) {
+        Arrays.stream(frames).forEach(frame -> frame.subscribe(observer));
     }
 
     @Override

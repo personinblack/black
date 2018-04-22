@@ -3,6 +3,8 @@ package me.blackness.black.pane;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -33,11 +35,15 @@ import me.blackness.black.element.BasicElement;
                                                         |
  */
 public final class BasicPane implements Pane {
+    private final Observable observable;
+
     private final Element[][] elements;
     private final int locX;
     private final int locY;
 
     public BasicPane(int locX, int locY, int height, int length) {
+        observable = new Observable();
+
         this.locX = locX;
         this.locY = locY;
         elements = new Element[height][length];
@@ -75,11 +81,14 @@ public final class BasicPane implements Pane {
         for (int y = 0; y < height(); y++) {
             Arrays.fill(elements[y], element);
         }
+
+        observable.notifyObservers();
     }
 
     @Override
     public void clear() {
         fill(emptyElement());
+        observable.notifyObservers();
     }
 
     private void validate(int inventorySize) throws Exception {
@@ -125,6 +134,7 @@ public final class BasicPane implements Pane {
             for (int x = 0; isWithinBounds(x, y); x++) {
                 if (elements[y][x].equals(emptyElement())) {
                     elements[y][x] = element;
+                    observable.notifyObservers();
                     return true;
                 }
             }
@@ -141,6 +151,10 @@ public final class BasicPane implements Pane {
             if (!add(element)) {
                 remainings.add(element);
             }
+        }
+
+        if (remainings.size() != elements.length) {
+            observable.notifyObservers();
         }
 
         return remainings.toArray(new Element[]{});
@@ -162,6 +176,8 @@ public final class BasicPane implements Pane {
             shiftElementAt(locX, locY);
             insert(element, locX, locY, !shift);
         }
+
+        observable.notifyObservers();
     }
 
     @Override
@@ -175,7 +191,13 @@ public final class BasicPane implements Pane {
             );
         } else {
             elements[locY][locX] = emptyElement();
+            observable.notifyObservers();
         }
+    }
+
+    @Override
+    public void subscribe(Observer observer) {
+        observable.addObserver(observer);
     }
 
     @Override

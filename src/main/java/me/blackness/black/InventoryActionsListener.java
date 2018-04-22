@@ -1,8 +1,10 @@
 package me.blackness.black;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.PlayerInventory;
 
 /*
@@ -30,6 +32,13 @@ public final class InventoryActionsListener implements Listener {
         if (event.getInventory().getHolder() instanceof Page
                 && !(event.getClickedInventory() instanceof PlayerInventory)) {
             ((Page) event.getInventory().getHolder()).accept(event);
+        }
+    }
+
+    @EventHandler
+    public void closeListener(InventoryCloseEvent event) {
+        if (event.getInventory().getHolder() instanceof Page) {
+            ((Page) event.getInventory().getHolder()).stoppedViewing((Player) event.getPlayer());
         }
     }
 }
