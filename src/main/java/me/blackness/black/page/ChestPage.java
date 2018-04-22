@@ -1,6 +1,7 @@
 package me.blackness.black.page;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
@@ -43,6 +44,8 @@ public final class ChestPage implements Page {
         this.size = size < 9 ? 9 : size;
         this.panes = Objects.requireNonNull(panes);
         viewers = new ArrayList<>();
+
+        Arrays.stream(panes).forEach(pane -> pane.subscribe(this));
     }
 
     @Override
@@ -54,7 +57,6 @@ public final class ChestPage implements Page {
         }
 
         player.openInventory(inventory);
-
         viewers.add(player);
     }
 
