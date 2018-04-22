@@ -4,6 +4,7 @@ import java.util.Observer;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.InventoryHolder;
 
 /*
@@ -27,6 +28,6 @@ import org.bukkit.inventory.InventoryHolder;
  */
 public interface Page extends InventoryHolder, Observer {
     void showTo(Player player);
-    void stoppedViewing(Player player);
+    void handleClose(InventoryCloseEvent event);
     void accept(InventoryClickEvent event);
 }

@@ -38,7 +38,7 @@ public final class InventoryActionsListener implements Listener {
     @EventHandler
     public void closeListener(InventoryCloseEvent event) {
         if (event.getInventory().getHolder() instanceof Page) {
-            ((Page) event.getInventory().getHolder()).stoppedViewing((Player) event.getPlayer());
+            ((Page) event.getInventory().getHolder()).handleClose(event);
         }
     }
 }

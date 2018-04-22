@@ -9,6 +9,7 @@ import java.util.Observable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 
 import me.blackness.black.Page;
@@ -61,8 +62,8 @@ public final class ChestPage implements Page {
     }
 
     @Override
-    public void stoppedViewing(Player player) {
-        viewers.remove(Objects.requireNonNull(player));
+    public void handleClose(InventoryCloseEvent event) {
+        viewers.remove((Player) event.getPlayer());
     }
 
     @Override
