@@ -32,7 +32,7 @@ later on those pages can be showed to players.
 ## how can i use this
 
 before anything else, you have to prepare the blackness. you can do that by saying
-`new Black().prepareTheBlacknessFor(your plugin);` inside your onEnable method.
+`new Blackness().prepareFor(yourPluginInstance);` inside your onEnable method.
 
 this is required because black needs to register events for your inventories.
 
@@ -70,7 +70,7 @@ here is an example live element:
 ```java
 // this is your plugin instance.
 final Plugin myPlugin =
-    Bukkit.getPluginManager().getPlugin("myPlugin");
+    Bukkit.getPluginManager().getPlugin("myPluginsName");
 
 // this is the element we created earlier.
 final Element myFirstElement = new BasicElement(

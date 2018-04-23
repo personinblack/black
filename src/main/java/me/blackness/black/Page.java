@@ -1,7 +1,10 @@
 package me.blackness.black;
 
+import java.util.Observer;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.InventoryHolder;
 
 /*
@@ -23,7 +26,8 @@ import org.bukkit.inventory.InventoryHolder;
                                                         i"  personinblack
                                                         |
  */
-public interface Page extends InventoryHolder {
+public interface Page extends InventoryHolder, Observer {
     void showTo(Player player);
+    void handleClose(InventoryCloseEvent event);
     void accept(InventoryClickEvent event);
 }

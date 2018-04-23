@@ -1,10 +1,15 @@
 package me.blackness.black.page;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.Observable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 
 import me.blackness.black.Page;
@@ -33,11 +38,15 @@ public final class ChestPage implements Page {
     private final String title;
     private final int size;
     private final Pane[] panes;
+    private final List<Player> viewers;
 
     public ChestPage(String title, int size, Pane... panes) {
         this.title = Objects.requireNonNull(title);
-        this.size = size;
+        this.size = size < 9 ? 9 : size;
         this.panes = Objects.requireNonNull(panes);
+        viewers = new ArrayList<>();
+
+        Arrays.stream(panes).forEach(pane -> pane.subscribe(this));
     }
 
     @Override
@@ -49,6 +58,17 @@ public final class ChestPage implements Page {
         }
 
         player.openInventory(inventory);
+        viewers.add(player);
+    }
+
+    @Override
+    public void handleClose(InventoryCloseEvent event) {
+        viewers.remove((Player) event.getPlayer());
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        viewers.forEach(this::showTo);
     }
 
     @Override
