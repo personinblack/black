@@ -1,7 +1,6 @@
 package me.blackness.black.pane;
 
 import java.util.Arrays;
-import java.util.Observer;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -11,6 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import me.blackness.black.Element;
 import me.blackness.black.Pane;
+import me.blackness.observer.Target;
 
 /*
        .                                                    .
@@ -112,8 +112,8 @@ public final class LivePane implements Pane {
     }
 
     @Override
-    public void subscribe(Observer observer) {
-        Arrays.stream(frames).forEach(frame -> frame.subscribe(observer));
+    public void subscribe(Target<Void> target) {
+        Arrays.stream(frames).forEach(frame -> frame.subscribe(target));
     }
 
     @Override

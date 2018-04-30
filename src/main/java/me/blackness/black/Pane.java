@@ -1,10 +1,10 @@
 package me.blackness.black;
 
-import java.util.Observer;
-
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import me.blackness.observer.Target;
 
 /*
        .                                                    .
@@ -32,7 +32,7 @@ public interface Pane {
     Element[] add(Element... elements);
     void insert(Element element, int locX, int locY, boolean shift) throws Exception;
     void remove(int locX, int locY) throws Exception;
-    void subscribe(Observer observer);
+    void subscribe(Target<Void> target);
     boolean contains(ItemStack icon);
     void accept(InventoryClickEvent event);
     void displayOn(Inventory inventory);

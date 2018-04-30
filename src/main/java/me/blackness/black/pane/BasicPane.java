@@ -3,8 +3,6 @@ package me.blackness.black.pane;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Observable;
-import java.util.Observer;
 
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -14,6 +12,9 @@ import org.bukkit.inventory.ItemStack;
 import me.blackness.black.Element;
 import me.blackness.black.Pane;
 import me.blackness.black.element.BasicElement;
+import me.blackness.observer.Source;
+import me.blackness.observer.Target;
+import me.blackness.observer.source.BasicSource;
 
 /*
        .                                                    .
@@ -35,14 +36,14 @@ import me.blackness.black.element.BasicElement;
                                                         |
  */
 public final class BasicPane implements Pane {
-    private final Observable observable;
+    private final Source<Void> source;
 
     private final Element[][] elements;
     private final int locX;
     private final int locY;
 
     public BasicPane(int locX, int locY, int height, int length) {
-        observable = new Observable();
+        source = new BasicSource<>();
 
         this.locX = locX;
         this.locY = locY;
@@ -82,13 +83,13 @@ public final class BasicPane implements Pane {
             Arrays.fill(elements[y], element);
         }
 
-        observable.notifyObservers();
+        this.source.notifyTargets(null);
     }
 
     @Override
     public void clear() {
         fill(emptyElement());
-        observable.notifyObservers();
+        this.source.notifyTargets(null);
     }
 
     private void validate(int inventorySize) throws Exception {
@@ -134,7 +135,7 @@ public final class BasicPane implements Pane {
             for (int x = 0; isWithinBounds(x, y); x++) {
                 if (elements[y][x].equals(emptyElement())) {
                     elements[y][x] = element;
-                    observable.notifyObservers();
+                    this.source.notifyTargets(null);
                     return true;
                 }
             }
@@ -154,7 +155,7 @@ public final class BasicPane implements Pane {
         }
 
         if (remainings.size() != elements.length) {
-            observable.notifyObservers();
+            this.source.notifyTargets(null);
         }
 
         return remainings.toArray(new Element[]{});
@@ -177,7 +178,7 @@ public final class BasicPane implements Pane {
             insert(element, locX, locY, !shift);
         }
 
-        observable.notifyObservers();
+        this.source.notifyTargets(null);
     }
 
     @Override
@@ -191,13 +192,13 @@ public final class BasicPane implements Pane {
             );
         } else {
             elements[locY][locX] = emptyElement();
-            observable.notifyObservers();
+            this.source.notifyTargets(null);
         }
     }
 
     @Override
-    public void subscribe(Observer observer) {
-        observable.addObserver(observer);
+    public void subscribe(Target<Void> target) {
+        source.subscribe(target);
     }
 
     @Override

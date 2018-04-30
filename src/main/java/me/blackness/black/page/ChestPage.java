@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.Observable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -67,7 +66,7 @@ public final class ChestPage implements Page {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Void argument) {
         viewers.forEach(this::showTo);
     }
 

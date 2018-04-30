@@ -1,3 +1,5 @@
+plugins { id "com.github.johnrengelman.shadow" version "2.0.3" }
+
 apply plugin: 'java'
 apply plugin: 'maven'
 
@@ -8,6 +10,7 @@ sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
 repositories {
+    maven { url 'https://jitpack.io'}
     maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
     mavenCentral()
@@ -20,6 +23,14 @@ compileJava {
     options.encoding = 'UTF-8'
 }
 
+shadowJar {
+    baseName = 'black'
+    classifier = null
+}
+
 dependencies {
     compileOnly group: 'org.spigotmc', name: 'spigot-api', version: '1.12.2-R0.1-SNAPSHOT'
+    compile group: 'com.github.Personinblack', name: 'observer', version: 'bfb66b7c69'
 }
+
+build.dependsOn shadowJar
