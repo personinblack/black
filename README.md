@@ -135,11 +135,23 @@ final Element backgroundElement = new BasicElement(
 final List<Element> playerHeads =
     new PlayerHeads(PlayerType.STAFF);
 
+// this is the exit button used to close the inventory
+// it uses a local class and the bukkit scheduler
+// in order to close the inventory properly
+// https://hub.spigotmc.org/javadocs/spigot/org/bukkit/scheduler/BukkitScheduler.html
 final Element exitButton = new BasicElement(
     new ItemStack(Material.BARRIER),
     event -> {
         event.setCancelled(true);
-        event.getWhoClicked.closeInventory();
+        
+        class CloseInventoryTask implements Runnable {
+            @Override
+            public void run() {
+                event.getWhoClicked().closeInventory();
+            }
+        }
+        Bukkit.getScheduler().runTask(
+            Bukkit.getPluginManager().getPlugin("myPluginsName"), new CloseInventoryTask());
     }
 );
 
