@@ -139,6 +139,9 @@ final Element exitButton = new BasicElement(
     new ItemStack(Material.BARRIER),
     event -> {
         event.setCancelled(true);
+        
+        // this is not how you should close your inventory.
+        // please do read here: https://github.com/Personinblack/black/pull/2
         event.getWhoClicked.closeInventory();
     }
 );
