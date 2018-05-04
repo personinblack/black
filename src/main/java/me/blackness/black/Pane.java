@@ -32,7 +32,7 @@ public interface Pane {
     Element[] add(Element... elements);
     void insert(Element element, int locX, int locY, boolean shift) throws Exception;
     void remove(int locX, int locY) throws Exception;
-    void subscribe(Target<Void> target);
+    void subscribe(Target<Object> target);
     boolean contains(ItemStack icon);
     void accept(InventoryClickEvent event);
     void displayOn(Inventory inventory);

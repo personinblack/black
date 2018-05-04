@@ -36,7 +36,7 @@ import me.blackness.observer.source.BasicSource;
                                                         |
  */
 public final class BasicPane implements Pane {
-    private final Source<Void> source;
+    private final Source<Object> source;
 
     private final Element[][] elements;
     private final int locX;
@@ -83,13 +83,13 @@ public final class BasicPane implements Pane {
             Arrays.fill(elements[y], element);
         }
 
-        this.source.notifyTargets(null);
+        this.source.notifyTargets(new Object());
     }
 
     @Override
     public void clear() {
         fill(emptyElement());
-        this.source.notifyTargets(null);
+        this.source.notifyTargets(new Object());
     }
 
     private void validate(int inventorySize) throws Exception {
@@ -135,7 +135,7 @@ public final class BasicPane implements Pane {
             for (int x = 0; isWithinBounds(x, y); x++) {
                 if (elements[y][x].equals(emptyElement())) {
                     elements[y][x] = element;
-                    this.source.notifyTargets(null);
+                    this.source.notifyTargets(new Object());
                     return true;
                 }
             }
@@ -155,7 +155,7 @@ public final class BasicPane implements Pane {
         }
 
         if (remainings.size() != elements.length) {
-            this.source.notifyTargets(null);
+            this.source.notifyTargets(new Object());
         }
 
         return remainings.toArray(new Element[]{});
@@ -178,7 +178,7 @@ public final class BasicPane implements Pane {
             insert(element, locX, locY, !shift);
         }
 
-        this.source.notifyTargets(null);
+        this.source.notifyTargets(new Object());
     }
 
     @Override
@@ -192,12 +192,12 @@ public final class BasicPane implements Pane {
             );
         } else {
             elements[locY][locX] = emptyElement();
-            this.source.notifyTargets(null);
+            this.source.notifyTargets(new Object());
         }
     }
 
     @Override
-    public void subscribe(Target<Void> target) {
+    public void subscribe(Target<Object> target) {
         source.subscribe(target);
     }
 

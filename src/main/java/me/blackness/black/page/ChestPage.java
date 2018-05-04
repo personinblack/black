@@ -66,7 +66,7 @@ public final class ChestPage implements Page {
     }
 
     @Override
-    public void update(Void argument) {
+    public void update(Object argument) {
         viewers.forEach(this::showTo);
     }
 

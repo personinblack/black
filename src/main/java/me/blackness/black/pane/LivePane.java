@@ -112,7 +112,7 @@ public final class LivePane implements Pane {
     }
 
     @Override
-    public void subscribe(Target<Void> target) {
+    public void subscribe(Target<Object> target) {
         Arrays.stream(frames).forEach(frame -> frame.subscribe(target));
     }
 
