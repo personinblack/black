@@ -25,7 +25,7 @@ import me.blackness.black.Page;
                                                         i"  personinblack
                                                         |
  */
-public class InventoryCloseListener implements Listener {
+public final class InventoryCloseListener implements Listener {
     @EventHandler
     public void closeListener(InventoryCloseEvent event) {
         if (event.getInventory().getHolder() instanceof Page) {

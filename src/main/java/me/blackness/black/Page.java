@@ -1,10 +1,10 @@
 package me.blackness.black;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.InventoryHolder;
 
+import me.blackness.black.event.ElementClickEvent;
 import me.blackness.observer.Target;
 
 /*
@@ -29,5 +29,5 @@ import me.blackness.observer.Target;
 public interface Page extends InventoryHolder, Target<Object> {
     void showTo(Player player);
     void handleClose(InventoryCloseEvent event);
-    void accept(InventoryClickEvent event);
+    void accept(ElementClickEvent event);
 }

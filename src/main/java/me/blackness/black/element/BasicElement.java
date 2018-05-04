@@ -6,14 +6,14 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.blackness.black.Element;
-import net.md_5.bungee.api.ChatColor;
+import me.blackness.black.event.ElementClickEvent;
 
 /*
        .                                                    .
@@ -37,9 +37,9 @@ import net.md_5.bungee.api.ChatColor;
 public final class BasicElement implements Element {
     private final String id;
     private final ItemStack icon;
-    private final Consumer<InventoryClickEvent> function;
+    private final Consumer<ElementClickEvent> function;
 
-    public BasicElement(ItemStack icon, Consumer<InventoryClickEvent> function, String id) {
+    public BasicElement(ItemStack icon, Consumer<ElementClickEvent> function, String id) {
         this.id = id;
         this.icon = icon.getType().equals(Material.AIR)
             ? icon
@@ -47,7 +47,7 @@ public final class BasicElement implements Element {
         this.function = Objects.requireNonNull(function);
     }
 
-    public BasicElement(ItemStack icon, Consumer<InventoryClickEvent> function) {
+    public BasicElement(ItemStack icon, Consumer<ElementClickEvent> function) {
         this(icon, function, UUID.randomUUID().toString() + System.currentTimeMillis());
     }
 
@@ -93,8 +93,8 @@ public final class BasicElement implements Element {
     }
 
     @Override
-    public void accept(InventoryClickEvent event) {
-        if (this.equals(event.getCurrentItem())) {
+    public void accept(ElementClickEvent event) {
+        if (this.equals(event.currentItem())) {
             function.accept(event);
         }
     }

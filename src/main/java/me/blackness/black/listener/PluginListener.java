@@ -25,7 +25,7 @@ import me.blackness.black.Blackness;
                                                         i"  personinblack
                                                         |
  */
-public class PluginListener implements Listener {
+public final class PluginListener implements Listener {
     private final static Blackness blackness = new Blackness();
 
     @EventHandler

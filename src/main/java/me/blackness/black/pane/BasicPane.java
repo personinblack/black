@@ -5,13 +5,13 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import org.bukkit.Material;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.blackness.black.Element;
 import me.blackness.black.Pane;
 import me.blackness.black.element.BasicElement;
+import me.blackness.black.event.ElementClickEvent;
 import me.blackness.observer.Source;
 import me.blackness.observer.Target;
 import me.blackness.observer.source.BasicSource;
@@ -217,11 +217,11 @@ public final class BasicPane implements Pane {
     }
 
     @Override
-    public void accept(InventoryClickEvent event) {
+    public void accept(ElementClickEvent event) {
         Objects.requireNonNull(event);
         for (int y = 0; isWithinBounds(0, y); y++) {
             for (int x = 0; isWithinBounds(x, y); x++) {
-                if ((locX + x) + (locY + y) * 9 == event.getSlot()) {
+                if (event.slotIs((locX + x) + (locY + y) * 9)) {
                     elements[y][x].accept(event);
                 }
             }

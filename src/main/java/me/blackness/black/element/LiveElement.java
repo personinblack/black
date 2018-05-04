@@ -1,13 +1,13 @@
 package me.blackness.black.element;
 
 import org.bukkit.Material;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.blackness.black.Element;
+import me.blackness.black.event.ElementClickEvent;
 
 /*
        .                                                    .
@@ -64,8 +64,8 @@ public final class LiveElement implements Element {
     }
 
     @Override
-    public void accept(InventoryClickEvent event) {
-        findFrame(event.getCurrentItem()).accept(event);
+    public void accept(ElementClickEvent event) {
+        findFrame(event.currentItem()).accept(event);
     }
 
     @Override

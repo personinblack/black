@@ -6,6 +6,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.PlayerInventory;
 
 import me.blackness.black.Page;
+import me.blackness.black.event.ElementClickEvent;
 
 /*
        .                                                    .
@@ -26,13 +27,13 @@ import me.blackness.black.Page;
                                                         i"  personinblack
                                                         |
  */
-public class InventoryClickListener implements Listener {
+public final class InventoryClickListener implements Listener {
     @EventHandler
     public void listener(InventoryClickEvent event) {
         if (event.getInventory().getHolder() instanceof Page
                 && !(event.getClickedInventory() instanceof PlayerInventory)) {
 
-            ((Page) event.getInventory().getHolder()).accept(event);
+            ((Page) event.getInventory().getHolder()).accept(new ElementClickEvent(event));
         }
     }
 }

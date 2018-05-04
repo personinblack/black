@@ -1,9 +1,9 @@
 package me.blackness.black;
 
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import me.blackness.black.event.ElementClickEvent;
 import me.blackness.observer.Target;
 
 /*
@@ -34,6 +34,6 @@ public interface Pane {
     void remove(int locX, int locY) throws Exception;
     void subscribe(Target<Object> target);
     boolean contains(ItemStack icon);
-    void accept(InventoryClickEvent event);
+    void accept(ElementClickEvent event);
     void displayOn(Inventory inventory);
 }

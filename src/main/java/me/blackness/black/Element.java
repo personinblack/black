@@ -1,8 +1,9 @@
 package me.blackness.black;
 
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import me.blackness.black.event.ElementClickEvent;
 
 /*
        .                                                    .
@@ -25,7 +26,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public interface Element {
     void displayOn(Inventory inventory, int locX, int locY);
-    void accept(InventoryClickEvent event);
+    void accept(ElementClickEvent event);
     boolean equals(Element element);
     boolean equals(ItemStack icon);
 }
