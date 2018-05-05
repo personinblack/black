@@ -2,8 +2,6 @@ package me.blackness.black.event;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -29,9 +27,7 @@ import org.bukkit.inventory.ItemStack;
                                                         i"  personinblack
                                                         |
  */
-public final class ElementClickEvent extends Event {
-    private static final HandlerList handlers = new HandlerList();
-
+public final class ElementClickEvent {
     private final InventoryClickEvent baseEvent;
 
     public ElementClickEvent(InventoryClickEvent baseEvent) {
@@ -100,18 +96,9 @@ public final class ElementClickEvent extends Event {
         });
     }
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
     private void schedule(Runnable runnable) {
         Bukkit.getScheduler().runTask(
-            getHandlers().getRegisteredListeners()[0].getPlugin(),
+            baseEvent.getHandlers().getRegisteredListeners()[0].getPlugin(),
             runnable
         );
     }
