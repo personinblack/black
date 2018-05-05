@@ -2,6 +2,7 @@ package me.blackness.black.event;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -32,6 +33,10 @@ public final class ElementClickEvent {
 
     public ElementClickEvent(InventoryClickEvent baseEvent) {
         this.baseEvent = baseEvent;
+    }
+
+    public Player player() {
+        return (Player) baseEvent.getWhoClicked();
     }
 
     public boolean actionIs(InventoryAction action) {
@@ -189,9 +194,19 @@ public final class ElementClickEvent {
 
     /**
      * this method can be removed at any time.
+     * @see ElementClickEvent#player()
      */
     @Deprecated
     public HumanEntity getWhoClicked() {
         return baseEvent.getWhoClicked();
+    }
+
+    /**
+     * this method can be removed at any time.
+     * @see ElementClickEvent#cancel()
+     */
+    @Deprecated
+    public void setCancelled(Boolean cancel) {
+        cancel();
     }
 }
