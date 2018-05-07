@@ -57,7 +57,9 @@ public final class ChestPage implements Page {
         }
 
         player.openInventory(inventory);
-        viewers.add(player);
+        if (!viewers.contains(player)) {
+            viewers.add(player);
+        }
     }
 
     @Override
