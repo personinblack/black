@@ -90,9 +90,7 @@ public final class ElementClickEvent {
     }
 
     public void cancel() {
-        schedule(() -> {
-            baseEvent.setCancelled(true);
-        });
+        baseEvent.setCancelled(true);
     }
 
     public void closeView() {

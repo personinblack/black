@@ -56,7 +56,7 @@ public final class Blackness {
         pluginQueue.poll();
 
         final Plugin nextPlugin = pluginQueue.peek();
-        if (nextPlugin.isEnabled()) {
+        if (nextPlugin != null && nextPlugin.isEnabled()) {
             registerEvents(nextPlugin);
         }
     }
