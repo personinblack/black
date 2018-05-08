@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.plugin.Plugin;
 
 import me.blackness.black.listener.InventoryClickListener;
@@ -47,9 +48,9 @@ public final class Blackness {
         }
     }
 
-    public synchronized void processPlugin(Plugin plugin) {
-        if (!pluginQueue.peek().equals(plugin)) {
-            pluginQueue.remove(plugin);
+    public synchronized void processPluginDisable(PluginDisableEvent event) {
+        if (!pluginQueue.peek().equals(event.getPlugin())) {
+            pluginQueue.remove(event.getPlugin());
             return;
         }
 

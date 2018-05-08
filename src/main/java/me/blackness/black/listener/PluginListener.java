@@ -30,6 +30,6 @@ public final class PluginListener implements Listener {
 
     @EventHandler
     public void listener(PluginDisableEvent event) {
-        blackness.processPlugin(event.getPlugin());
+        blackness.processPluginDisable(event);
     }
 }
