@@ -80,7 +80,7 @@ public final class ElementClickEvent {
     }
 
     public ItemStack currentItem() {
-        return baseEvent.getCurrentItem();
+        return baseEvent.getCurrentItem().clone();
     }
 
     public void setItemOnCursor(ItemStack item) {
