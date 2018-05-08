@@ -2,7 +2,7 @@
 
 black is an extensive and object-oriented inventory framework designed for spigot.
 
-[a live demonstration of how black works](https://my.mixtape.moe/vemebo.webm)
+[a live demonstration of how black works (outdated atm)](https://my.mixtape.moe/vemebo.webm)
 
 with black you can:
 
@@ -47,7 +47,7 @@ how your inventories look and how they behave.
 black comes with two element objects, `BasicElement` and `LiveElement`.
 
 basic element is the simplest element. it asks for an icon (`ItemStack`) and
-an event handler function (`Consumer<InventoryClickEvent>`).
+an event handler function (`Consumer<ElementClickEvent>`).
 
 you can create one like this:
 
@@ -55,8 +55,8 @@ you can create one like this:
 final Element myFirstElement = new BasicElement(
     new ItemStack(Material.APPLE),  // this is the icon
     event -> {    // and this is the event handler
-        event.setCancelled(true);
-        event.getWhoClicked().sendMessage("apple sucks");
+        event.cancel();
+        event.player().sendMessage("apple sucks");
     }
 );
 ```
@@ -68,23 +68,25 @@ you gave with the amount of period you specified in between.
 here is an example live element:
 
 ```java
-// this is your plugin instance.
-final Plugin myPlugin =
-    Bukkit.getPluginManager().getPlugin("myPluginsName");
-
 // this is the element we created earlier.
 final Element myFirstElement = new BasicElement(
     new ItemStack(Material.APPLE),
     event -> {
-        event.setCancelled(true);
-        event.getWhoClicked().sendMessage("apple sucks");
+        event.cancel();
+        event.player().sendMessage("apple sucks");
     }
 );
+
 // another basic element.
 final Element mySecondElement = new BasicElement(
     new ItemStack(Material.AIR),
-    event -> event.setCancelled(true)
+    event -> event.cancel()
 );
+
+// this is your plugin instance.
+final Plugin myPlugin =
+    Bukkit.getPluginManager().getPlugin("myPluginsName");
+
 // live element inside live element ??!!?
 final Element myThirdElement = new LiveElement(
     myPlugin,
@@ -127,7 +129,7 @@ need an example? here it comes...
 ```java
 final Element backgroundElement = new BasicElement(
     new ItemStack(Material.STAINED_GLASS_PANE),
-    event -> event.setCancelled(true)
+    event -> event.cancel()
 );
 
 // this is just a list, nothing fancy or
@@ -138,11 +140,8 @@ final List<Element> playerHeads =
 final Element exitButton = new BasicElement(
     new ItemStack(Material.BARRIER),
     event -> {
-        event.setCancelled(true);
-        
-        // this is not how you should close your inventory.
-        // please do read here: https://github.com/Personinblack/black/pull/2
-        event.getWhoClicked.closeInventory();
+        event.cancel();
+        event.closeView();
     }
 );
 
@@ -193,9 +192,10 @@ its using the same concept as the live element so i am not going to write an exa
 a page is combination of panes or just one pane in a way that can be displayed on an inventory.
 you can build one with a title (`String`), a size (`int`) and the panes to be displayed.
 
-black only has one page object and that is the chest page but you can create your own pages.
+black only has one page object and that is the chest page but you can create
+your own custom pages later.
 
-here is an example in case you need one:
+here is an example chest page in case you need one:
 
 ```java
 // panes from the previous example
@@ -238,12 +238,12 @@ final ItemStack frame2 = new ItemStack(Material.SPONGE);
 
 final Element liveElement = new LiveElement(this, 20,
     new BasicElement(frame1, event -> {
-        event.setCancelled(true);
-        event.getPlayer().sendMessage("this is frame 1");
+        event.cancel();
+        event.player().sendMessage("this is frame 1");
     }),
     new BasicElement(frame2, event -> {
-        event.setCancelled(true);
-        event.getPlayer().sendMessage("and this is frame 2");
+        event.cancel();
+        event.player().sendMessage("and this is frame 2");
     })
 );
 ```
@@ -267,13 +267,13 @@ final class CustomElement implements Element {
     }
 
     @Override
-    public void accept(InventoryClickEvent event) {
-        baseElement.accept(event);
+    public void displayOn(Inventory inventory, int locX, int locY) {
+        baseElement.displayOn(inventory, locX, locY);
     }
 
     @Override
-    public void displayOn(Inventory inventory, int locX, int locY) {
-        baseElement.displayOn(inventory, locX, locY);
+    public void accept(ElementClickEvent event) {
+        baseElement.accept(event);
     }
 
     @Override
@@ -301,7 +301,8 @@ final Element customElement = new CustomElement(liveElement);
 
 the `customElement` will act just like the `liveElement`.
 
-so you have to customize this `CustomElement` and make it yours!
+so you have to customize this `CustomElement` and make it yours! compare `LiveElement` and
+`BasicElement` to see how you can customize your `CustomElement`.
 
 ---
 
@@ -359,7 +360,7 @@ apply plugin: 'com.github.johnrengelman.shadow'
 it just adds the `shadow` plugin to your project.
 
 we are done with the `shadow` and we can now add the `jitpack` repository to the project.
-this is pretty easy just do this:
+this is pretty easy, just do this:
 
 build.gradle
 
@@ -376,7 +377,7 @@ build.gradle
 
 ```groovy
 compileOnly group: 'org.spigotmc', name: 'spigot-api', version: '<spigotVersion>'
-compile group: 'com.github.Personinblack', name: 'black', version: '<latestReleaseTag> (1.0.5 at the moment)'
+compile group: 'com.github.Personinblack', name: 'black', version: '<latestReleaseTag>'
 ```
 
 i included the `spigot-api` dependency in here for a reason. did you notice the difference between
@@ -398,4 +399,4 @@ as "Personinblack#6059"
 
 ---
 
-<sub><sub><sub><sup>stay black!
+<sub><sub><sup>stay black!
