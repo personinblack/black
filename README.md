@@ -1,5 +1,7 @@
 # black
 
+[![jitpack](https://jitpack.io/v/Personinblack/black.svg)](https://jitpack.io/#Personinblack/black)
+
 black is an extensive and object-oriented inventory framework designed for spigot.
 
 [a live demonstration of how black works (outdated atm)](https://my.mixtape.moe/vemebo.webm)
