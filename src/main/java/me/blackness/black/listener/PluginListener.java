@@ -25,11 +25,19 @@ import me.blackness.black.Blackness;
                                                         i"  personinblack
                                                         |
  */
+
+/**
+ * a listener that listen for plugins getting disabled.
+ */
 public final class PluginListener implements Listener {
-    private final static Blackness blackness = new Blackness();
+    private final Blackness blackness;
+
+    public PluginListener(final Blackness blackness) {
+        this.blackness = blackness;
+    }
 
     @EventHandler
-    public void listener(PluginDisableEvent event) {
+    public void listener(final PluginDisableEvent event) {
         blackness.processPluginDisable(event);
     }
 }

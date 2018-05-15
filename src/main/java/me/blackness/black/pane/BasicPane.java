@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -35,14 +36,23 @@ import me.blackness.observer.source.BasicSource;
                                                         x"  personinblack
                                                         |
  */
+
+/**
+ * a pane that has all the basic stuff.
+ *
+ * @see Pane
+ */
 public final class BasicPane implements Pane {
+    private static final String LOCATION_OUTOFBOUNDS =
+        "The specified location [%s][%s] is out of bounds";
+
     private final Source<Object> source;
 
     private final Element[][] elements;
     private final int locX;
     private final int locY;
 
-    public BasicPane(int locX, int locY, int height, int length) {
+    public BasicPane(final int locX, final int locY, final int height, final int length) {
         source = new BasicSource<>();
 
         this.locX = locX;
@@ -51,12 +61,16 @@ public final class BasicPane implements Pane {
         clear();
     }
 
-    public BasicPane(int locX, int locY, int height, int length, Element element) {
+    public BasicPane(final int locX, final int locY, final int height, final int length,
+            final Element element) {
+
         this(locX, locY, height, length);
         fill(element);
     }
 
-    public BasicPane(int locX, int locY, int height, int length, Element... elements) {
+    public BasicPane(final int locX, final int locY, final int height, final int length,
+            final Element... elements) {
+
         this(locX, locY, height, length);
         Arrays.stream(elements).forEach(this::add);
     }
@@ -72,12 +86,13 @@ public final class BasicPane implements Pane {
     private Element emptyElement() {
         return new BasicElement(
             new ItemStack(Material.TNT),
-            (event) -> {}, "emptyElement"
+            event -> {
+            }, "emptyElement"
         );
     }
 
     @Override
-    public void fill(Element element) {
+    public void fill(final Element element) {
         Objects.requireNonNull(element);
         for (int y = 0; y < height(); y++) {
             Arrays.fill(elements[y], element);
@@ -92,16 +107,16 @@ public final class BasicPane implements Pane {
         this.source.notifyTargets(new Object());
     }
 
-    private void validate(int inventorySize) throws Exception {
+    private void validate(final int inventorySize) throws IllegalArgumentException {
         final boolean locXFaulty = locX < 0;
         final boolean locYFaulty = locY < 0;
         final boolean heightFaulty = locY + height() > inventorySize / 9 || height() <= 0;
         final boolean lengthFaulty = locX + length() > 9 || length() <= 0;
 
         if (locXFaulty || locYFaulty || heightFaulty || lengthFaulty) {
-            throw new Exception(
+            throw new IllegalArgumentException(
                 String.format(
-                    "Validation for the newest created Pane failed.\n" +
+                    "Validation for the newest created Pane failed.%n" +
                         "locX (%s) is faulty: %s, locY (%s) is faulty: %s, " +
                         "height (%s) is faulty: %s, length (%s) is faulty: %s",
                     locX, locXFaulty, locY, locYFaulty, height(), heightFaulty, length(),
@@ -111,11 +126,11 @@ public final class BasicPane implements Pane {
         }
     }
 
-    private boolean isWithinBounds(int locX, int locY) {
+    private boolean isWithinBounds(final int locX, final int locY) {
         return locX < length() && locY < height() && locX >= 0 && locY >= 0;
     }
 
-    private void shiftElementAt(int locX, int locY) {
+    private void shiftElementAt(final int locX, final int locY) {
         for (int y = elements.length - 1; y >= locY; y--) {
             for (int x = elements[y].length - 1; x >= locX; x--) {
                 if (y + 1 < elements.length) {
@@ -129,13 +144,14 @@ public final class BasicPane implements Pane {
     }
 
     @Override
-    public boolean add(Element element) {
+    public boolean add(final Element element) {
+        final Object argument = new Object();
         Objects.requireNonNull(element);
         for (int y = 0; isWithinBounds(0, y); y++) {
             for (int x = 0; isWithinBounds(x, y); x++) {
-                if (elements[y][x].equals(emptyElement())) {
+                if (elements[y][x].is(emptyElement())) {
                     elements[y][x] = element;
-                    this.source.notifyTargets(new Object());
+                    this.source.notifyTargets(argument);
                     return true;
                 }
             }
@@ -145,7 +161,7 @@ public final class BasicPane implements Pane {
     }
 
     @Override
-    public Element[] add(Element... elements) {
+    public Element[] add(final Element... elements) {
         final ArrayList<Element> remainings = new ArrayList<>();
 
         for (Element element : elements) {
@@ -162,16 +178,18 @@ public final class BasicPane implements Pane {
     }
 
     @Override
-    public void insert(Element element, int locX, int locY, boolean shift) throws Exception {
+    public void insert(final Element element, final int locX, final int locY,
+            final boolean shift) throws IllegalArgumentException {
+
         Objects.requireNonNull(element);
         if (!isWithinBounds(locX, locY)) {
-            throw new Exception(
+            throw new IllegalArgumentException(
                 String.format(
-                    "The specified location [%s][%s] is out of bounds",
+                    LOCATION_OUTOFBOUNDS,
                     locX, locY
                 )
             );
-        } else if (!shift || (shift && elements[locY][locX].equals(emptyElement()))) {
+        } else if (!shift || (shift && elements[locY][locX].is(emptyElement()))) {
             elements[locY][locX] = element;
         } else {
             shiftElementAt(locX, locY);
@@ -182,11 +200,11 @@ public final class BasicPane implements Pane {
     }
 
     @Override
-    public void remove(int locX, int locY) throws Exception {
+    public void remove(final int locX, final int locY) throws IllegalArgumentException {
         if (!isWithinBounds(locX, locY)) {
-            throw new Exception(
+            throw new IllegalArgumentException(
                 String.format(
-                    "The specified location [%s][%s] is out of bounds",
+                    LOCATION_OUTOFBOUNDS,
                     locX, locY
                 )
             );
@@ -197,17 +215,17 @@ public final class BasicPane implements Pane {
     }
 
     @Override
-    public void subscribe(Target<Object> target) {
+    public void subscribe(final Target<Object> target) {
         source.subscribe(target);
     }
 
     @Override
-    public boolean contains(ItemStack icon) {
+    public boolean contains(final ItemStack icon) {
         Objects.requireNonNull(icon);
 
         for (int y = 0; isWithinBounds(0, y); y++) {
             for (int x = 0; isWithinBounds(x, y); x++) {
-                if (elements[y][x].equals(icon)) {
+                if (elements[y][x].is(icon)) {
                     return true;
                 }
             }
@@ -217,7 +235,7 @@ public final class BasicPane implements Pane {
     }
 
     @Override
-    public void accept(ElementClickEvent event) {
+    public void accept(final ElementClickEvent event) {
         Objects.requireNonNull(event);
         for (int y = 0; isWithinBounds(0, y); y++) {
             for (int x = 0; isWithinBounds(x, y); x++) {
@@ -229,17 +247,17 @@ public final class BasicPane implements Pane {
     }
 
     @Override
-    public void displayOn(Inventory inventory) {
+    public void displayOn(final Inventory inventory) {
         Objects.requireNonNull(inventory);
         try {
             validate(inventory.getSize());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Bukkit.getLogger().severe(ex.toString());
         }
         for (int y = 0; isWithinBounds(0, y); y++) {
             for (int x = 0; isWithinBounds(x, y); x++) {
                 final Element element = elements[y][x];
-                if (!element.equals(emptyElement())) {
+                if (!element.is(emptyElement())) {
                     element.displayOn(inventory, locX + x, locY + y);
                 }
             }

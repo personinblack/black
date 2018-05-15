@@ -8,6 +8,7 @@ import java.util.Objects;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
 import me.blackness.black.Page;
@@ -33,13 +34,17 @@ import me.blackness.black.event.ElementClickEvent;
                                                         i"  personinblack
                                                         |
  */
+
+/**
+ * a page that uses an inventory of {@link InventoryType#CHEST}.
+ */
 public final class ChestPage implements Page {
     private final String title;
     private final int size;
     private final Pane[] panes;
     private final List<Player> viewers;
 
-    public ChestPage(String title, int size, Pane... panes) {
+    public ChestPage(final String title, final int size, final Pane... panes) {
         this.title = Objects.requireNonNull(title);
         this.size = size < 9 ? 9 : size;
         this.panes = Objects.requireNonNull(panes);
@@ -49,7 +54,7 @@ public final class ChestPage implements Page {
     }
 
     @Override
-    public void showTo(Player player) {
+    public void showTo(final Player player) {
         final Inventory inventory = Bukkit.createInventory(this, size, title);
 
         for (Pane pane : panes) {
@@ -63,22 +68,25 @@ public final class ChestPage implements Page {
     }
 
     @Override
-    public void handleClose(InventoryCloseEvent event) {
+    public void handleClose(final InventoryCloseEvent event) {
         viewers.remove((Player) event.getPlayer());
     }
 
     @Override
-    public void update(Object argument) {
+    public void update(final Object argument) {
         viewers.forEach(this::showTo);
     }
 
-    @Override
+    /**
+     * @deprecated because this is against oop.
+     */
+    @Override @Deprecated
     public Inventory getInventory() {
         return Bukkit.createInventory(null, 9);
     }
 
     @Override
-    public void accept(ElementClickEvent event) {
+    public void accept(final ElementClickEvent event) {
         for (Pane pane : panes) {
             pane.accept(event);
         }

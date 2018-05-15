@@ -32,38 +32,52 @@ import me.blackness.black.listener.PluginListener;
                                                         i"  personinblack
                                                         |
  */
+
+/**
+ * object that controls the blackness.
+ */
 public final class Blackness {
-    private final static Listener[] listeners  = {
-        new PluginListener(),
+    private static final Listener[] LISTENERS = {
+        new PluginListener(new Blackness()),
         new InventoryClickListener(),
-        new InventoryCloseListener()
+        new InventoryCloseListener(),
     };
-    private final static Queue<Plugin> pluginQueue = new ConcurrentLinkedQueue<>();
+    private static final Queue<Plugin> PLUGINQUEUE = new ConcurrentLinkedQueue<>();
 
-    public synchronized void prepareFor(Plugin plugin) {
-        pluginQueue.add(plugin);
+    /**
+     * prepares the blackness for the specified plugin or adds it to the {@link #LISTENERS}.
+     *
+     * @param plugin plugin that needs blackness prepared
+     * @see Plugin
+     */
+    public void prepareFor(final Plugin plugin) {
+        synchronized (this) {
+            if (PLUGINQUEUE.isEmpty()) {
+                registerEvents(plugin);
+            }
 
-        if (pluginQueue.size() == 1) {
-            registerEvents(plugin);
+            PLUGINQUEUE.add(plugin);
         }
     }
 
-    public synchronized void processPluginDisable(PluginDisableEvent event) {
-        if (!pluginQueue.peek().equals(event.getPlugin())) {
-            pluginQueue.remove(event.getPlugin());
-            return;
-        }
+    public void processPluginDisable(final PluginDisableEvent event) {
+        synchronized (this) {
+            if (!PLUGINQUEUE.peek().equals(event.getPlugin())) {
+                PLUGINQUEUE.remove(event.getPlugin());
+                return;
+            }
 
-        pluginQueue.poll();
+            PLUGINQUEUE.poll();
 
-        final Plugin nextPlugin = pluginQueue.peek();
-        if (nextPlugin != null && nextPlugin.isEnabled()) {
-            registerEvents(nextPlugin);
+            final Plugin nextPlugin = PLUGINQUEUE.peek();
+            if (nextPlugin != null && nextPlugin.isEnabled()) {
+                registerEvents(nextPlugin);
+            }
         }
     }
 
-    private void registerEvents(Plugin plugin) {
-        Arrays.stream(listeners).forEach(listener ->
+    private void registerEvents(final Plugin plugin) {
+        Arrays.stream(LISTENERS).forEach(listener ->
             Bukkit.getPluginManager().registerEvents(listener, plugin));
     }
 }

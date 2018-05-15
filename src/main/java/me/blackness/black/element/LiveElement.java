@@ -28,24 +28,32 @@ import me.blackness.black.event.ElementClickEvent;
                                                         i"  personinblack
                                                         |
  */
+
+/**
+ * an element which takes some other elements and makes an animation out of them.
+ *
+ * @see Element
+ * @see BasicElement
+ */
 public final class LiveElement implements Element {
     private final Plugin plugin;
     private final int period;
     private final Element[] frames;
 
-    public LiveElement(Plugin plugin, int period, Element... frames) {
+    public LiveElement(final Plugin plugin, final int period, final Element... frames) {
         this.plugin = plugin;
         this.period = period;
         this.frames = frames;
     }
 
     private Element nullElement() {
-        return new BasicElement(new ItemStack(Material.PAPER), (ne) -> {}, "nullElement");
+        return new BasicElement(new ItemStack(Material.PAPER), ne -> {
+        }, "nullElement");
     }
 
-    private Element findFrame(ItemStack icon) {
+    private Element findFrame(final ItemStack icon) {
         for (Element frame : frames) {
-            if (frame.equals(icon)) {
+            if (frame.is(icon)) {
                 return frame;
             }
         }
@@ -53,9 +61,9 @@ public final class LiveElement implements Element {
         return nullElement();
     }
 
-    private boolean contains(Element element) {
+    private boolean contains(final Element element) {
         for (Element frame : frames) {
-            if (frame.equals(element)) {
+            if (frame.is(element)) {
                 return true;
             }
         }
@@ -64,15 +72,15 @@ public final class LiveElement implements Element {
     }
 
     @Override
-    public void accept(ElementClickEvent event) {
+    public void accept(final ElementClickEvent event) {
         findFrame(event.currentItem()).accept(event);
     }
 
     @Override
-    public void displayOn(Inventory inventory, int locX, int locY) {
+    public void displayOn(final Inventory inventory, final int locX, final int locY) {
         frames[0].displayOn(inventory, locX, locY);
 
-        new BukkitRunnable(){
+        new BukkitRunnable() {
             private int iterator;
 
             @Override
@@ -84,7 +92,7 @@ public final class LiveElement implements Element {
                 }
             }
 
-            private final Element nextFrame() {
+            private Element nextFrame() {
                 iterator = iterator + 1 < frames.length
                     ? iterator + 1
                     : 0;
@@ -95,12 +103,12 @@ public final class LiveElement implements Element {
     }
 
     @Override
-    public boolean equals(ItemStack icon) {
-        return findFrame(icon).equals(icon);
+    public boolean is(final ItemStack icon) {
+        return findFrame(icon).is(icon);
     }
 
     @Override
-    public boolean equals(Element element) {
+    public boolean is(final Element element) {
         return contains(element);
     }
 }

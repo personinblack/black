@@ -27,9 +27,13 @@ import me.blackness.black.event.ElementClickEvent;
                                                         i"  personinblack
                                                         |
  */
+
+/**
+ * a listener that listen for clicks happening on inventories.
+ */
 public final class InventoryClickListener implements Listener {
     @EventHandler
-    public void listener(InventoryClickEvent event) {
+    public void listener(final InventoryClickEvent event) {
         if (event.getInventory().getHolder() instanceof Page
                 && !(event.getClickedInventory() instanceof PlayerInventory)) {
 

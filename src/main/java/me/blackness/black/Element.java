@@ -24,9 +24,30 @@ import me.blackness.black.event.ElementClickEvent;
                                                         i"  personinblack
                                                         |
  */
+
+/**
+ * element is the type of all the buttons inside a pane which does stuff when you click on it.
+ *
+ * @see Pane
+ */
 public interface Element {
     void displayOn(Inventory inventory, int locX, int locY);
     void accept(ElementClickEvent event);
-    boolean equals(Element element);
-    boolean equals(ItemStack icon);
+
+    /**
+     * compares the specified element with this one.
+     *
+     * @param element the element to compare
+     * @return {@code true} if they are the same or {@code false} if they are not
+     */
+    boolean is(Element element);
+
+    /**
+     * compares the specified itemstack with this element's icon.
+     *
+     * @param icon the itemstack to compare
+     * @return {@code true} if they are the same or {@code false} if they are not
+     * @see ItemStack
+     */
+    boolean is(ItemStack icon);
 }

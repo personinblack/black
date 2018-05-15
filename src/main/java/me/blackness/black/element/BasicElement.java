@@ -34,24 +34,32 @@ import me.blackness.black.event.ElementClickEvent;
                                                         i"  personinblack
                                                         |
  */
+
+/**
+ * an element that has all the basic stuff.
+ *
+ * @see Element
+ */
 public final class BasicElement implements Element {
     private final String id;
     private final ItemStack icon;
     private final Consumer<ElementClickEvent> function;
 
-    public BasicElement(ItemStack icon, Consumer<ElementClickEvent> function, String id) {
+    public BasicElement(final ItemStack icon, final Consumer<ElementClickEvent> function,
+            final String id) {
+
         this.id = id;
-        this.icon = icon.getType().equals(Material.AIR)
+        this.icon = icon.getType() == Material.AIR
             ? icon
             : encrypted(icon, this.id);
         this.function = Objects.requireNonNull(function);
     }
 
-    public BasicElement(ItemStack icon, Consumer<ElementClickEvent> function) {
+    public BasicElement(final ItemStack icon, final Consumer<ElementClickEvent> function) {
         this(icon, function, UUID.randomUUID().toString() + System.currentTimeMillis());
     }
 
-    private ItemStack encrypted(ItemStack itemStack, String textToEncrypt) {
+    private ItemStack encrypted(final ItemStack itemStack, final String textToEncrypt) {
         final ItemMeta itemMeta = itemStack.getItemMeta();
         final List<String> lore = itemMeta.getLore() != null
             ? itemMeta.getLore()
@@ -64,7 +72,7 @@ public final class BasicElement implements Element {
         return encryptedItemStack;
     }
 
-    private String encrypted(String textToEncrypt) {
+    private String encrypted(final String textToEncrypt) {
         final StringBuilder encryptedText = new StringBuilder();
         for (char ch : textToEncrypt.toCharArray()) {
             encryptedText.append(ChatColor.COLOR_CHAR).append(ch);
@@ -73,11 +81,11 @@ public final class BasicElement implements Element {
         return encryptedText.toString();
     }
 
-    private String decrypted(ItemStack itemStack) throws Exception {
-        if (itemStack.getType().equals(Material.AIR)) {
+    private String decrypted(final ItemStack itemStack) throws IllegalArgumentException {
+        if (itemStack.getType() == Material.AIR) {
             return "";
         } else if (!itemStack.hasItemMeta() || !itemStack.getItemMeta().hasLore()) {
-            throw new Exception(
+            throw new IllegalArgumentException(
                 "The itemStack couldn't be decrypted because it has no lore\n" +
                 itemStack
             );
@@ -88,35 +96,34 @@ public final class BasicElement implements Element {
     }
 
     @Override
-    public void displayOn(Inventory inventory, int locX, int locY) {
+    public void displayOn(final Inventory inventory, final int locX, final int locY) {
         inventory.setItem(locX + locY * 9, icon.clone());
     }
 
     @Override
-    public void accept(ElementClickEvent event) {
-        if (this.equals(event.currentItem())) {
+    public void accept(final ElementClickEvent event) {
+        if (this.is(event.currentItem())) {
             function.accept(event);
         }
     }
 
     @Override
-    public boolean equals(ItemStack itemStack) {
-        if (itemStack.getType().equals(Material.AIR) && icon.getType().equals(Material.AIR)) {
+    public boolean is(final ItemStack itemStack) {
+        if (itemStack.getType() == Material.AIR && icon.getType() == Material.AIR) {
             return true;
         }
 
         try {
             return decrypted(itemStack).equals(id);
         } catch (Exception ex) {
-            ex.printStackTrace();
             return false;
         }
     }
 
     @Override
-    public boolean equals(Element element) {
+    public boolean is(final Element element) {
         if (element instanceof BasicElement) {
-            return equals(((BasicElement) element).icon);
+            return is(((BasicElement) element).icon);
         } else {
             return false;
         }

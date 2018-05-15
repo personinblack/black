@@ -31,12 +31,19 @@ import me.blackness.observer.Target;
                                                         i"  personinblack
                                                         |
  */
+
+/**
+ * a pane which takes some other panes and makes an animation out of them.
+ *
+ * @see Pane
+ * @see BasicPane
+ */
 public final class LivePane implements Pane {
     private final Plugin plugin;
     private final int period;
     private final Pane[] frames;
 
-    public LivePane(Plugin plugin, int period, Pane... frames) {
+    public LivePane(final Plugin plugin, final int period, final Pane... frames) {
         this.plugin = plugin;
         this.period = period;
         this.frames = frames;
@@ -46,7 +53,7 @@ public final class LivePane implements Pane {
         return new BasicPane(0, 0, 0, 1);
     }
 
-    private Pane findFrame(ItemStack icon) {
+    private Pane findFrame(final ItemStack icon) {
         for (Pane frame : frames) {
             if (frame.contains(icon)) {
                 return frame;
@@ -57,7 +64,7 @@ public final class LivePane implements Pane {
     }
 
     @Override
-    public void fill(Element element) {
+    public void fill(final Element element) {
         for (Pane frame : frames) {
             frame.fill(element);
         }
@@ -71,7 +78,7 @@ public final class LivePane implements Pane {
     }
 
     @Override
-    public boolean add(Element element) {
+    public boolean add(final Element element) {
         for (Pane frame : frames) {
             if (frame.add(element)) {
                 return true;
@@ -82,42 +89,78 @@ public final class LivePane implements Pane {
     }
 
     @Override
-    public Element[] add(Element... elements) {
+    public Element[] add(final Element... elements) {
+        Element[] leftOvers = elements;
         for (Pane frame : frames) {
-            elements = frame.add(elements);
+            leftOvers = frame.add(elements);
 
             if (elements.length == 0) {
-                return elements;
+                break;
             }
         }
 
-        return elements;
+        return leftOvers;
     }
 
+    /**
+     * @deprecated because you have to specify which frame
+     * @see LivePane#insert(int, Element, int, int, boolean)
+     */
     @Override @Deprecated
-    public void insert(Element element, int locX, int locY, boolean shift) throws Exception {
+    public void insert(final Element element, final int locX, final int locY,
+            final boolean shift) throws IllegalArgumentException {
+
+        // this method is useless because you have to specify the frame to insert an element
     }
 
-    public void insert(int frame, Element element, int locX, int locY, boolean shift)
-            throws Exception {
+    /**
+     * inserts an element to the specified slot of the specified frame.
+     *
+     * @param frame the frame which will get the specified element
+     * @param element the element to add
+     * @param locX x location of the slot
+     * @param locY y location of the slot
+     * @param shift either shift the element that already exist at the specified location or
+     * replace it with this one
+     * @throws IllegalArgumentException if the specified slot is not in the range of the pane
+     * @see Element
+     */
+    public void insert(final int frame, final Element element, final int locX, final int locY,
+            final boolean shift) throws Exception {
+
         frames[frame].insert(element, locX, locY, shift);
     }
 
+    /**
+     * @deprecated because you have to specify which frame
+     * @see LivePane#remove(int, int, int)
+     */
     @Override @Deprecated
-    public void remove(int locX, int locY) throws Exception {
+    public void remove(final int locX, final int locY) throws IllegalArgumentException {
+        // this method is useless because you have to specify the frame to remove an element
     }
 
-    public void remove(int frame, int locX, int locY) throws Exception {
+    /**
+     * removes the element at the specified slot from the specified frame.
+     *
+     * @param frame the frame which will get the specified slot of it cleared
+     * @param locX x location of the slot
+     * @param locY y location of the slot
+     * @throws IllegalArgumentException if the specified slot is not in the range of the pane
+     */
+    public void remove(final int frame, final int locX, final int locY)
+                throws IllegalArgumentException {
+
         frames[frame].remove(locX, locY);
     }
 
     @Override
-    public void subscribe(Target<Object> target) {
+    public void subscribe(final Target<Object> target) {
         Arrays.stream(frames).forEach(frame -> frame.subscribe(target));
     }
 
     @Override
-    public boolean contains(ItemStack icon) {
+    public boolean contains(final ItemStack icon) {
         for (Pane frame : frames) {
             if (frame.contains(icon)) {
                 return true;
@@ -128,15 +171,15 @@ public final class LivePane implements Pane {
     }
 
     @Override
-    public void accept(ElementClickEvent event) {
+    public void accept(final ElementClickEvent event) {
         findFrame(event.currentItem()).accept(event);
     }
 
     @Override
-    public void displayOn(Inventory inventory) {
+    public void displayOn(final Inventory inventory) {
         frames[0].displayOn(inventory);
 
-        new BukkitRunnable(){
+        new BukkitRunnable() {
             private int iterator;
 
             @Override
@@ -148,7 +191,7 @@ public final class LivePane implements Pane {
                 }
             }
 
-            private final Pane nextFrame() {
+            private Pane nextFrame() {
                 iterator = iterator + 1 < frames.length
                     ? iterator + 1
                     : 0;

@@ -1,10 +1,13 @@
-plugins { id "com.github.johnrengelman.shadow" version "2.0.3" }
+plugins {
+    id 'ru.vyarus.quality' version '3.0.0'
+    id "com.github.johnrengelman.shadow" version "2.0.3"
+}
 
 apply plugin: 'java'
 apply plugin: 'maven'
 
 group = 'me.blackness'
-version = '3.0.0'
+version = '3.0.1'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -26,6 +29,10 @@ compileJava {
 shadowJar {
     baseName = 'black'
     classifier = null
+}
+
+quality {
+    configDir = 'quality-configs'
 }
 
 dependencies {

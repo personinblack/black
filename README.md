@@ -279,13 +279,13 @@ final class CustomElement implements Element {
     }
 
     @Override
-    public boolean equals(ItemStack icon) {
-        return baseElement.equals(icon);
+    public boolean is(ItemStack icon) {
+        return baseElement.is(icon);
     }
 
     @Override
-    public boolean equals(Element element) {
-        return baseElement.equals(element);
+    public boolean is(Element element) {
+        return baseElement.is(element);
     }
 }
 ```
