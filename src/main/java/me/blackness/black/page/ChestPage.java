@@ -1,9 +1,9 @@
 package me.blackness.black.page;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Vector;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -48,7 +48,7 @@ public final class ChestPage implements Page {
         this.title = Objects.requireNonNull(title);
         this.size = size < 9 ? 9 : size;
         this.panes = Objects.requireNonNull(panes);
-        viewers = new ArrayList<>();
+        viewers = new Vector<>();
 
         Arrays.stream(panes).forEach(pane -> pane.subscribe(this));
     }
@@ -74,7 +74,9 @@ public final class ChestPage implements Page {
 
     @Override
     public void update(final Object argument) {
-        viewers.forEach(this::showTo);
+        for (Player viewer : viewers) {
+            this.showTo(viewer);
+        }
     }
 
     /**
