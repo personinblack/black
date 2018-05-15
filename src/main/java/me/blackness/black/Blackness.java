@@ -51,33 +51,37 @@ public final class Blackness {
      * @see Plugin
      */
     public void prepareFor(final Plugin plugin) {
-        synchronized (this) {
-            if (PLUGINQUEUE.isEmpty()) {
-                registerEvents(plugin);
-            }
+        if (PLUGINQUEUE.isEmpty()) {
+            registerEvents(plugin);
+        }
 
+        synchronized (this) {
             PLUGINQUEUE.add(plugin);
         }
     }
 
     public void processPluginDisable(final PluginDisableEvent event) {
-        synchronized (this) {
-            if (!PLUGINQUEUE.peek().equals(event.getPlugin())) {
+        if (!PLUGINQUEUE.peek().equals(event.getPlugin())) {
+            synchronized (this) {
                 PLUGINQUEUE.remove(event.getPlugin());
                 return;
             }
+        }
 
+        synchronized (this) {
             PLUGINQUEUE.poll();
+        }
 
-            final Plugin nextPlugin = PLUGINQUEUE.peek();
-            if (nextPlugin != null && nextPlugin.isEnabled()) {
-                registerEvents(nextPlugin);
-            }
+        final Plugin nextPlugin = PLUGINQUEUE.peek();
+        if (nextPlugin != null && nextPlugin.isEnabled()) {
+            registerEvents(nextPlugin);
         }
     }
 
     private void registerEvents(final Plugin plugin) {
-        Arrays.stream(LISTENERS).forEach(listener ->
-            Bukkit.getPluginManager().registerEvents(listener, plugin));
+        synchronized (this) {
+            Arrays.stream(LISTENERS).forEach(listener ->
+                Bukkit.getPluginManager().registerEvents(listener, plugin));
+        }
     }
 }
