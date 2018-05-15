@@ -9,6 +9,7 @@ a clear description of what the bug is.
 
 **to reproduce**
 steps to reproduce the behavior:
+
 1. write '...'
 2. do '...'
 3. get the error '...'
@@ -23,9 +24,10 @@ if applicable, add screenshots to help explain your problem.
 if applicable, add console logs to help explain your problem.
 
 **environment:**
- - os: [e.g. ubuntu]
- - version of black [e.g. 3.1.0]
- - version of server [e.g. 1.12.2]
+
+- version of black [e.g. 3.1.0]
+- version of server [e.g. 1.12.2]
+- operating system of server: [e.g. ubuntu]
 
 **additional context**
 anything you want to add.
