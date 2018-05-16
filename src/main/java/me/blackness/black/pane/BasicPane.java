@@ -227,7 +227,9 @@ public final class BasicPane implements Pane {
         Objects.requireNonNull(elements);
         final Queue<Element> queue = new LinkedList<>(Arrays.asList(elements));
         forEachSlot((y, x) -> {
-            paneElements[y][x] = queue.poll();
+            if (!queue.isEmpty()) {
+                paneElements[y][x] = queue.poll();
+            }
         });
         this.source.notifyTargets(new Object());
     }
