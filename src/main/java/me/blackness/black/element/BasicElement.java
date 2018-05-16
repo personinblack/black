@@ -73,20 +73,20 @@ public final class BasicElement implements Element {
 
     private ItemStack encrypted(final ItemStack itemStack, final String textToEncrypt) {
         final ItemMeta itemMeta = itemStack.getItemMeta();
-        final List<String> lore = itemMeta.getLore() != null
-            ? itemMeta.getLore()
-            : new ArrayList<String>();
+        final List<String> lore = itemMeta.getLore() == null
+            ? new ArrayList<String>()
+            : itemMeta.getLore();
         lore.add(encrypted(textToEncrypt));
         itemMeta.setLore(lore);
 
-        final ItemStack encryptedItemStack = itemStack.clone();
-        encryptedItemStack.setItemMeta(itemMeta);
-        return encryptedItemStack;
+        final ItemStack encryptedItem = itemStack.clone();
+        encryptedItem.setItemMeta(itemMeta);
+        return encryptedItem;
     }
 
     private String encrypted(final String textToEncrypt) {
         final StringBuilder encryptedText = new StringBuilder();
-        for (char ch : textToEncrypt.toCharArray()) {
+        for (final char ch : textToEncrypt.toCharArray()) {
             encryptedText.append(ChatColor.COLOR_CHAR).append(ch);
         }
 
@@ -96,14 +96,14 @@ public final class BasicElement implements Element {
     private String decrypted(final ItemStack itemStack) throws IllegalArgumentException {
         if (itemStack.getType() == Material.AIR) {
             return "";
-        } else if (!itemStack.hasItemMeta() || !itemStack.getItemMeta().hasLore()) {
+        } else if (itemStack.hasItemMeta() && itemStack.getItemMeta().hasLore()) {
+            final List<String> lore = itemStack.getItemMeta().getLore();
+            return lore.get(lore.size() - 1).replace(String.valueOf(ChatColor.COLOR_CHAR), "");
+        } else {
             throw new IllegalArgumentException(
                 "The itemStack couldn't be decrypted because it has no lore\n" +
                 itemStack
             );
-        } else {
-            final List<String> lore = itemStack.getItemMeta().getLore();
-            return lore.get(lore.size() - 1).replace(String.valueOf(ChatColor.COLOR_CHAR), "");
         }
     }
 

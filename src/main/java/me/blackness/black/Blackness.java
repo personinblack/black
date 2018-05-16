@@ -42,6 +42,7 @@ public final class Blackness {
         new InventoryClickListener(),
         new InventoryCloseListener(),
     };
+
     private static final Queue<Plugin> PLUGINQUEUE = new ConcurrentLinkedQueue<>();
 
     /**

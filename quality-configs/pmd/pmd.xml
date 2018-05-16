@@ -9,11 +9,11 @@
 
     <!-- Best practices (https://pmd.github.io/pmd-6.0.1/pmd_rules_java_bestpractices.html) -->
     <rule ref="category/java/bestpractices.xml">
-        <exclude name="AbstractClassWithoutAbstractMethod"/>
+        <!-- <exclude name="AbstractClassWithoutAbstractMethod"/> -->
         <!-- disabled as it's important for android and doesn't matter for general java (also fixes will
              conflict with checkstyle's VisibilityModifier check -->
         <exclude name="AccessorMethodGeneration"/>
-        <exclude name="ArrayIsStoredDirectly"/>
+        <!-- <exclude name="ArrayIsStoredDirectly"/> -->
         <exclude name="GuardLogStatement"/>
         <exclude name="JUnitAssertionsShouldIncludeMessage"/>
         <exclude name="JUnit4SuitesShouldUseSuiteAnnotation"/>
@@ -26,16 +26,16 @@
 
     <!-- Code style (https://pmd.github.io/pmd-6.0.1/pmd_rules_java_codestyle.html) -->
     <rule ref="category/java/codestyle.xml">
-        <exclude name="AbstractNaming"/>
+        <!-- <exclude name="AbstractNaming"/> -->
         <exclude name="AtLeastOneConstructor"/>
         <exclude name="AvoidFinalLocalVariable"/>
-        <exclude name="CallSuperInConstructor"/>
-        <exclude name="CommentDefaultAccessModifier"/>
-        <exclude name="ConfusingTernary"/>
+        <!-- <exclude name="CallSuperInConstructor"/> -->
+        <!-- <exclude name="CommentDefaultAccessModifier"/> -->
+        <!-- <exclude name="ConfusingTernary"/> -->
         <exclude name="LocalHomeNamingConvention"/> <!-- earlier j2ee group-->
         <exclude name="LocalInterfaceSessionNamingConvention"/> <!-- earlier j2ee group-->
-        <exclude name="LocalVariableCouldBeFinal"/>
-        <exclude name="LongVariable"/>
+        <!-- <exclude name="LocalVariableCouldBeFinal"/> -->
+        <!-- <exclude name="LongVariable"/> -->
         <exclude name="MDBAndSessionBeanNamingConvention"/> <!-- earlier j2ee group-->
         <exclude name="OnlyOneReturn"/> <!-- disabled in favour of checkstyle ReturnCount check -->
         <exclude name="RemoteInterfaceNamingConvention"/> <!-- earlier j2ee group-->
@@ -43,21 +43,21 @@
         <exclude name="ShortClassName"/>
         <exclude name="ShortMethodName"/>
         <exclude name="ShortVariable"/>
-        <exclude name="TooManyStaticImports"/>
-        <exclude name="UselessParentheses"/>
+        <!-- <exclude name="TooManyStaticImports"/> -->
+        <!-- <exclude name="UselessParentheses"/> -->
     </rule>
 
 
     <!-- Design (https://pmd.github.io/pmd-6.0.1/pmd_rules_java_design.html) -->
     <rule ref="category/java/design.xml">
-        <exclude name="AvoidCatchingGenericException"/>
-        <exclude name="DataClass"/>
+        <!-- <exclude name="AvoidCatchingGenericException"/> -->
+        <!-- <exclude name="DataClass"/> -->
         <exclude name="ExcessiveClassLength"/> <!-- replaced by NcssCount -->
         <exclude name="ExcessiveMethodLength"/> <!-- replaced by NcssCount -->
         <exclude name="LawOfDemeter"/>
-        <exclude name="LoosePackageCoupling"/>
+        <!-- <exclude name="LoosePackageCoupling"/> -->
         <exclude name="ModifiedCyclomaticComplexity"/>
-        <exclude name="SignatureDeclareThrowsException"/>
+        <!-- <exclude name="SignatureDeclareThrowsException"/> -->
         <exclude name="StdCyclomaticComplexity"/>
     </rule>
     <rule ref="category/java/design.xml/AvoidDeeplyNestedIfStmts">
@@ -99,22 +99,22 @@
 
     <!-- Error prone (https://pmd.github.io/pmd-6.0.1/pmd_rules_java_errorprone.html) -->
     <rule ref="category/java/errorprone.xml">
-        <exclude name="AvoidCatchingThrowable"/>
+        <!-- <exclude name="AvoidCatchingThrowable"/> -->
         <exclude name="BeanMembersShouldSerialize"/>
         <exclude name="DataflowAnomalyAnalysis"/>
         <exclude name="DoNotCallSystemExit"/> <!-- earlier j2ee group-->
         <exclude name="EmptyFinalizer"/>
-        <exclude name="FinalizeOnlyCallsSuperFinalize"/>
-        <exclude name="FinalizeDoesNotCallSuperFinalize"/>
+        <!-- <exclude name="FinalizeOnlyCallsSuperFinalize"/> -->
+        <!-- <exclude name="FinalizeDoesNotCallSuperFinalize"/> -->
         <exclude name="JUnitSpelling"/>
         <exclude name="JUnitStaticSuite"/>
         <exclude name="InvalidSlf4jMessageFormat"/>
         <exclude name="LoggerIsNotStaticFinal"/>
-        <exclude name="MissingSerialVersionUID"/>
-        <exclude name="NullAssignment"/> <!-- disabled due to false positive for initialization with ternary operator -->
+        <!-- <exclude name="MissingSerialVersionUID"/> -->
+        <!-- <exclude name="NullAssignment"/> disabled due to false positive for initialization with ternary operator -->
         <exclude name="StaticEJBFieldShouldBeFinal"/> <!-- earlier j2ee group-->
         <exclude name="UseCorrectExceptionLogging"/>
-        <exclude name="UseLocaleWithCaseConversions"/>
+        <!-- <exclude name="UseLocaleWithCaseConversions"/> -->
         <exclude name="UseProperClassLoader"/> <!-- earlier j2ee group-->
     </rule>
     <rule ref="category/java/errorprone.xml/AvoidDuplicateLiterals">
@@ -127,7 +127,7 @@
     <!-- Error prone (https://pmd.github.io/pmd-6.0.1/pmd_rules_java_multithreading.html) -->
     <rule ref="category/java/multithreading.xml">
         <exclude name="DoNotUseThreads"/> <!-- earlier j2ee group-->
-        <exclude name="UseConcurrentHashMap"/>
+        <!-- <exclude name="UseConcurrentHashMap"/> -->
     </rule>
 
 

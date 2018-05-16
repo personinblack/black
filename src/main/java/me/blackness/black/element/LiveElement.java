@@ -59,7 +59,7 @@ public final class LiveElement implements Element {
     }
 
     private Element findFrame(final ItemStack icon) {
-        for (Element frame : frames) {
+        for (final Element frame : frames) {
             if (frame.is(icon)) {
                 return frame;
             }
@@ -69,7 +69,7 @@ public final class LiveElement implements Element {
     }
 
     private boolean contains(final Element element) {
-        for (Element frame : frames) {
+        for (final Element frame : frames) {
             if (frame.is(element)) {
                 return true;
             }

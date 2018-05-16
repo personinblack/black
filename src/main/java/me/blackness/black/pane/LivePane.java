@@ -61,7 +61,7 @@ public final class LivePane implements Pane {
     }
 
     private Pane findFrame(final ItemStack icon) {
-        for (Pane frame : frames) {
+        for (final Pane frame : frames) {
             if (frame.contains(icon)) {
                 return frame;
             }
@@ -77,7 +77,7 @@ public final class LivePane implements Pane {
      */
     @Override
     public void fill(final Element element) {
-        for (Pane frame : frames) {
+        for (final Pane frame : frames) {
             frame.fill(element);
         }
     }
@@ -100,7 +100,7 @@ public final class LivePane implements Pane {
      */
     @Override
     public void fill(final Element... elements) {
-        for (Pane frame : frames) {
+        for (final Pane frame : frames) {
             frame.fill(elements);
         }
     }
@@ -119,14 +119,14 @@ public final class LivePane implements Pane {
 
     @Override
     public void clear() {
-        for (Pane frame : frames) {
+        for (final Pane frame : frames) {
             frame.clear();
         }
     }
 
     @Override
     public boolean add(final Element element) {
-        for (Pane frame : frames) {
+        for (final Pane frame : frames) {
             if (frame.add(element)) {
                 return true;
             }
@@ -138,7 +138,7 @@ public final class LivePane implements Pane {
     @Override
     public Element[] add(final Element... elements) {
         Element[] leftOvers = elements;
-        for (Pane frame : frames) {
+        for (final Pane frame : frames) {
             leftOvers = frame.add(elements);
 
             if (elements.length == 0) {
@@ -187,7 +187,7 @@ public final class LivePane implements Pane {
      */
     @Override
     public void replaceAll(final Element... elements) {
-        for (Pane frame : frames) {
+        for (final Pane frame : frames) {
             frame.replaceAll(elements);
         }
     }
@@ -236,7 +236,7 @@ public final class LivePane implements Pane {
 
     @Override
     public boolean contains(final ItemStack icon) {
-        for (Pane frame : frames) {
+        for (final Pane frame : frames) {
             if (frame.contains(icon)) {
                 return true;
             }

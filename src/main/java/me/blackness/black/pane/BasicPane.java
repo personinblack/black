@@ -47,7 +47,7 @@ import me.blackness.observer.source.BasicSource;
  * @see Pane
  */
 public final class BasicPane implements Pane {
-    private static final String LOCATION_OUTOFBOUNDS =
+    private static final String LOC_OUT =
         "The specified location [%s][%s] is out of bounds";
 
     private final Source<Object> source;
@@ -223,7 +223,7 @@ public final class BasicPane implements Pane {
     @Override
     public Element[] add(final Element... elements) {
         final ArrayList<Element> remainings = new ArrayList<>();
-        for (Element element : elements) {
+        for (final Element element : elements) {
             if (!add(element)) {
                 remainings.add(element);
             }
@@ -236,18 +236,18 @@ public final class BasicPane implements Pane {
             final boolean shift) throws IllegalArgumentException {
 
         Objects.requireNonNull(element);
-        if (!isWithinBounds(locX, locY)) {
+        if (isWithinBounds(locX, locY)) {
+            if (shift && !paneElements[locY][locX].is(emptyElement())) {
+                shiftElementAt(locX, locY);
+            }
+            paneElements[locY][locX] = element;
+        } else {
             throw new IllegalArgumentException(
                 String.format(
-                    LOCATION_OUTOFBOUNDS,
+                    LOC_OUT,
                     locX, locY
                 )
             );
-        } else if (!shift || (shift && paneElements[locY][locX].is(emptyElement()))) {
-            paneElements[locY][locX] = element;
-        } else {
-            shiftElementAt(locX, locY);
-            insert(element, locX, locY, !shift);
         }
         this.source.notifyTargets(new Object());
     }
@@ -266,16 +266,16 @@ public final class BasicPane implements Pane {
 
     @Override
     public void remove(final int locX, final int locY) throws IllegalArgumentException {
-        if (!isWithinBounds(locX, locY)) {
+        if (isWithinBounds(locX, locY)) {
+            paneElements[locY][locX] = emptyElement();
+            this.source.notifyTargets(new Object());
+        } else {
             throw new IllegalArgumentException(
                 String.format(
-                    LOCATION_OUTOFBOUNDS,
+                    LOC_OUT,
                     locX, locY
                 )
             );
-        } else {
-            paneElements[locY][locX] = emptyElement();
-            this.source.notifyTargets(new Object());
         }
     }
 
@@ -297,7 +297,7 @@ public final class BasicPane implements Pane {
     public void accept(final ElementClickEvent event) {
         Objects.requireNonNull(event);
         forEachSlot((y, x) -> {
-            if (event.slotIs((locX + x) + (locY + y) * 9)) {
+            if (event.slotIs(locX + x + (locY + y) * 9)) {
                 paneElements[y][x].accept(event);
             }
         });

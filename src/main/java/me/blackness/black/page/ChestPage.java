@@ -64,7 +64,7 @@ public final class ChestPage implements Page {
     public void showTo(final Player player) {
         final Inventory inventory = Bukkit.createInventory(this, size, title);
 
-        for (Pane pane : panes) {
+        for (final Pane pane : panes) {
             pane.displayOn(inventory);
         }
 
@@ -81,11 +81,11 @@ public final class ChestPage implements Page {
 
     @Override
     public void update(final Object argument) {
-        for (Player viewer : viewers) {
+        for (final Player viewer : viewers) {
             final Inventory page = viewer.getOpenInventory().getTopInventory();
             if (page.getHolder() instanceof ChestPage) {
                 page.clear();
-                for (Pane pane : panes) {
+                for (final Pane pane : panes) {
                     pane.displayOn(page);
                 }
             }
@@ -103,7 +103,7 @@ public final class ChestPage implements Page {
 
     @Override
     public void accept(final ElementClickEvent event) {
-        for (Pane pane : panes) {
+        for (final Pane pane : panes) {
             pane.accept(event);
         }
     }

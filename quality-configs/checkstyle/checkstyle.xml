@@ -166,9 +166,9 @@
         <module name="FinalParameters"/>
         <module name="Indentation"/>
         <module name="OuterTypeFilename"/>
-        <!--<module name="TodoComment"/>-->
+        <module name="TodoComment"/>
         <module name="TrailingComment"/>
-        <!--<module name="UncommentedMain"/>-->
+        <module name="UncommentedMain"/>
         <module name="UpperEll"/>
 
 
@@ -180,7 +180,7 @@
         <!-- Naming Conventions (http://checkstyle.sourceforge.net/config_naming.html) -->
         <module name="AbbreviationAsWordInName"/>
         <!--<module name="AbstractClassName"/>-->
-        <!--<module name="CatchParameterName"/>-->
+        <module name="CatchParameterName"/>
         <module name="ClassTypeParameterName">
             <property name="format" value="^[A-Z]*$"/>
         </module>
