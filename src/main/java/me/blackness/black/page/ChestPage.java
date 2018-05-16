@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Objects;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import me.blackness.black.Page;
 import me.blackness.black.Pane;
@@ -75,7 +77,10 @@ public final class ChestPage implements Page {
     @Override
     public void update(final Object argument) {
         for (Player viewer : viewers) {
+            final ItemStack itemOnCursor = viewer.getItemOnCursor();
+            viewer.setItemOnCursor(new ItemStack(Material.AIR));
             this.showTo(viewer);
+            viewer.setItemOnCursor(itemOnCursor);
         }
     }
 
