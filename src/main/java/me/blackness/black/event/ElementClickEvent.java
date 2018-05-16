@@ -41,11 +41,18 @@ import me.blackness.black.Element;
 public final class ElementClickEvent {
     private final InventoryClickEvent baseEvent;
 
+    /**
+     * ctor.
+     *
+     * @param baseEvent the base event which created this event
+     */
     public ElementClickEvent(final InventoryClickEvent baseEvent) {
         this.baseEvent = baseEvent;
     }
 
     /**
+     * the player involved in this event.
+     *
      * @return the player who triggered this event
      * @see Player
      */
@@ -100,6 +107,8 @@ public final class ElementClickEvent {
     }
 
     /**
+     * checks click type.
+     *
      * @return {@code true} if the click is a right click or {@code false} otherwise
      */
     public boolean isRightClick() {
@@ -107,6 +116,8 @@ public final class ElementClickEvent {
     }
 
     /**
+     * checks click type.
+     *
      * @return {@code true} if the click is a left click or {@code false} otherwise
      */
     public boolean isLeftClick() {
@@ -114,6 +125,8 @@ public final class ElementClickEvent {
     }
 
     /**
+     * checks click type.
+     *
      * @return {@code true} if the click is a shift click or {@code false} otherwise
      */
     public boolean isShiftClick() {
@@ -121,6 +134,8 @@ public final class ElementClickEvent {
     }
 
     /**
+     * checks click action.
+     *
      * @return {@code true} if the action is a creative action or {@code false} otherwise
      * @see InventoryAction
      */
@@ -129,6 +144,8 @@ public final class ElementClickEvent {
     }
 
     /**
+     * checks click type.
+     *
      * @return {@code true} if the click is a keyboard click or {@code false} otherwise
      */
     public boolean isKeyboardClick() {
@@ -149,7 +166,9 @@ public final class ElementClickEvent {
     }
 
     /**
-     * @return the itemstack that is on the player's cursor.
+     * the itemstack on the player's cursor.
+     *
+     * @return the itemstack that is on the player's cursor
      * @see ItemStack
      * @see Player
      */
@@ -158,7 +177,9 @@ public final class ElementClickEvent {
     }
 
     /**
-     * @return the itemstack that the player has clicked on.
+     * the itemstack the player has clicked on.
+     *
+     * @return the itemstack that the player has clicked on
      * @see ItemStack
      * @see Player
      */
@@ -204,7 +225,9 @@ public final class ElementClickEvent {
 
     /**
      * this method can be removed at any time.
+     *
      * @deprecated this breaks the current view's listeners, please do edit the pane instead.
+     * @param item item to replace with the clicked item
      */
     @Deprecated
     public void setCurrentItem(final ItemStack item) {
@@ -215,7 +238,9 @@ public final class ElementClickEvent {
 
     /**
      * this method can be removed at any time.
+     *
      * @deprecated clicked inventory is the page which contains this element, use that page.
+     * @return clicked inventory
      */
     @Deprecated
     public Inventory getClickedInventory() {
@@ -224,7 +249,9 @@ public final class ElementClickEvent {
 
     /**
      * this method can be removed at any time.
+     *
      * @deprecated because this is mutable
+     * @return item on cursor
      * @see ElementClickEvent#itemOnCursor()
      */
     @Deprecated
@@ -234,7 +261,9 @@ public final class ElementClickEvent {
 
     /**
      * this method can be removed at any time.
+     *
      * @deprecated because this is mutable
+     * @return clicked item
      * @see ElementClickEvent#currentItem()
      */
     @Deprecated
@@ -244,7 +273,9 @@ public final class ElementClickEvent {
 
     /**
      * this method can be removed at any time.
+     *
      * @deprecated because the object should do the check itself
+     * @return slot
      * @see ElementClickEvent#slotIs(int)
      */
     @Deprecated
@@ -254,7 +285,9 @@ public final class ElementClickEvent {
 
     /**
      * this method can be removed at any time.
+     *
      * @deprecated because the object should do the check itself
+     * @return raw slot
      * @see ElementClickEvent#rawSlotIs(int)
      */
     @Deprecated
@@ -264,7 +297,9 @@ public final class ElementClickEvent {
 
     /**
      * this method can be removed at any time.
+     *
      * @deprecated because the object should do the check itself
+     * @return clicked keyboard button
      * @see ElementClickEvent#keyboardClickIs(int)
      */
     @Deprecated
@@ -274,7 +309,9 @@ public final class ElementClickEvent {
 
     /**
      * this method can be removed at any time.
+     *
      * @deprecated because the object should do the check itself
+     * @return inventory action
      * @see ElementClickEvent#actionIs(InventoryAction)
      */
     @Deprecated
@@ -284,7 +321,9 @@ public final class ElementClickEvent {
 
     /**
      * this method can be removed at any time.
+     *
      * @deprecated because the object should do the check itself
+     * @return click type
      * @see ElementClickEvent#clickTypeIs(ClickType)
      */
     @Deprecated
@@ -294,7 +333,9 @@ public final class ElementClickEvent {
 
     /**
      * this method can be removed at any time.
+     *
      * @deprecated because i dont like the name "getWhoClicked" and returning a "HumanEntity"
+     * @return the player who triggered this event by a click
      * @see ElementClickEvent#player()
      */
     @Deprecated
@@ -304,8 +345,10 @@ public final class ElementClickEvent {
 
     /**
      * this method can be removed at any time.
+     *
      * @deprecated because why someone would try to uncancel the event
-     * while it can't be cancelled before
+     *     while it can't be cancelled before
+     * @param cancel whether cancel the event or not
      * @see ElementClickEvent#cancel()
      */
     @Deprecated

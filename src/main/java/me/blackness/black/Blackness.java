@@ -60,6 +60,11 @@ public final class Blackness {
         }
     }
 
+    /**
+     * this method handles every plugin disable event.
+     *
+     * @param event event to handle
+     */
     public void processPluginDisable(final PluginDisableEvent event) {
         if (!PLUGINQUEUE.peek().equals(event.getPlugin())) {
             synchronized (this) {

@@ -30,6 +30,11 @@ import me.blackness.black.Page;
  * a listener that listen for players closing inventories.
  */
 public final class InventoryCloseListener implements Listener {
+    /**
+     * the listener that listens for inventory closes and informs the pages associated with them.
+     *
+     * @param event the event that happened
+     */
     @EventHandler
     public void closeListener(final InventoryCloseEvent event) {
         if (event.getInventory().getHolder() instanceof Page) {

@@ -6,12 +6,10 @@ import java.util.List;
 import java.util.Objects;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import me.blackness.black.Page;
 import me.blackness.black.Pane;
@@ -46,6 +44,13 @@ public final class ChestPage implements Page {
     private final Pane[] panes;
     private final List<Player> viewers;
 
+    /**
+     * ctor.
+     *
+     * @param title title of the page
+     * @param size size of the page which has to be multiple of 9
+     * @param panes panes of this page to display
+     */
     public ChestPage(final String title, final int size, final Pane... panes) {
         this.title = Objects.requireNonNull(title);
         this.size = size < 9 ? 9 : size;
@@ -77,14 +82,18 @@ public final class ChestPage implements Page {
     @Override
     public void update(final Object argument) {
         for (Player viewer : viewers) {
-            final ItemStack itemOnCursor = viewer.getItemOnCursor();
-            viewer.setItemOnCursor(new ItemStack(Material.AIR));
-            this.showTo(viewer);
-            viewer.setItemOnCursor(itemOnCursor);
+            final Inventory page = viewer.getOpenInventory().getTopInventory();
+            if (page.getHolder() instanceof ChestPage) {
+                page.clear();
+                for (Pane pane : panes) {
+                    pane.displayOn(page);
+                }
+            }
         }
     }
 
     /**
+     * {@inheritDoc}
      * @deprecated because this is against oop.
      */
     @Override @Deprecated

@@ -34,6 +34,11 @@ import me.blackness.black.event.ElementClickEvent;
 public class TSafeElement implements Element {
     private final Element baseElement;
 
+    /**
+     * ctor.
+     *
+     * @param baseElement the element to make thread-safe
+     */
     public TSafeElement(final Element baseElement) {
         this.baseElement = baseElement;
     }

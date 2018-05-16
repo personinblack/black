@@ -71,7 +71,7 @@ public interface Pane {
      *
      * @param elements the elements to add
      * @return an array that contains the elements which couldn't be added because of fullness or
-     * an empty array if all the elements were added
+     *     an empty array if all the elements were added
      * @see Element
      */
     Element[] add(Element... elements);
@@ -83,7 +83,7 @@ public interface Pane {
      * @param locX x location of the slot
      * @param locY y location of the slot
      * @param shift either shift the element that already exist at the specified location or
-     * replace it with this one
+     *     replace it with this one
      * @throws IllegalArgumentException if the specified slot is not in the range of the pane
      * @see Element
      */
@@ -123,6 +123,22 @@ public interface Pane {
      * {@code false} otherwise
      */
     boolean contains(ItemStack icon);
+
+    /**
+     * this method is being triggered by the page which contains this pane then
+     * the pane passes this event to its elements.
+     *
+     * @param event event to pass
+     * @see ElementClickEvent
+     */
     void accept(ElementClickEvent event);
+
+    /**
+     * display this pane on the specified inventory. this method is being triggered by the page
+     * which contains this pane and being passed to the underlying elements of this pane.
+     *
+     * @param inventory inventory to display this pane on
+     * @see Inventory
+     */
     void displayOn(Inventory inventory);
 }

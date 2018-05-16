@@ -36,6 +36,11 @@ import me.blackness.observer.Target;
 public class TSafePane implements Pane {
     private final Pane basePane;
 
+    /**
+     * ctor.
+     *
+     * @param basePane the pane to make thread-safe
+     */
     public TSafePane(final Pane basePane) {
         this.basePane = basePane;
     }

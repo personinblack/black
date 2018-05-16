@@ -32,10 +32,20 @@ import me.blackness.black.Blackness;
 public final class PluginListener implements Listener {
     private final Blackness blackness;
 
+    /**
+     * ctor.
+     *
+     * @param blackness blackness to inform
+     */
     public PluginListener(final Blackness blackness) {
         this.blackness = blackness;
     }
 
+    /**
+     * the listener that listens for plugin disables and informs blackness.
+     *
+     * @param event the event that happened
+     */
     @EventHandler
     public void listener(final PluginDisableEvent event) {
         blackness.processPluginDisable(event);

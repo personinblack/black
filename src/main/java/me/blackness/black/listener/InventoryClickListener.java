@@ -32,6 +32,11 @@ import me.blackness.black.event.ElementClickEvent;
  * a listener that listen for clicks happening on inventories.
  */
 public final class InventoryClickListener implements Listener {
+    /**
+     * the listener that listens for inventory clicks and informs the pages associated with them.
+     *
+     * @param event the event that happened
+     */
     @EventHandler
     public void listener(final InventoryClickEvent event) {
         if (event.getInventory().getHolder() instanceof Page

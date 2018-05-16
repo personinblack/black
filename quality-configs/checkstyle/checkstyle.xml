@@ -71,12 +71,12 @@
         <module name="FallThrough"/>
         <module name="FinalLocalVariable"/>
         <!--<module name="HiddenField"/>-->
-        <!--<module name="IllegalCatch"/>-->
+        <module name="IllegalCatch"/>
         <module name="IllegalInstantiation"/>
-        <!--<module name="IllegalThrows"/>-->
-        <!--<module name="IllegalToken"/>-->
+        <module name="IllegalThrows"/>
+        <module name="IllegalToken"/>
         <module name="IllegalTokenText"/>
-        <!--<module name="IllegalType"/>-->
+        <module name="IllegalType"/>
         <module name="InnerAssignment"/>
         <!--<module name="MagicNumber"/>-->
         <!--<module name="MissingCtor"/>-->
@@ -98,8 +98,8 @@
         <module name="OneStatementPerLine"/>
         <module name="OverloadMethodsDeclarationOrder"/>
         <module name="PackageDeclaration"/>
-        <module name="ParameterAssignment"/>  <!-- more strict version is FinalParameters -->
-        <!--<module name="RequireThis"/>-->
+        <!-- <module name="ParameterAssignment"/>  more strict version is FinalParameters -->
+        <module name="RequireThis"/>
         <module name="ReturnCount">
             <property name="max" value="2"/>
             <property name="maxForVoid" value="1"/>
@@ -108,8 +108,8 @@
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
         <module name="StringLiteralEquality"/>
-        <!--<module name="SuperClone"/>-->
-        <!--<module name="SuperFinalize"/>-->
+        <module name="SuperClone"/>
+        <module name="SuperFinalize"/>
         <module name="UnnecessaryParentheses"/>
         <module name="VariableDeclarationUsageDistance">
             <property name="allowedDistance" value="5"/>
@@ -122,8 +122,8 @@
 
 
         <!-- Imports (http://checkstyle.sourceforge.net/config_imports.html) -->
-        <!--<module name="AvoidStarImport"/>-->
-        <!--<module name="AvoidStaticImport"/>-->
+        <module name="AvoidStarImport"/>
+        <module name="AvoidStaticImport"/>
         <!--<module name="CustomImportOrder"/>-->
         <module name="IllegalImport"/>
         <!--<module name="ImportControl"/>-->
@@ -133,18 +133,20 @@
 
 
         <!-- Javadoc Comments (http://checkstyle.sourceforge.net/config_javadoc.html) -->
-        <!--<module name="AtclauseOrder"/>-->
-        <!--<module name="JavadocMethod"/>-->
+        <module name="AtclauseOrder"/>
+        <module name="JavadocMethod">
+            <property name="scope" value="public"/>
+        </module>
         <!--<module name="JavadocPackage"/>-->
-        <!--<module name="JavadocParagraph"/>-->
+        <module name="JavadocParagraph"/>
         <module name="JavadocStyle"/>
-        <!--<module name="JavadocTagContinuationIndentation"/>-->
+        <module name="JavadocTagContinuationIndentation"/>
         <module name="JavadocType"/>
         <!--<module name="JavadocVariable"/>-->
         <module name="NonEmptyAtclauseDescription"/>
-        <!--<module name="SingleLineJavadoc"/>-->
-        <!--<module name="SummaryJavadoc"/>-->
-        <!--<module name="WriteTag"/>-->
+        <module name="SingleLineJavadoc"/>
+        <module name="SummaryJavadoc"/>
+        <module name="WriteTag"/>
 
 
         <!-- Metrics (http://checkstyle.sourceforge.net/config_metrics.html) -->
@@ -161,7 +163,7 @@
         <!--<module name="AvoidEscapedUnicodeCharacters"/>-->
         <module name="CommentsIndentation"/>
         <module name="DescendantToken"/>
-        <!--<module name="FinalParameters"/>-->  <!-- DISABLED in favor of less restricted ParameterAssignment -->
+        <module name="FinalParameters"/>
         <module name="Indentation"/>
         <module name="OuterTypeFilename"/>
         <!--<module name="TodoComment"/>-->

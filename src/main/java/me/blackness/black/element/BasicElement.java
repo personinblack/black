@@ -45,6 +45,13 @@ public final class BasicElement implements Element {
     private final ItemStack icon;
     private final Consumer<ElementClickEvent> function;
 
+    /**
+     * ctor.
+     *
+     * @param icon an icon to represent this element
+     * @param function handler for the elementclickevents
+     * @param id id of this element. should be unique
+     */
     public BasicElement(final ItemStack icon, final Consumer<ElementClickEvent> function,
             final String id) {
 
@@ -55,6 +62,11 @@ public final class BasicElement implements Element {
         this.function = Objects.requireNonNull(function);
     }
 
+    /**
+     * ctor.
+     * @param icon an icon to represent this element
+     * @param function handler for the elementclickevents
+     */
     public BasicElement(final ItemStack icon, final Consumer<ElementClickEvent> function) {
         this(icon, function, UUID.randomUUID().toString() + System.currentTimeMillis());
     }
@@ -115,7 +127,7 @@ public final class BasicElement implements Element {
 
         try {
             return decrypted(itemStack).equals(id);
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException ex) {
             return false;
         }
     }

@@ -40,6 +40,13 @@ public final class LiveElement implements Element {
     private final int period;
     private final Element[] frames;
 
+    /**
+     * ctor.
+     *
+     * @param plugin plugin for being used on registering bukkit tasks
+     * @param period delay between every frame
+     * @param frames frames to display in order
+     */
     public LiveElement(final Plugin plugin, final int period, final Element... frames) {
         this.plugin = plugin;
         this.period = period;

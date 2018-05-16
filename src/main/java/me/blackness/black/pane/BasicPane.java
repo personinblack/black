@@ -56,6 +56,14 @@ public final class BasicPane implements Pane {
     private final int locX;
     private final int locY;
 
+    /**
+     * ctor.
+     *
+     * @param locX the x location of the top left corner of this pane
+     * @param locY the y location of the top left corner of this pane
+     * @param height height of this pane
+     * @param length length of this pane
+     */
     public BasicPane(final int locX, final int locY, final int height, final int length) {
         source = new BasicSource<>();
         this.locX = locX;
@@ -64,6 +72,17 @@ public final class BasicPane implements Pane {
         clear();
     }
 
+    /**
+     * ctor.
+     *
+     * @param locX the x location of the top left corner of this pane
+     * @param locY the y location of the top left corner of this pane
+     * @param height height of this pane
+     * @param length length of this pane
+     * @param element element to fill the pane with
+     *
+     * @see #fill(Element)
+     */
     public BasicPane(final int locX, final int locY, final int height, final int length,
             final Element element) {
 
@@ -71,6 +90,17 @@ public final class BasicPane implements Pane {
         fill(element);
     }
 
+    /**
+     * ctor.
+     *
+     * @param locX the x location of the top left corner of this pane
+     * @param locY the y location of the top left corner of this pane
+     * @param height height of this pane
+     * @param length length of this pane
+     * @param elements elements to fill the pane with
+     *
+     * @see #fill(Element...)
+     */
     public BasicPane(final int locX, final int locY, final int height, final int length,
             final Element... elements) {
 
@@ -278,7 +308,7 @@ public final class BasicPane implements Pane {
         Objects.requireNonNull(inventory);
         try {
             validate(inventory.getSize());
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException ex) {
             Bukkit.getLogger().severe(ex.toString());
         }
         forEachSlot((y, x) -> {

@@ -1,6 +1,7 @@
 package me.blackness.black;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -43,12 +44,30 @@ public interface Page extends InventoryHolder, Target<Object> {
      * @see Player
      */
     void showTo(Player player);
+
+    /**
+     * this method is being triggered by the inventory close event in order to make this page
+     * do not update the player who closed this page anymore.
+     *
+     * @param event event to handle
+     * @see InventoryCloseEvent
+     */
     void handleClose(InventoryCloseEvent event);
+
+    /**
+     * this method is being triggered by the inventory click event and passes the event to
+     * the panes of it.
+     *
+     * @param event event to pass
+     * @see InventoryClickEvent
+     * @see ElementClickEvent
+     */
     void accept(ElementClickEvent event);
 
     /**
-     * @deprecated because this is against oop.
+     * {@inheritDoc}
      *
+     * @deprecated because this is against oop.
      * @return an empty (null) inventory
      * @see Inventory
      */

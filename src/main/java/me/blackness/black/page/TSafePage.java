@@ -35,6 +35,11 @@ import me.blackness.black.event.ElementClickEvent;
 public class TSafePage implements Page {
     private final Page basePage;
 
+    /**
+     * ctor.
+     *
+     * @param basePage the page to make thread-safe
+     */
     public TSafePage(final Page basePage) {
         this.basePage = basePage;
     }
@@ -61,6 +66,7 @@ public class TSafePage implements Page {
     }
 
     /**
+     * {@inheritDoc}
      * @deprecated because this is against oop.
      */
     @Override @Deprecated

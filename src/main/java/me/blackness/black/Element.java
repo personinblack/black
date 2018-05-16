@@ -31,7 +31,24 @@ import me.blackness.black.event.ElementClickEvent;
  * @see Pane
  */
 public interface Element {
+    /**
+     * display the element on an inventory. this method is being used by the pane
+     * which contains this element.
+     *
+     * @param inventory inventory to display the element on
+     * @param locX x location of the slot
+     * @param locY y location of the slot
+     * @see Pane
+     * @see Inventory
+     */
     void displayOn(Inventory inventory, int locX, int locY);
+
+    /**
+     * accept the element click event and pass it to the framework user's handler.
+     *
+     * @param event event to pass
+     * @see ElementClickEvent
+     */
     void accept(ElementClickEvent event);
 
     /**

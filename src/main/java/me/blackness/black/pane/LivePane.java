@@ -43,6 +43,13 @@ public final class LivePane implements Pane {
     private final int period;
     private final Pane[] frames;
 
+    /**
+     * ctor.
+     *
+     * @param plugin plugin for being used on registering bukkit tasks
+     * @param period delay between every frame
+     * @param frames frames to display in order
+     */
     public LivePane(final Plugin plugin, final int period, final Pane... frames) {
         this.plugin = plugin;
         this.period = period;
@@ -64,6 +71,8 @@ public final class LivePane implements Pane {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @see #fill(int, Element)
      */
     @Override
@@ -85,6 +94,8 @@ public final class LivePane implements Pane {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @see #fill(int, Element...)
      */
     @Override
@@ -139,6 +150,8 @@ public final class LivePane implements Pane {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @deprecated because you have to specify which frame
      * @see #insert(int, Element, int, int, boolean)
      */
@@ -157,17 +170,19 @@ public final class LivePane implements Pane {
      * @param locX x location of the slot
      * @param locY y location of the slot
      * @param shift either shift the element that already exist at the specified location or
-     * replace it with this one
+     *     replace it with this one
      * @throws IllegalArgumentException if the specified slot is not in the range of the pane
      * @see Element
      */
     public void insert(final int frame, final Element element, final int locX, final int locY,
-            final boolean shift) throws Exception {
+            final boolean shift) throws IllegalArgumentException {
 
         frames[frame].insert(element, locX, locY, shift);
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @see #replaceAll(int, Element...)
      */
     @Override
@@ -190,6 +205,8 @@ public final class LivePane implements Pane {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @deprecated because you have to specify which frame
      * @see #remove(int, int, int)
      */
