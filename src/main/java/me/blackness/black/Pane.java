@@ -35,7 +35,7 @@ import me.blackness.observer.Target;
  */
 public interface Pane {
     /**
-     * fills the pane.
+     * fills the pane with specified elements.
      *
      * @param element the element to fill the pane with
      * @see Element
@@ -43,12 +43,21 @@ public interface Pane {
     void fill(Element element);
 
     /**
+     * fills the pane with specified elements. this method will reuse the elements,
+     * if amount of elements given is not enough to fill the pane.
+     *
+     * @param elements the elements to fill the pane with
+     * @see Element
+     */
+    void fill(Element... elements);
+
+    /**
      * clears the pane.
      */
     void clear();
 
     /**
-     * adds a new element.
+     * adds a new element to the pane.
      *
      * @param element the element to add
      * @return {@code true} if the element has been added or
@@ -58,7 +67,7 @@ public interface Pane {
     boolean add(Element element);
 
     /**
-     * adds new elements.
+     * adds new elements to the pane.
      *
      * @param elements the elements to add
      * @return an array that contains the elements which couldn't be added because of fullness or
@@ -79,6 +88,15 @@ public interface Pane {
      * @see Element
      */
     void insert(Element element, int locX, int locY, boolean shift) throws IllegalArgumentException;
+
+    /**
+     * replaces all the elements of the pane with the given ones. this method will reuse
+     * the elements, if the amount of elements given is smaller then the amount of existing ones.
+     *
+     * @param elements elements to fill the pane with
+     * @see Element
+     */
+    void replaceAll(Element... elements);
 
     /**
      * removes the element at the specified slot.

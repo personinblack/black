@@ -2,7 +2,11 @@ package me.blackness.black.pane;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Queue;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -48,16 +52,15 @@ public final class BasicPane implements Pane {
 
     private final Source<Object> source;
 
-    private final Element[][] elements;
+    private final Element[][] paneElements;
     private final int locX;
     private final int locY;
 
     public BasicPane(final int locX, final int locY, final int height, final int length) {
         source = new BasicSource<>();
-
         this.locX = locX;
         this.locY = locY;
-        elements = new Element[height][length];
+        paneElements = new Element[height][length];
         clear();
     }
 
@@ -76,11 +79,11 @@ public final class BasicPane implements Pane {
     }
 
     private int length() {
-        return elements[0].length;
+        return paneElements[0].length;
     }
 
     private int height() {
-        return elements.length;
+        return paneElements.length;
     }
 
     private Element emptyElement() {
@@ -91,28 +94,11 @@ public final class BasicPane implements Pane {
         );
     }
 
-    @Override
-    public void fill(final Element element) {
-        Objects.requireNonNull(element);
-        for (int y = 0; y < height(); y++) {
-            Arrays.fill(elements[y], element);
-        }
-
-        this.source.notifyTargets(new Object());
-    }
-
-    @Override
-    public void clear() {
-        fill(emptyElement());
-        this.source.notifyTargets(new Object());
-    }
-
     private void validate(final int inventorySize) throws IllegalArgumentException {
         final boolean locXFaulty = locX < 0;
         final boolean locYFaulty = locY < 0;
         final boolean heightFaulty = locY + height() > inventorySize / 9 || height() <= 0;
         final boolean lengthFaulty = locX + length() > 9 || length() <= 0;
-
         if (locXFaulty || locYFaulty || heightFaulty || lengthFaulty) {
             throw new IllegalArgumentException(
                 String.format(
@@ -131,49 +117,87 @@ public final class BasicPane implements Pane {
     }
 
     private void shiftElementAt(final int locX, final int locY) {
-        for (int y = elements.length - 1; y >= locY; y--) {
-            for (int x = elements[y].length - 1; x >= locX; x--) {
-                if (y + 1 < elements.length) {
-                    elements[y + 1][x] = elements[y][x];
-                } else if (x + 1 < elements[y].length) {
-                    elements[0][x + 1] = elements[y][x];
+        for (int y = paneElements.length - 1; y >= locY; y--) {
+            for (int x = paneElements[y].length - 1; x >= locX; x--) {
+                if (y + 1 < paneElements.length) {
+                    paneElements[y + 1][x] = paneElements[y][x];
+                } else if (x + 1 < paneElements[y].length) {
+                    paneElements[0][x + 1] = paneElements[y][x];
                 }
             }
         }
-        elements[locY][locX] = emptyElement();
+        paneElements[locY][locX] = emptyElement();
     }
 
-    @Override
-    public boolean add(final Element element) {
-        final Object argument = new Object();
-        Objects.requireNonNull(element);
+    private boolean forEachSlot(final BiFunction<Integer, Integer, Boolean> action) {
         for (int y = 0; isWithinBounds(0, y); y++) {
             for (int x = 0; isWithinBounds(x, y); x++) {
-                if (elements[y][x].is(emptyElement())) {
-                    elements[y][x] = element;
-                    this.source.notifyTargets(argument);
+                if (action.apply(y, x)) {
                     return true;
                 }
             }
         }
-
         return false;
+    }
+
+    private void forEachSlot(final BiConsumer<Integer, Integer> action) {
+        forEachSlot((y, x) -> {
+            action.accept(y, x);
+            return false;
+        });
+    }
+
+    @Override
+    public void fill(final Element element) {
+        Objects.requireNonNull(element);
+        for (int y = 0; y < height(); y++) {
+            Arrays.fill(paneElements[y], element);
+        }
+        this.source.notifyTargets(new Object());
+    }
+
+    @Override
+    public void fill(final Element... elements) {
+        Objects.requireNonNull(elements);
+        final Queue<Element> queue = new LinkedList<>(Arrays.asList(elements));
+        forEachSlot((y, x) -> {
+            if (queue.isEmpty()) {
+                queue.addAll(Arrays.asList(elements));
+            }
+            if (paneElements[y][x].is(emptyElement())) {
+                paneElements[y][x] = queue.poll();
+            }
+        });
+        this.source.notifyTargets(new Object());
+    }
+
+    @Override
+    public void clear() {
+        fill(emptyElement());
+    }
+
+    @Override
+    public boolean add(final Element element) {
+        Objects.requireNonNull(element);
+        return forEachSlot((y, x) -> {
+            if (paneElements[y][x].is(emptyElement())) {
+                paneElements[y][x] = element;
+                this.source.notifyTargets(new Object());
+                return true;
+            } else {
+                return false;
+            }
+        });
     }
 
     @Override
     public Element[] add(final Element... elements) {
         final ArrayList<Element> remainings = new ArrayList<>();
-
         for (Element element : elements) {
             if (!add(element)) {
                 remainings.add(element);
             }
         }
-
-        if (remainings.size() != elements.length) {
-            this.source.notifyTargets(new Object());
-        }
-
         return remainings.toArray(new Element[]{});
     }
 
@@ -189,13 +213,22 @@ public final class BasicPane implements Pane {
                     locX, locY
                 )
             );
-        } else if (!shift || (shift && elements[locY][locX].is(emptyElement()))) {
-            elements[locY][locX] = element;
+        } else if (!shift || (shift && paneElements[locY][locX].is(emptyElement()))) {
+            paneElements[locY][locX] = element;
         } else {
             shiftElementAt(locX, locY);
             insert(element, locX, locY, !shift);
         }
+        this.source.notifyTargets(new Object());
+    }
 
+    @Override
+    public void replaceAll(final Element... elements) {
+        Objects.requireNonNull(elements);
+        final Queue<Element> queue = new LinkedList<>(Arrays.asList(elements));
+        forEachSlot((y, x) -> {
+            paneElements[y][x] = queue.poll();
+        });
         this.source.notifyTargets(new Object());
     }
 
@@ -209,41 +242,33 @@ public final class BasicPane implements Pane {
                 )
             );
         } else {
-            elements[locY][locX] = emptyElement();
+            paneElements[locY][locX] = emptyElement();
             this.source.notifyTargets(new Object());
         }
     }
 
     @Override
     public void subscribe(final Target<Object> target) {
+        Objects.requireNonNull(target);
         source.subscribe(target);
     }
 
     @Override
     public boolean contains(final ItemStack icon) {
         Objects.requireNonNull(icon);
-
-        for (int y = 0; isWithinBounds(0, y); y++) {
-            for (int x = 0; isWithinBounds(x, y); x++) {
-                if (elements[y][x].is(icon)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return forEachSlot((y, x) -> {
+            return paneElements[y][x].is(icon);
+        });
     }
 
     @Override
     public void accept(final ElementClickEvent event) {
         Objects.requireNonNull(event);
-        for (int y = 0; isWithinBounds(0, y); y++) {
-            for (int x = 0; isWithinBounds(x, y); x++) {
-                if (event.slotIs((locX + x) + (locY + y) * 9)) {
-                    elements[y][x].accept(event);
-                }
+        forEachSlot((y, x) -> {
+            if (event.slotIs((locX + x) + (locY + y) * 9)) {
+                paneElements[y][x].accept(event);
             }
-        }
+        });
     }
 
     @Override
@@ -254,13 +279,11 @@ public final class BasicPane implements Pane {
         } catch (Exception ex) {
             Bukkit.getLogger().severe(ex.toString());
         }
-        for (int y = 0; isWithinBounds(0, y); y++) {
-            for (int x = 0; isWithinBounds(x, y); x++) {
-                final Element element = elements[y][x];
-                if (!element.is(emptyElement())) {
-                    element.displayOn(inventory, locX + x, locY + y);
-                }
+        forEachSlot((y, x) -> {
+            final Element element = paneElements[y][x];
+            if (!element.is(emptyElement())) {
+                element.displayOn(inventory, locX + x, locY + y);
             }
-        }
+        });
     }
 }

@@ -63,11 +63,47 @@ public final class LivePane implements Pane {
         return emptyPane();
     }
 
+    /**
+     * @see #fill(int, Element)
+     */
     @Override
     public void fill(final Element element) {
         for (Pane frame : frames) {
             frame.fill(element);
         }
+    }
+
+    /**
+     * fills the specified pane with specified elements.
+     *
+     * @param frame the frame number of the pane to fill
+     * @param element the element to fill the pane with
+     * @see Element
+     */
+    public void fill(final int frame, final Element element) {
+        frames[frame].fill(element);
+    }
+
+    /**
+     * @see #fill(int, Element...)
+     */
+    @Override
+    public void fill(final Element... elements) {
+        for (Pane frame : frames) {
+            frame.fill(elements);
+        }
+    }
+
+    /**
+     * fills the specified pane with specified elements. this method will reuse the elements,
+     * if amount of elements given is not enough to fill the pane.
+     *
+     * @param frame the frame number of the pane to fill
+     * @param elements the elements to fill the pane with
+     * @see Element
+     */
+    public void fill(final int frame, final Element... elements) {
+        frames[frame].fill(elements);
     }
 
     @Override
@@ -104,7 +140,7 @@ public final class LivePane implements Pane {
 
     /**
      * @deprecated because you have to specify which frame
-     * @see LivePane#insert(int, Element, int, int, boolean)
+     * @see #insert(int, Element, int, int, boolean)
      */
     @Override @Deprecated
     public void insert(final Element element, final int locX, final int locY,
@@ -132,8 +168,30 @@ public final class LivePane implements Pane {
     }
 
     /**
+     * @see #replaceAll(int, Element...)
+     */
+    @Override
+    public void replaceAll(final Element... elements) {
+        for (Pane frame : frames) {
+            frame.replaceAll(elements);
+        }
+    }
+
+    /**
+     * replaces all the elements of the said frame with the given ones. this method will reuse
+     * the elements, if the amount of elements given is smaller then the amount of existing ones.
+     *
+     * @param frame the frame number of the pane to replace all
+     * @param elements elements to fill the pane with
+     * @see Element
+     */
+    public void replaceAll(final int frame, final Element... elements) {
+        frames[frame].replaceAll(elements);
+    }
+
+    /**
      * @deprecated because you have to specify which frame
-     * @see LivePane#remove(int, int, int)
+     * @see #remove(int, int, int)
      */
     @Override @Deprecated
     public void remove(final int locX, final int locY) throws IllegalArgumentException {

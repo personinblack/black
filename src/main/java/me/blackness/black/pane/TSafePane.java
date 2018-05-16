@@ -48,6 +48,13 @@ public class TSafePane implements Pane {
     }
 
     @Override
+    public void fill(final Element... elements) {
+        synchronized (basePane) {
+            basePane.fill(elements);
+        }
+    }
+
+    @Override
     public void clear() {
         synchronized (basePane) {
             basePane.clear();
@@ -74,6 +81,13 @@ public class TSafePane implements Pane {
 
         synchronized (basePane) {
             basePane.insert(element, locX, locY, shift);
+        }
+    }
+
+    @Override
+    public void replaceAll(final Element... elements) {
+        synchronized (basePane) {
+            basePane.replaceAll(elements);
         }
     }
 
