@@ -142,21 +142,24 @@ public final class BasicPane implements Pane {
         }
     }
 
-    private boolean isWithinBounds(final int locX, final int locY) {
-        return locX < length() && locY < height() && locX >= 0 && locY >= 0;
+    private boolean isWithinBounds(final int xToCheck, final int yToCheck) {
+        return xToCheck < length() && yToCheck < height() && xToCheck >= 0 && yToCheck >= 0;
     }
 
-    private void shiftElementAt(final int locX, final int locY) {
-        for (int y = paneElements.length - 1; y >= locY; y--) {
-            for (int x = paneElements[y].length - 1; x >= locX; x--) {
-                if (y + 1 < paneElements.length) {
-                    paneElements[y + 1][x] = paneElements[y][x];
-                } else if (x + 1 < paneElements[y].length) {
-                    paneElements[0][x + 1] = paneElements[y][x];
+    private void shiftElementAt(final int xToShift, final int yToShift) {
+        for (int y = height() - 1; y >= 0; y--) {
+            for (int x = length() - 1; x >= 0; x--) {
+                if (y < yToShift || (y == yToShift && x < xToShift)) {
+                    continue;
+                } else if (x + 1 < length()) {
+                    paneElements[y][x + 1] = paneElements[y][x];
+                } else if (y + 1 < height()) {
+                    paneElements[y + 1][0] = paneElements[y][x];
                 }
             }
         }
-        paneElements[locY][locX] = emptyElement();
+
+        paneElements[yToShift][xToShift] = emptyElement();
     }
 
     private boolean forEachSlot(final BiFunction<Integer, Integer, Boolean> action) {
@@ -310,6 +313,7 @@ public final class BasicPane implements Pane {
             validate(inventory.getSize());
         } catch (IllegalArgumentException ex) {
             Bukkit.getLogger().severe(ex.toString());
+            return;
         }
         forEachSlot((y, x) -> {
             final Element element = paneElements[y][x];
