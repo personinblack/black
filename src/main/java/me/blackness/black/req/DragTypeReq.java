@@ -30,6 +30,10 @@ import me.blackness.black.Requirement;
 
 /**
  * a requirement which requires a certain drag type.
+ *
+ * @return {@code false} for a non drag event
+ * @see Requirement
+ * @see DragType
  */
 public final class DragTypeReq implements Requirement {
     private final DragType dragType;

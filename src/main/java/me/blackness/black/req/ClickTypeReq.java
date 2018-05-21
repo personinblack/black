@@ -30,6 +30,10 @@ import me.blackness.black.Requirement;
 
 /**
  * a requirement which requires a certain click type.
+ *
+ * @return {@code false} for a non click event
+ * @see Requirement
+ * @see ClickType
  */
 public final class ClickTypeReq implements Requirement {
     private final ClickType clickType;
