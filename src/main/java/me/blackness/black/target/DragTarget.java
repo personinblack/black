@@ -1,12 +1,13 @@
-package me.blackness.black.req;
+package me.blackness.black.target;
 
-import java.util.Objects;
+import java.util.function.Consumer;
 
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 
 import me.blackness.black.Requirement;
+import me.blackness.black.Target;
+import me.blackness.black.event.ElementDragEvent;
 
 /*
        .                                                    .
@@ -29,30 +30,36 @@ import me.blackness.black.Requirement;
  */
 
 /**
- * a requirement which requires a specific slot to be pressed.
- * for drag events, this will check all the affected slots.
+ * the most basic drag target.
  *
- * @see Requirement
+ * @see Target
  */
-public final class SlotReq implements Requirement {
-    private final int slot;
+public final class DragTarget implements Target {
+    private final Consumer<ElementDragEvent> handler;
+    private final Requirement[] reqs;
 
     /**
      * ctor.
      *
-     * @param slot the slot which required to be pressed
+     * @param handler handler of this target
+     * @param reqs requirements of this target
+     * @see Consumer
+     * @see Requirement
      */
-    public SlotReq(final int slot) {
-        Objects.requireNonNull(slot);
-        this.slot = slot;
+    public DragTarget(final Consumer<ElementDragEvent> handler, Requirement... reqs) {
+        this.handler = handler;
+        this.reqs = reqs;
     }
 
     @Override
-    public boolean control(InventoryInteractEvent event) {
-        if (event instanceof InventoryClickEvent) {
-            return ((InventoryClickEvent) event).getSlot() == slot;
-        } else {
-            return ((InventoryDragEvent) event).getInventorySlots().contains(slot);
+    public void handle(InventoryInteractEvent event) {
+        if (event instanceof InventoryDragEvent) {
+            for (Requirement req : reqs) {
+                if (!req.control(event)) {
+                    return;
+                }
+            }
+            handler.accept(new ElementDragEvent((InventoryDragEvent) event));
         }
     }
 }

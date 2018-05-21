@@ -31,7 +31,7 @@ import me.blackness.black.Element;
  */
 
 /**
- * an event that gets sended to elements when they get clicked.
+ * an event which represents an inventory click.
  *
  * @see Event
  * @see Element
@@ -42,7 +42,7 @@ public final class ElementClickEvent {
     /**
      * ctor.
      *
-     * @param baseEvent the base event which created this event
+     * @param baseEvent the base event
      */
     public ElementClickEvent(final InventoryClickEvent baseEvent) {
         Objects.requireNonNull(baseEvent);
@@ -57,17 +57,6 @@ public final class ElementClickEvent {
      */
     public Player player() {
         return (Player) baseEvent.getWhoClicked();
-    }
-
-    /**
-     * the itemstack on the player's cursor.
-     *
-     * @return the itemstack that is on the player's cursor
-     * @see ItemStack
-     * @see Player
-     */
-    public ItemStack itemOnCursor() {
-        return baseEvent.getCursor().clone();
     }
 
     /**

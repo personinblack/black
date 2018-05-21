@@ -1,5 +1,7 @@
 package me.blackness.black;
 
+import org.bukkit.event.inventory.InventoryInteractEvent;
+
 /*
        .                                                    .
     .$"                                    $o.      $o.  _o"
@@ -19,6 +21,15 @@ package me.blackness.black;
                                                         i"  personinblack
                                                         |
  */
-public interface Target {
 
+/**
+ * target is the type of all the event handlers.
+ */
+public interface Target {
+    /**
+     * let the target handle this event.
+     *
+     * @param event the event to handle
+     */
+    void handle(InventoryInteractEvent event);
 }

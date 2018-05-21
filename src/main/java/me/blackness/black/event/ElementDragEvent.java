@@ -1,12 +1,10 @@
-package me.blackness.black.req;
+package me.blackness.black.event;
 
-import java.util.Objects;
+import java.util.Map;
 
-import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
-
-import me.blackness.black.Requirement;
+import org.bukkit.inventory.ItemStack;
 
 /*
        .                                                    .
@@ -29,30 +27,58 @@ import me.blackness.black.Requirement;
  */
 
 /**
- * a requirement which requires a specific slot to be pressed.
- * for drag events, this will check all the affected slots.
- *
- * @see Requirement
+ * an event which represents an inventory drag.
  */
-public final class SlotReq implements Requirement {
-    private final int slot;
+public final class ElementDragEvent {
+    private final InventoryDragEvent baseEvent;
 
     /**
      * ctor.
      *
-     * @param slot the slot which required to be pressed
+     * @param baseEvent the base event
      */
-    public SlotReq(final int slot) {
-        Objects.requireNonNull(slot);
-        this.slot = slot;
+    public ElementDragEvent(final InventoryDragEvent baseEvent) {
+        this.baseEvent = baseEvent;
     }
 
-    @Override
-    public boolean control(InventoryInteractEvent event) {
-        if (event instanceof InventoryClickEvent) {
-            return ((InventoryClickEvent) event).getSlot() == slot;
-        } else {
-            return ((InventoryDragEvent) event).getInventorySlots().contains(slot);
-        }
+    /**
+     * the player involved in this event.
+     *
+     * @return the player who triggered this event
+     * @see Player
+     */
+    public Player player() {
+        return (Player) baseEvent.getWhoClicked();
+    }
+
+    /**
+     * the cursor after the drag is done.
+     *
+     * @return cursor after the drag
+     * @see ItemStack
+     */
+    public ItemStack cursor() {
+        return baseEvent.getCursor();
+    }
+
+    /**
+     * the cursor before the drag is done.
+     *
+     * @return cursor before the drag
+     * @see ItemStack
+     */
+    public ItemStack oldCursor() {
+        return baseEvent.getOldCursor();
+    }
+
+    /**
+     * items being added to the pane after this event.
+     *
+     * @return a map of slots and itemstack changes associated with them
+     * @see Map
+     * @see ItemStack
+     */
+    public Map<Integer, ItemStack> items() {
+        return baseEvent.getNewItems();
     }
 }
