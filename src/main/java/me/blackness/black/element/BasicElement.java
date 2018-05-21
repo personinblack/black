@@ -64,11 +64,33 @@ public final class BasicElement implements Element {
 
     /**
      * ctor.
+     *
      * @param icon an icon to represent this element
      * @param function handler for the elementclickevents
      */
     public BasicElement(final ItemStack icon, final Consumer<ElementClickEvent> function) {
         this(icon, function, UUID.randomUUID().toString() + System.currentTimeMillis());
+    }
+
+    /**
+     * ctor.
+     *
+     * @param icon an icon to represent this element
+     * @param id id of this element. should be unique
+     */
+    public BasicElement(final ItemStack icon, final String id) {
+        this(icon, event -> {
+        }, id);
+    }
+
+    /**
+     * ctor.
+     *
+     * @param icon an icon to represent this element
+     */
+    public BasicElement(final ItemStack icon) {
+        this(icon, event -> {
+        });
     }
 
     private ItemStack encrypted(final ItemStack itemStack, final String textToEncrypt) {

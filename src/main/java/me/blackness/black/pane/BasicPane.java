@@ -130,6 +130,7 @@ public final class BasicPane implements Pane {
         final boolean heightFaulty = locY + height() > inventorySize / 9 || height() <= 0;
         final boolean lengthFaulty = locX + length() > 9 || length() <= 0;
         if (locXFaulty || locYFaulty || heightFaulty || lengthFaulty) {
+            // TODO: make this message prettier and easier to understand. add tips maybe?
             throw new IllegalArgumentException(
                 String.format(
                     "Validation for the newest created Pane failed.%n" +
@@ -183,9 +184,7 @@ public final class BasicPane implements Pane {
     @Override
     public void fill(final Element element) {
         Objects.requireNonNull(element);
-        for (int y = 0; y < height(); y++) {
-            Arrays.fill(paneElements[y], element);
-        }
+        fill(new Element[]{element});
         this.source.notifyTargets(new Object());
     }
 
