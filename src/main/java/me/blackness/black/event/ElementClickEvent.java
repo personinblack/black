@@ -1,13 +1,11 @@
 package me.blackness.black.event;
 
+import java.util.Objects;
+
 import org.bukkit.Bukkit;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.blackness.black.Element;
@@ -47,6 +45,7 @@ public final class ElementClickEvent {
      * @param baseEvent the base event which created this event
      */
     public ElementClickEvent(final InventoryClickEvent baseEvent) {
+        Objects.requireNonNull(baseEvent);
         this.baseEvent = baseEvent;
     }
 
@@ -58,111 +57,6 @@ public final class ElementClickEvent {
      */
     public Player player() {
         return (Player) baseEvent.getWhoClicked();
-    }
-
-    /**
-     * compares the event's action with the given action.
-     *
-     * @param action the action to compare
-     * @return {@code true} if they are the same or {@code false} otherwise
-     * @see InventoryAction
-     */
-    public boolean actionIs(final InventoryAction action) {
-        return baseEvent.getAction() == action;
-    }
-
-    /**
-     * compares the event's slot with the given slot.
-     *
-     * @param slot the slot to compare
-     * @return {@code true} if the clicked slot is the same slot as the given slot or
-     * {@code false} otherwise
-     * @see #rawSlotIs
-     */
-    public boolean slotIs(final int slot) {
-        return baseEvent.getSlot() == slot;
-    }
-
-    /**
-     * compares the event's raw slot with the given raw slot.
-     *
-     * @param rawSlot the raw slot to compare
-     * @return {@code true} if the clicked raw slot is the same raw slot as the given raw slot or
-     * {@code false} otherwise
-     * @see #slotIs
-     */
-    public boolean rawSlotIs(final int rawSlot) {
-        return baseEvent.getRawSlot() == rawSlot;
-    }
-
-    /**
-     * compares the event's clicktype with the given clicktype.
-     *
-     * @param clickType the clicktype to compare
-     * @return {@code true} if they are the same or {@code false} otherwise
-     * @see ClickType
-     */
-    public boolean clickTypeIs(final ClickType clickType) {
-        return baseEvent.getClick() == clickType;
-    }
-
-    /**
-     * checks click type.
-     *
-     * @return {@code true} if the click is a right click or {@code false} otherwise
-     */
-    public boolean isRightClick() {
-        return baseEvent.isRightClick();
-    }
-
-    /**
-     * checks click type.
-     *
-     * @return {@code true} if the click is a left click or {@code false} otherwise
-     */
-    public boolean isLeftClick() {
-        return baseEvent.isLeftClick();
-    }
-
-    /**
-     * checks click type.
-     *
-     * @return {@code true} if the click is a shift click or {@code false} otherwise
-     */
-    public boolean isShiftClick() {
-        return baseEvent.isShiftClick();
-    }
-
-    /**
-     * checks click action.
-     *
-     * @return {@code true} if the action is a creative action or {@code false} otherwise
-     * @see InventoryAction
-     */
-    public boolean isCreativeAction() {
-        return baseEvent.getClick().isCreativeAction();
-    }
-
-    /**
-     * checks click type.
-     *
-     * @return {@code true} if the click is a keyboard click or {@code false} otherwise
-     */
-    public boolean isKeyboardClick() {
-        return baseEvent.getClick().isKeyboardClick();
-    }
-
-    /**
-     * compares the clicked keyboard key with the key given
-     * (the key is {@code -1} if the click is not a keyboard click).
-     *
-     * @param key the key to compare
-     * @return {@code true} if the clicked keyboard key is the same as the given or
-     * {@code false} otherwise
-     * @see #isKeyboardClick()
-     */
-    public boolean keyboardClickIs(final int key) {
-        return baseEvent.getHotbarButton() == key;
     }
 
     /**
@@ -188,19 +82,6 @@ public final class ElementClickEvent {
     }
 
     /**
-     * replaces the item on the player's cursor with the given one.
-     *
-     * @param item itemstack to set
-     * @see Player
-     * @see ItemStack
-     */
-    public void setItemOnCursor(final ItemStack item) {
-        schedule(() -> {
-            baseEvent.getWhoClicked().setItemOnCursor(item);
-        });
-    }
-
-    /**
      * cancels the action the player has done.
      */
     public void cancel() {
@@ -209,150 +90,15 @@ public final class ElementClickEvent {
 
     /**
      * closes all the open inventories the player has at the moment.
+     * (i don't know why i wrote this like a player can have multiple inventories open
+     * at the same time but whatever...)
      */
     public void closeView() {
-        schedule(() -> {
-            baseEvent.getWhoClicked().closeInventory();
-        });
-    }
-
-    private void schedule(final Runnable runnable) {
         Bukkit.getScheduler().runTask(
             baseEvent.getHandlers().getRegisteredListeners()[0].getPlugin(),
-            runnable
+            () -> {
+                baseEvent.getWhoClicked().closeInventory();
+            }
         );
-    }
-
-    /**
-     * this method can be removed at any time.
-     *
-     * @deprecated this breaks the current view's listeners, please do edit the pane instead.
-     * @param item item to replace with the clicked item
-     */
-    @Deprecated
-    public void setCurrentItem(final ItemStack item) {
-        schedule(() -> {
-            baseEvent.setCurrentItem(item);
-        });
-    }
-
-    /**
-     * this method can be removed at any time.
-     *
-     * @deprecated clicked inventory is the page which contains this element, use that page.
-     * @return clicked inventory
-     */
-    @Deprecated
-    public Inventory getClickedInventory() {
-        return baseEvent.getClickedInventory();
-    }
-
-    /**
-     * this method can be removed at any time.
-     *
-     * @deprecated because this is mutable
-     * @return item on cursor
-     * @see ElementClickEvent#itemOnCursor()
-     */
-    @Deprecated
-    public ItemStack getCursor() {
-        return baseEvent.getCursor();
-    }
-
-    /**
-     * this method can be removed at any time.
-     *
-     * @deprecated because this is mutable
-     * @return clicked item
-     * @see ElementClickEvent#currentItem()
-     */
-    @Deprecated
-    public ItemStack getCurrentItem() {
-        return baseEvent.getCurrentItem();
-    }
-
-    /**
-     * this method can be removed at any time.
-     *
-     * @deprecated because the object should do the check itself
-     * @return slot
-     * @see ElementClickEvent#slotIs(int)
-     */
-    @Deprecated
-    public int getSlot() {
-        return baseEvent.getSlot();
-    }
-
-    /**
-     * this method can be removed at any time.
-     *
-     * @deprecated because the object should do the check itself
-     * @return raw slot
-     * @see ElementClickEvent#rawSlotIs(int)
-     */
-    @Deprecated
-    public int getRawSlot() {
-        return baseEvent.getRawSlot();
-    }
-
-    /**
-     * this method can be removed at any time.
-     *
-     * @deprecated because the object should do the check itself
-     * @return clicked keyboard button
-     * @see ElementClickEvent#keyboardClickIs(int)
-     */
-    @Deprecated
-    public int getHotbarButton() {
-        return baseEvent.getHotbarButton();
-    }
-
-    /**
-     * this method can be removed at any time.
-     *
-     * @deprecated because the object should do the check itself
-     * @return inventory action
-     * @see ElementClickEvent#actionIs(InventoryAction)
-     */
-    @Deprecated
-    public InventoryAction getAction() {
-        return baseEvent.getAction();
-    }
-
-    /**
-     * this method can be removed at any time.
-     *
-     * @deprecated because the object should do the check itself
-     * @return click type
-     * @see ElementClickEvent#clickTypeIs(ClickType)
-     */
-    @Deprecated
-    public ClickType getClick() {
-        return baseEvent.getClick();
-    }
-
-    /**
-     * this method can be removed at any time.
-     *
-     * @deprecated because i dont like the name "getWhoClicked" and returning a "HumanEntity"
-     * @return the player who triggered this event by a click
-     * @see ElementClickEvent#player()
-     */
-    @Deprecated
-    public HumanEntity getWhoClicked() {
-        return baseEvent.getWhoClicked();
-    }
-
-    /**
-     * this method can be removed at any time.
-     *
-     * @deprecated because why someone would try to uncancel the event
-     *     while it can't be cancelled before
-     * @param cancel whether cancel the event or not
-     * @see ElementClickEvent#cancel()
-     */
-    @Deprecated
-    public void setCancelled(final Boolean cancel) {
-        cancel();
     }
 }
