@@ -1,14 +1,10 @@
-package me.blackness.black.target;
-
-import java.util.Objects;
-import java.util.function.Consumer;
+package me.blackness.black.req;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 import me.blackness.black.Requirement;
-import me.blackness.black.Target;
-import me.blackness.black.event.ElementClickEvent;
 
 /*
        .                                                    .
@@ -31,37 +27,29 @@ import me.blackness.black.event.ElementClickEvent;
  */
 
 /**
- * the most basic click target.
+ * a requirement which requires a certain item to be clicked on.
  *
- * @see Target
+ * @see Requirement
+ * @see ItemStack
  */
-public final class ClickTarget implements Target {
-    private final Consumer<ElementClickEvent> handler;
-    private final Requirement[] reqs;
+public final class ClickedItemReq implements Requirement {
+    private final ItemStack item;
 
     /**
      * ctor.
      *
-     * @param handler handler of this target
-     * @param reqs requirements of this target
-     * @see Consumer
-     * @see Requirement
+     * @param item itemstack to be clicked on
      */
-    public ClickTarget(final Consumer<ElementClickEvent> handler, final Requirement... reqs) {
-        Objects.requireNonNull(handler);
-        this.handler = handler;
-        this.reqs = reqs;
+    public ClickedItemReq(final ItemStack item) {
+        this.item = item;
     }
 
     @Override
-    public void handle(final InventoryInteractEvent event) {
+    public boolean control(final InventoryInteractEvent event) {
         if (event instanceof InventoryClickEvent) {
-            for (final Requirement req : reqs) {
-                if (!req.control(event)) {
-                    return;
-                }
-            }
-            handler.accept(new ElementClickEvent((InventoryClickEvent) event));
+            return ((InventoryClickEvent) event).getCurrentItem().equals(item);
+        } else {
+            return false;
         }
     }
 }

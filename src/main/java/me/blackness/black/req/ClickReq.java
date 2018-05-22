@@ -32,7 +32,7 @@ import me.blackness.black.Requirement;
  */
 public final class ClickReq implements Requirement {
     @Override
-    public boolean control(InventoryInteractEvent event) {
+    public boolean control(final InventoryInteractEvent event) {
         return event instanceof InventoryClickEvent;
     }
 }

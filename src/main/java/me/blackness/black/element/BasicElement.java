@@ -4,16 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.blackness.black.Element;
-import me.blackness.black.event.ElementClickEvent;
+import me.blackness.black.Requirement;
+import me.blackness.black.Target;
+import me.blackness.black.req.ClickedElementReq;
+import me.blackness.black.req.OrReq;
 
 /*
        .                                                    .
@@ -43,33 +46,31 @@ import me.blackness.black.event.ElementClickEvent;
 public final class BasicElement implements Element {
     private final String id;
     private final ItemStack icon;
-    private final Consumer<ElementClickEvent> function;
+    private final Requirement elementReq;
+    private final Target[] targets;
 
     /**
      * ctor.
      *
      * @param icon an icon to represent this element
-     * @param function handler for the elementclickevents
      * @param id id of this element. should be unique
+     * @param targets targets of this element
      */
-    public BasicElement(final ItemStack icon, final Consumer<ElementClickEvent> function,
-            final String id) {
-
+    public BasicElement(final ItemStack icon, final String id, final Target... targets) {
         this.id = id;
-        this.icon = icon.getType() == Material.AIR
-            ? icon
-            : encrypted(icon, this.id);
-        this.function = Objects.requireNonNull(function);
+        this.icon = encrypted(icon, this.id);
+        elementReq = new OrReq(new ClickedElementReq(this));
+        this.targets = Objects.requireNonNull(targets);
     }
 
     /**
      * ctor.
      *
      * @param icon an icon to represent this element
-     * @param function handler for the elementclickevents
+     * @param targets targets of this element
      */
-    public BasicElement(final ItemStack icon, final Consumer<ElementClickEvent> function) {
-        this(icon, function, UUID.randomUUID().toString() + System.currentTimeMillis());
+    public BasicElement(final ItemStack icon, final Target... targets) {
+        this(icon, UUID.randomUUID().toString() + System.currentTimeMillis(), targets);
     }
 
     /**
@@ -79,8 +80,7 @@ public final class BasicElement implements Element {
      * @param id id of this element. should be unique
      */
     public BasicElement(final ItemStack icon, final String id) {
-        this(icon, event -> {
-        }, id);
+        this(icon, id, new Target[]{});
     }
 
     /**
@@ -89,11 +89,14 @@ public final class BasicElement implements Element {
      * @param icon an icon to represent this element
      */
     public BasicElement(final ItemStack icon) {
-        this(icon, event -> {
-        });
+        this(icon, new Target[]{});
     }
 
     private ItemStack encrypted(final ItemStack itemStack, final String textToEncrypt) {
+        if (itemStack.getType() == Material.AIR) {
+            return itemStack;
+        }
+
         final ItemMeta itemMeta = itemStack.getItemMeta();
         final List<String> lore = itemMeta.getLore() == null
             ? new ArrayList<String>()
@@ -135,9 +138,11 @@ public final class BasicElement implements Element {
     }
 
     @Override
-    public void accept(final ElementClickEvent event) {
-        if (this.is(event.currentItem())) {
-            function.accept(event);
+    public void accept(final InventoryInteractEvent event) {
+        if (elementReq.control(event)) {
+            for (final Target target : targets) {
+                target.handle(event);
+            }
         }
     }
 

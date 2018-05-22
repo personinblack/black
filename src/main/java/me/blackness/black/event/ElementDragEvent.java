@@ -44,8 +44,7 @@ public final class ElementDragEvent implements ElementEvent {
      * @param baseEvent the base event
      */
     public ElementDragEvent(final InventoryDragEvent baseEvent) {
-        Objects.requireNonNull(baseEvent);
-        this.baseEvent = baseEvent;
+        this.baseEvent = Objects.requireNonNull(baseEvent);
         baseElementEvent = new ElementBasicEvent(baseEvent);
     }
 

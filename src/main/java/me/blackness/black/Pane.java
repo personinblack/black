@@ -1,9 +1,9 @@
 package me.blackness.black;
 
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.blackness.black.event.ElementClickEvent;
 import me.blackness.observer.Target;
 
 /*
@@ -129,9 +129,9 @@ public interface Pane {
      * the pane passes this event to its elements.
      *
      * @param event event to pass
-     * @see ElementClickEvent
+     * @see InventoryInteractEvent
      */
-    void accept(ElementClickEvent event);
+    void accept(InventoryInteractEvent event);
 
     /**
      * display this pane on the specified inventory. this method is being triggered by the page

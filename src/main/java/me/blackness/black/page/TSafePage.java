@@ -2,10 +2,10 @@ package me.blackness.black.page;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 
 import me.blackness.black.Page;
-import me.blackness.black.event.ElementClickEvent;
 
 /*
        .                                                    .
@@ -75,7 +75,7 @@ public class TSafePage implements Page {
     }
 
     @Override
-    public void accept(final ElementClickEvent event) {
+    public void accept(final InventoryInteractEvent event) {
         synchronized (basePage) {
             basePage.accept(event);
         }

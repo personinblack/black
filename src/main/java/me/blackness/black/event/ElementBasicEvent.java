@@ -1,5 +1,7 @@
 package me.blackness.black.event;
 
+import java.util.Objects;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryInteractEvent;
@@ -25,11 +27,20 @@ import me.blackness.black.ElementEvent;
                                                         i"  personinblack
                                                         |
  */
+
+/**
+ * an event which contains the implementation of the methods of {@link ElementEvent}.
+ */
 public final class ElementBasicEvent implements ElementEvent {
     private final InventoryInteractEvent baseEvent;
 
+    /**
+     * ctor.
+     *
+     * @param baseEvent the base event
+     */
     public ElementBasicEvent(final InventoryInteractEvent baseEvent) {
-        this.baseEvent = baseEvent;
+        this.baseEvent = Objects.requireNonNull(baseEvent);
     }
 
     @Override

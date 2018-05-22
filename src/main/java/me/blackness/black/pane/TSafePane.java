@@ -1,11 +1,11 @@
 package me.blackness.black.pane;
 
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.blackness.black.Element;
 import me.blackness.black.Pane;
-import me.blackness.black.event.ElementClickEvent;
 import me.blackness.observer.Target;
 
 /*
@@ -116,7 +116,7 @@ public class TSafePane implements Pane {
     }
 
     @Override
-    public void accept(final ElementClickEvent event) {
+    public void accept(final InventoryInteractEvent event) {
         basePane.accept(event);
     }
 

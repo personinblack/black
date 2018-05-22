@@ -47,7 +47,7 @@ public final class PlayerReq implements Requirement {
     }
 
     @Override
-    public boolean control(InventoryInteractEvent event) {
+    public boolean control(final InventoryInteractEvent event) {
         return event.getWhoClicked().getUniqueId().equals(player.getUniqueId());
     }
 }
