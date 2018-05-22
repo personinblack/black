@@ -1,12 +1,6 @@
-package me.blackness.black.event;
-
-import java.util.Objects;
+package me.blackness.black;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-
-import me.blackness.black.ElementEvent;
 
 /*
        .                                                    .
@@ -29,48 +23,28 @@ import me.blackness.black.ElementEvent;
  */
 
 /**
- * an event which represents an inventory click.
+ * represents an element event.
  *
- * @see ElementEvent
+ * @see Element
  */
-public final class ElementClickEvent implements ElementEvent {
-    private final InventoryClickEvent baseEvent;
-    private final ElementBasicEvent baseElementEvent;
-
+public interface ElementEvent {
     /**
-     * ctor.
+     * the player involved in this event.
      *
-     * @param baseEvent the base event
-     */
-    public ElementClickEvent(final InventoryClickEvent baseEvent) {
-        Objects.requireNonNull(baseEvent);
-        this.baseEvent = baseEvent;
-        baseElementEvent = new ElementBasicEvent(baseEvent);
-    }
-
-    /**
-     * the itemstack the player has clicked on.
-     *
-     * @return the itemstack that the player has clicked on
-     * @see ItemStack
+     * @return the player who triggered this event
      * @see Player
      */
-    public ItemStack currentItem() {
-        return baseEvent.getCurrentItem().clone();
-    }
+    Player player();
 
-    @Override
-    public Player player() {
-        return baseElementEvent.player();
-    }
+    /**
+     * cancels the action the player has done.
+     */
+    void cancel();
 
-    @Override
-    public void cancel() {
-        baseElementEvent.cancel();
-    }
-
-    @Override
-    public void closeView() {
-        baseElementEvent.closeView();
-    }
+    /**
+     * closes all the open inventories the player has at the moment.
+     * (i don't know why i wrote this like a player can have multiple inventories open
+     * at the same time but whatever...)
+     */
+    void closeView();
 }

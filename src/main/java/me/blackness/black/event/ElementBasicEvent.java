@@ -1,11 +1,8 @@
 package me.blackness.black.event;
 
-import java.util.Map;
-import java.util.Objects;
-
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.inventory.InventoryInteractEvent;
 
 import me.blackness.black.ElementEvent;
 
@@ -28,61 +25,30 @@ import me.blackness.black.ElementEvent;
                                                         i"  personinblack
                                                         |
  */
+public final class ElementBasicEvent implements ElementEvent {
+    private final InventoryInteractEvent baseEvent;
 
-/**
- * an event which represents an inventory drag.
- *
- * @see ElementEvent
- */
-public final class ElementDragEvent implements ElementEvent {
-    private final InventoryDragEvent baseEvent;
-    private final ElementBasicEvent baseElementEvent;
-
-    /**
-     * ctor.
-     *
-     * @param baseEvent the base event
-     */
-    public ElementDragEvent(final InventoryDragEvent baseEvent) {
-        Objects.requireNonNull(baseEvent);
+    public ElementBasicEvent(final InventoryInteractEvent baseEvent) {
         this.baseEvent = baseEvent;
-        baseElementEvent = new ElementBasicEvent(baseEvent);
-    }
-
-    /**
-     * the cursor before the drag is done.
-     *
-     * @return cursor before the drag
-     * @see ItemStack
-     * @see Player#getItemOnCursor() for the cursor *after* the drag is done
-     */
-    public ItemStack oldCursor() {
-        return baseEvent.getOldCursor();
-    }
-
-    /**
-     * items being changed in this event.
-     *
-     * @return a map of slots and itemstack changes associated with them
-     * @see Map
-     * @see ItemStack
-     */
-    public Map<Integer, ItemStack> items() {
-        return baseEvent.getNewItems();
     }
 
     @Override
     public Player player() {
-        return baseElementEvent.player();
+        return (Player) baseEvent.getWhoClicked();
     }
 
     @Override
     public void cancel() {
-        baseElementEvent.cancel();
+        baseEvent.setCancelled(true);
     }
 
     @Override
     public void closeView() {
-        baseElementEvent.closeView();
+        Bukkit.getScheduler().runTask(
+            baseEvent.getHandlers().getRegisteredListeners()[0].getPlugin(),
+            () -> {
+                baseEvent.getWhoClicked().closeInventory();
+            }
+        );
     }
 }
