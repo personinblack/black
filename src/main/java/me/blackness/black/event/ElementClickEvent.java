@@ -43,8 +43,7 @@ public final class ElementClickEvent implements ElementEvent {
      * @param baseEvent the base event
      */
     public ElementClickEvent(final InventoryClickEvent baseEvent) {
-        Objects.requireNonNull(baseEvent);
-        this.baseEvent = baseEvent;
+        this.baseEvent = Objects.requireNonNull(baseEvent);
         baseElementEvent = new ElementBasicEvent(baseEvent);
     }
 

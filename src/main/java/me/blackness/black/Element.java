@@ -1,9 +1,8 @@
 package me.blackness.black;
 
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import me.blackness.black.event.ElementClickEvent;
 
 /*
        .                                                    .
@@ -47,9 +46,9 @@ public interface Element {
      * accept the element click event and pass it to the framework user's handler.
      *
      * @param event event to pass
-     * @see ElementClickEvent
+     * @see InventoryInteractEvent
      */
-    void accept(ElementClickEvent event);
+    void accept(InventoryInteractEvent event);
 
     /**
      * compares the specified element with this one.

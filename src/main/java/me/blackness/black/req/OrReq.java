@@ -1,14 +1,8 @@
-package me.blackness.black.target;
+package me.blackness.black.req;
 
-import java.util.Objects;
-import java.util.function.Consumer;
-
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 
 import me.blackness.black.Requirement;
-import me.blackness.black.Target;
-import me.blackness.black.event.ElementClickEvent;
 
 /*
        .                                                    .
@@ -31,37 +25,29 @@ import me.blackness.black.event.ElementClickEvent;
  */
 
 /**
- * the most basic click target.
+ * a requirement which takes multiple other requirements and matches either one of them.
  *
- * @see Target
+ * @see Requirement
  */
-public final class ClickTarget implements Target {
-    private final Consumer<ElementClickEvent> handler;
+public final class OrReq implements Requirement {
     private final Requirement[] reqs;
 
     /**
      * ctor.
      *
-     * @param handler handler of this target
-     * @param reqs requirements of this target
-     * @see Consumer
-     * @see Requirement
+     * @param reqs requirements to do the *or* check
      */
-    public ClickTarget(final Consumer<ElementClickEvent> handler, final Requirement... reqs) {
-        Objects.requireNonNull(handler);
-        this.handler = handler;
+    public OrReq(final Requirement... reqs) {
         this.reqs = reqs;
     }
 
     @Override
-    public void handle(final InventoryInteractEvent event) {
-        if (event instanceof InventoryClickEvent) {
-            for (final Requirement req : reqs) {
-                if (!req.control(event)) {
-                    return;
-                }
+    public boolean control(final InventoryInteractEvent event) {
+        for (final Requirement req : reqs) {
+            if (req.control(event)) {
+                return true;
             }
-            handler.accept(new ElementClickEvent((InventoryClickEvent) event));
         }
+        return false;
     }
 }

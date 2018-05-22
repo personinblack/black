@@ -29,6 +29,7 @@ public interface Requirement {
     /**
      * make the requirement control this event to see if it passes and return the result.
      *
+     * @param event event to control
      * @return {@code true} if the event passes this requirement or {@code false} otherwise.
      * @see InventoryInteractEvent
      */

@@ -1,14 +1,11 @@
-package me.blackness.black.target;
+package me.blackness.black.listener;
 
-import java.util.Objects;
-import java.util.function.Consumer;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.inventory.PlayerInventory;
 
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
-
-import me.blackness.black.Requirement;
-import me.blackness.black.Target;
-import me.blackness.black.event.ElementClickEvent;
+import me.blackness.black.Page;
 
 /*
        .                                                    .
@@ -31,37 +28,21 @@ import me.blackness.black.event.ElementClickEvent;
  */
 
 /**
- * the most basic click target.
- *
- * @see Target
+ * a listener that listen for drags happening on inventories.
  */
-public final class ClickTarget implements Target {
-    private final Consumer<ElementClickEvent> handler;
-    private final Requirement[] reqs;
-
+public final class InventoryDragListener implements Listener {
     /**
-     * ctor.
+     * the listener that listens for inventory drags and informs the pages associated with them.
      *
-     * @param handler handler of this target
-     * @param reqs requirements of this target
-     * @see Consumer
-     * @see Requirement
+     * @param event the event that happened
+     * @see InventoryDragEvent
      */
-    public ClickTarget(final Consumer<ElementClickEvent> handler, final Requirement... reqs) {
-        Objects.requireNonNull(handler);
-        this.handler = handler;
-        this.reqs = reqs;
-    }
+    @EventHandler
+    public void listener(final InventoryDragEvent event) {
+        if (event.getInventory().getHolder() instanceof Page &&
+                !(event.getInventory() instanceof PlayerInventory)) {
 
-    @Override
-    public void handle(final InventoryInteractEvent event) {
-        if (event instanceof InventoryClickEvent) {
-            for (final Requirement req : reqs) {
-                if (!req.control(event)) {
-                    return;
-                }
-            }
-            handler.accept(new ElementClickEvent((InventoryClickEvent) event));
+            ((Page) event.getInventory().getHolder()).accept(event);
         }
     }
 }

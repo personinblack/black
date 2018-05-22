@@ -49,7 +49,7 @@ public final class DragTypeReq implements Requirement {
     }
 
     @Override
-    public boolean control(InventoryInteractEvent event) {
+    public boolean control(final InventoryInteractEvent event) {
         if (event instanceof InventoryDragEvent) {
             return ((InventoryDragEvent) event).getType() == dragType;
         } else {

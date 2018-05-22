@@ -3,12 +3,11 @@ package me.blackness.black.target;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 
 import me.blackness.black.Requirement;
 import me.blackness.black.Target;
-import me.blackness.black.event.ElementClickEvent;
+import me.blackness.black.event.ElementBasicEvent;
 
 /*
        .                                                    .
@@ -31,12 +30,12 @@ import me.blackness.black.event.ElementClickEvent;
  */
 
 /**
- * the most basic click target.
+ * the most basic click target which can handle all the interact events.
  *
  * @see Target
  */
-public final class ClickTarget implements Target {
-    private final Consumer<ElementClickEvent> handler;
+public final class BasicTarget implements Target {
+    private final Consumer<ElementBasicEvent> handler;
     private final Requirement[] reqs;
 
     /**
@@ -47,7 +46,7 @@ public final class ClickTarget implements Target {
      * @see Consumer
      * @see Requirement
      */
-    public ClickTarget(final Consumer<ElementClickEvent> handler, final Requirement... reqs) {
+    public BasicTarget(final Consumer<ElementBasicEvent> handler, final Requirement... reqs) {
         Objects.requireNonNull(handler);
         this.handler = handler;
         this.reqs = reqs;
@@ -55,13 +54,11 @@ public final class ClickTarget implements Target {
 
     @Override
     public void handle(final InventoryInteractEvent event) {
-        if (event instanceof InventoryClickEvent) {
-            for (final Requirement req : reqs) {
-                if (!req.control(event)) {
-                    return;
-                }
+        for (final Requirement req : reqs) {
+            if (!req.control(event)) {
+                return;
             }
-            handler.accept(new ElementClickEvent((InventoryClickEvent) event));
         }
+        handler.accept(new ElementBasicEvent(event));
     }
 }

@@ -1,12 +1,11 @@
 package me.blackness.black;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
-import me.blackness.black.event.ElementClickEvent;
 import me.blackness.observer.Target;
 
 /*
@@ -59,10 +58,9 @@ public interface Page extends InventoryHolder, Target<Object> {
      * the panes of it.
      *
      * @param event event to pass
-     * @see InventoryClickEvent
-     * @see ElementClickEvent
+     * @see InventoryInteractEvent
      */
-    void accept(ElementClickEvent event);
+    void accept(InventoryInteractEvent event);
 
     /**
      * {@inheritDoc}

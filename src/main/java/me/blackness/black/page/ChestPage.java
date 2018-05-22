@@ -8,12 +8,12 @@ import java.util.Objects;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
 import me.blackness.black.Page;
 import me.blackness.black.Pane;
-import me.blackness.black.event.ElementClickEvent;
 
 /*
        .                                                    .
@@ -100,7 +100,7 @@ public final class ChestPage implements Page {
     }
 
     @Override
-    public void accept(final ElementClickEvent event) {
+    public void accept(final InventoryInteractEvent event) {
         for (final Pane pane : panes) {
             pane.accept(event);
         }

@@ -47,7 +47,7 @@ public final class HotbarButtonReq implements Requirement {
     }
 
     @Override
-    public boolean control(InventoryInteractEvent event) {
+    public boolean control(final InventoryInteractEvent event) {
         if (event instanceof InventoryClickEvent) {
             return ((InventoryClickEvent) event).getHotbarButton() == button;
         } else {

@@ -2,6 +2,7 @@ package me.blackness.black.pane;
 
 import java.util.Arrays;
 
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -9,7 +10,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import me.blackness.black.Element;
 import me.blackness.black.Pane;
-import me.blackness.black.event.ElementClickEvent;
 import me.blackness.observer.Target;
 
 /*
@@ -54,20 +54,6 @@ public final class LivePane implements Pane {
         this.plugin = plugin;
         this.period = period;
         this.frames = frames;
-    }
-
-    private Pane emptyPane() {
-        return new BasicPane(0, 0, 0, 1);
-    }
-
-    private Pane findFrame(final ItemStack icon) {
-        for (final Pane frame : frames) {
-            if (frame.contains(icon)) {
-                return frame;
-            }
-        }
-
-        return emptyPane();
     }
 
     /**
@@ -246,8 +232,10 @@ public final class LivePane implements Pane {
     }
 
     @Override
-    public void accept(final ElementClickEvent event) {
-        findFrame(event.currentItem()).accept(event);
+    public void accept(final InventoryInteractEvent event) {
+        for (final Pane frame : frames) {
+            frame.accept(event);
+        }
     }
 
     @Override

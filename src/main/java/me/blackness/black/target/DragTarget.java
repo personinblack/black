@@ -46,15 +46,15 @@ public final class DragTarget implements Target {
      * @see Consumer
      * @see Requirement
      */
-    public DragTarget(final Consumer<ElementDragEvent> handler, Requirement... reqs) {
+    public DragTarget(final Consumer<ElementDragEvent> handler, final Requirement... reqs) {
         this.handler = handler;
         this.reqs = reqs;
     }
 
     @Override
-    public void handle(InventoryInteractEvent event) {
+    public void handle(final InventoryInteractEvent event) {
         if (event instanceof InventoryDragEvent) {
-            for (Requirement req : reqs) {
+            for (final Requirement req : reqs) {
                 if (!req.control(event)) {
                     return;
                 }

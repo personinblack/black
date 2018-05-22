@@ -10,13 +10,14 @@ import java.util.function.BiFunction;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.blackness.black.Element;
 import me.blackness.black.Pane;
 import me.blackness.black.element.BasicElement;
-import me.blackness.black.event.ElementClickEvent;
+import me.blackness.black.req.SlotReq;
 import me.blackness.observer.Source;
 import me.blackness.observer.Target;
 import me.blackness.observer.source.BasicSource;
@@ -118,9 +119,7 @@ public final class BasicPane implements Pane {
 
     private Element emptyElement() {
         return new BasicElement(
-            new ItemStack(Material.TNT),
-            event -> {
-            }, "emptyElement"
+            new ItemStack(Material.TNT), "emptyElement"
         );
     }
 
@@ -130,7 +129,6 @@ public final class BasicPane implements Pane {
         final boolean heightFaulty = locY + height() > inventorySize / 9 || height() <= 0;
         final boolean lengthFaulty = locX + length() > 9 || length() <= 0;
         if (locXFaulty || locYFaulty || heightFaulty || lengthFaulty) {
-            // TODO: make this message prettier and easier to understand. add tips maybe?
             throw new IllegalArgumentException(
                 String.format(
                     "Validation for the newest created Pane failed.%n" +
@@ -150,7 +148,7 @@ public final class BasicPane implements Pane {
     private void shiftElementAt(final int xToShift, final int yToShift) {
         for (int y = height() - 1; y >= 0; y--) {
             for (int x = length() - 1; x >= 0; x--) {
-                if (y < yToShift || (y == yToShift && x < xToShift)) {
+                if (y < yToShift || y == yToShift && x < xToShift) {
                     continue;
                 } else if (x + 1 < length()) {
                     paneElements[y][x + 1] = paneElements[y][x];
@@ -184,7 +182,9 @@ public final class BasicPane implements Pane {
     @Override
     public void fill(final Element element) {
         Objects.requireNonNull(element);
-        fill(new Element[]{element});
+        for (int y = 0; y < height(); y++) {
+            Arrays.fill(paneElements[y], element);
+        }
         this.source.notifyTargets(new Object());
     }
 
@@ -296,10 +296,10 @@ public final class BasicPane implements Pane {
     }
 
     @Override
-    public void accept(final ElementClickEvent event) {
+    public void accept(final InventoryInteractEvent event) {
         Objects.requireNonNull(event);
         forEachSlot((y, x) -> {
-            if (event.slotIs(locX + x + (locY + y) * 9)) {
+            if (new SlotReq(locX + x + (locY + y) * 9).control(event)) {
                 paneElements[y][x].accept(event);
             }
         });

@@ -1,10 +1,10 @@
 package me.blackness.black.element;
 
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.blackness.black.Element;
-import me.blackness.black.event.ElementClickEvent;
 
 /*
        .                                                    .
@@ -51,7 +51,7 @@ public class TSafeElement implements Element {
     }
 
     @Override
-    public void accept(final ElementClickEvent event) {
+    public void accept(final InventoryInteractEvent event) {
         baseElement.accept(event);
     }
 
@@ -62,6 +62,10 @@ public class TSafeElement implements Element {
 
     @Override
     public boolean is(final Element element) {
-        return baseElement.is(element);
+        if (baseElement instanceof TSafeElement) {
+            return this.baseElement.is(((TSafeElement) element).baseElement);
+        } else {
+            return baseElement.is(element);
+        }
     }
 }
