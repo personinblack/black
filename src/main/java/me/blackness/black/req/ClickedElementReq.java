@@ -1,5 +1,7 @@
 package me.blackness.black.req;
 
+import java.util.Objects;
+
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 
@@ -41,7 +43,7 @@ public final class ClickedElementReq implements Requirement {
      * @param element the element that needs to be clicked
      */
     public ClickedElementReq(final Element element) {
-        this.element = element;
+        this.element = Objects.requireNonNull(element);
     }
 
     @Override

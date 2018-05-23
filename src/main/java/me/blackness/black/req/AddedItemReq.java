@@ -1,7 +1,11 @@
 package me.blackness.black.req;
 
+import java.util.Objects;
+
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 import me.blackness.black.Requirement;
 
@@ -26,13 +30,34 @@ import me.blackness.black.Requirement;
  */
 
 /**
- * a requirement which requires a drag.
+ * a requirement which requires an item to be added by dragging.
  *
  * @see Requirement
+ * @see ItemStack
  */
-public final class DragReq implements Requirement {
+public final class AddedItemReq implements Requirement {
+    private final ItemStack item;
+
+    /**
+     * ctor.
+     *
+     * @param item the item that needs to be added
+     */
+    public AddedItemReq(final ItemStack item) {
+        this.item = Objects.requireNonNull(item);
+    }
+
     @Override
     public boolean control(final InventoryInteractEvent event) {
-        return event instanceof InventoryDragEvent;
+        if (event instanceof InventoryClickEvent) {
+            return false;
+        } else {
+            for (final ItemStack item : ((InventoryDragEvent) event).getNewItems().values()) {
+                if (this.item.equals(item)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
