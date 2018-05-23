@@ -44,8 +44,7 @@ public final class DragTypeReq implements Requirement {
      * @param dragType the required drag type
      */
     public DragTypeReq(final DragType dragType) {
-        Objects.requireNonNull(dragType);
-        this.dragType = dragType;
+        this.dragType = Objects.requireNonNull(dragType);
     }
 
     @Override

@@ -42,8 +42,7 @@ public final class PlayerReq implements Requirement {
      * @param player the required player
      */
     public PlayerReq(final Player player) {
-        Objects.requireNonNull(player);
-        this.player = player;
+        this.player = Objects.requireNonNull(player);
     }
 
     @Override

@@ -42,8 +42,7 @@ public final class HotbarButtonReq implements Requirement {
      * @param button the button which expected to be pressed
      */
     public HotbarButtonReq(final int button) {
-        Objects.requireNonNull(button);
-        this.button = button;
+        this.button = Objects.requireNonNull(button);
     }
 
     @Override

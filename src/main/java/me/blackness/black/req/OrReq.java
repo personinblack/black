@@ -1,5 +1,7 @@
 package me.blackness.black.req;
 
+import java.util.Objects;
+
 import org.bukkit.event.inventory.InventoryInteractEvent;
 
 import me.blackness.black.Requirement;
@@ -38,7 +40,7 @@ public final class OrReq implements Requirement {
      * @param reqs requirements to do the *or* check
      */
     public OrReq(final Requirement... reqs) {
-        this.reqs = reqs;
+        this.reqs = Objects.requireNonNull(reqs);
     }
 
     @Override

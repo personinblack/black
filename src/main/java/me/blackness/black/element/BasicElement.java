@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import me.blackness.black.Element;
 import me.blackness.black.Requirement;
 import me.blackness.black.Target;
+import me.blackness.black.req.AddedElementReq;
 import me.blackness.black.req.ClickedElementReq;
 import me.blackness.black.req.OrReq;
 
@@ -46,8 +47,8 @@ import me.blackness.black.req.OrReq;
 public final class BasicElement implements Element {
     private final String id;
     private final ItemStack icon;
-    private final Requirement elementReq;
     private final Target[] targets;
+    private final Requirement elementReq;
 
     /**
      * ctor.
@@ -57,10 +58,13 @@ public final class BasicElement implements Element {
      * @param targets targets of this element
      */
     public BasicElement(final ItemStack icon, final String id, final Target... targets) {
-        this.id = id;
-        this.icon = encrypted(icon, this.id);
-        elementReq = new OrReq(new ClickedElementReq(this));
+        this.id = Objects.requireNonNull(id);
+        this.icon = encrypted(Objects.requireNonNull(icon), this.id);
         this.targets = Objects.requireNonNull(targets);
+        elementReq = new OrReq(
+            new ClickedElementReq(this),
+            new AddedElementReq(this)
+        );
     }
 
     /**

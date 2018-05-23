@@ -43,8 +43,7 @@ public final class SlotReq implements Requirement {
      * @param slot the slot which required to be pressed
      */
     public SlotReq(final int slot) {
-        Objects.requireNonNull(slot);
-        this.slot = slot;
+        this.slot = Objects.requireNonNull(slot);
     }
 
     @Override

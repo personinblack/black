@@ -2,10 +2,11 @@ package me.blackness.black.req;
 
 import java.util.Objects;
 
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 
+import me.blackness.black.Element;
 import me.blackness.black.Requirement;
 
 /*
@@ -29,30 +30,29 @@ import me.blackness.black.Requirement;
  */
 
 /**
- * a requirement which requires a certain click type.
+ * a requirement which requires a certain element to be dragged.
  *
- * @return {@code false} for a non click event
  * @see Requirement
- * @see ClickType
+ * @see Element
  */
-public final class ClickTypeReq implements Requirement {
-    private final ClickType clickType;
+public final class DraggedElementReq implements Requirement {
+    private final Element element;
 
     /**
      * ctor.
      *
-     * @param clickType required click type
+     * @param element the element that needs to be dragged
      */
-    public ClickTypeReq(final ClickType clickType) {
-        this.clickType = Objects.requireNonNull(clickType);
+    public DraggedElementReq(final Element element) {
+        this.element = Objects.requireNonNull(element);
     }
 
     @Override
     public boolean control(final InventoryInteractEvent event) {
         if (event instanceof InventoryClickEvent) {
-            return ((InventoryClickEvent) event).getClick() == clickType;
-        } else {
             return false;
+        } else {
+            return element.is(((InventoryDragEvent) event).getCursor());
         }
     }
 }
