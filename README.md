@@ -49,17 +49,30 @@ how your inventories look and how they behave.
 black comes with two element objects, `BasicElement` and `LiveElement`.
 
 basic element is the simplest element. it asks for an icon (`ItemStack`) and
-an event handler function (`Consumer<ElementClickEvent>`).
+some targets (`Target`).
+
+you should already know what an `ItemStack` is but what you may don't know is the `Target`.
+`Target`s are your event handlers, they take events run them through their `Requirement`s and
+do stuff according to the `Requirement`s' output.
 
 you can create one like this:
 
 ```java
 final Element myFirstElement = new BasicElement(
     new ItemStack(Material.APPLE),  // this is the icon
-    event -> {    // and this is the event handler
+    // this is a target which requires you to click on the apple with your keyboard button 1.
+    new ClickTarget(event -> {
+        event.player().sendMessage("you have clicked on the apple by using the hotbar button 1");
+    }, new HotbarButtonReq(1)),
+    // and this is a target which only requires a drag event to be happened.
+    new DragTarget(event -> {
+        event.player().sendMessage("you have dragged more apples to the apple and apple sucks");
+    }),
+    // finally this is just a basic target, which can handle both clicks and drags.
+    new BasicTarget(event -> {
+        // let's just cancel all of them.
         event.cancel();
-        event.player().sendMessage("apple sucks");
-    }
+    })
 );
 ```
 
@@ -71,18 +84,12 @@ here is an example live element:
 
 ```java
 // this is the element we created earlier.
-final Element myFirstElement = new BasicElement(
-    new ItemStack(Material.APPLE),
-    event -> {
-        event.cancel();
-        event.player().sendMessage("apple sucks");
-    }
-);
+final Element myFirstElement = theElementWeCreatedEarlier();
 
 // another basic element.
 final Element mySecondElement = new BasicElement(
     new ItemStack(Material.AIR),
-    event -> event.cancel()
+    new BasicTarget(ElementBasicEvent::cancel)      // canceling all the events in a compact way.
 );
 
 // this is your plugin instance.
@@ -131,7 +138,7 @@ need an example? here it comes...
 ```java
 final Element backgroundElement = new BasicElement(
     new ItemStack(Material.STAINED_GLASS_PANE),
-    event -> event.cancel()
+    new BasicTarget(ElementBasicEvent::cancel)
 );
 
 // this is just a list, nothing fancy or
@@ -141,10 +148,10 @@ final List<Element> playerHeads =
 
 final Element exitButton = new BasicElement(
     new ItemStack(Material.BARRIER),
-    event -> {
+    new BasicTarget(event -> {
         event.cancel();
         event.closeView();
-    }
+    })
 );
 
 /*
@@ -239,14 +246,14 @@ final ItemStack frame1 = new ItemStack(Material.STONE);
 final ItemStack frame2 = new ItemStack(Material.SPONGE);
 
 final Element liveElement = new LiveElement(this, 20,
-    new BasicElement(frame1, event -> {
+    new BasicElement(frame1, new BasicTarget(event -> {
         event.cancel();
         event.player().sendMessage("this is frame 1");
-    }),
-    new BasicElement(frame2, event -> {
+    })),
+    new BasicElement(frame2, new BasicTarget(event -> {
         event.cancel();
         event.player().sendMessage("and this is frame 2");
-    })
+    }))
 );
 ```
 
@@ -264,28 +271,28 @@ extend `BasicElement` or `LiveElement`'s usage by yourself too. let's see how yo
 final class CustomElement implements Element {
     private final Element baseElement;
 
-    public CustomElement(Element baseElement) {
-        this.baseElement = baseElement;
+    public CustomElement(final Element baseElement) {
+        this.baseElement = Objects.requireNonNull(baseElement);
     }
 
     @Override
-    public void displayOn(Inventory inventory, int locX, int locY) {
+    public void displayOn(final Inventory inventory, final int locX, final int locY) {
         baseElement.displayOn(inventory, locX, locY);
     }
 
     @Override
-    public void accept(ElementClickEvent event) {
+    public void accept(final InventoryInteractEvent event) {
         baseElement.accept(event);
     }
 
     @Override
-    public boolean is(ItemStack icon) {
-        return baseElement.is(icon);
+    public boolean is(final ItemStack icon) {
+        return baseElement.is(Objects.requireNonNull(icon));
     }
 
     @Override
-    public boolean is(Element element) {
-        return baseElement.is(element);
+    public boolean is(final Element element) {
+        return baseElement.is(Objects.requireNonNull(element));
     }
 }
 ```

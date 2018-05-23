@@ -1,5 +1,7 @@
 package me.blackness.black.element;
 
+import java.util.Objects;
+
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -40,7 +42,7 @@ public class TSafeElement implements Element {
      * @param baseElement the element to make thread-safe
      */
     public TSafeElement(final Element baseElement) {
-        this.baseElement = baseElement;
+        this.baseElement = Objects.requireNonNull(baseElement);
     }
 
     @Override
@@ -57,11 +59,12 @@ public class TSafeElement implements Element {
 
     @Override
     public boolean is(final ItemStack icon) {
-        return baseElement.is(icon);
+        return baseElement.is(Objects.requireNonNull(icon));
     }
 
     @Override
     public boolean is(final Element element) {
+        Objects.requireNonNull(element);
         if (baseElement instanceof TSafeElement) {
             return this.baseElement.is(((TSafeElement) element).baseElement);
         } else {
