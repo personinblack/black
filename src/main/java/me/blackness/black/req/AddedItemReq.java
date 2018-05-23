@@ -2,7 +2,6 @@ package me.blackness.black.req;
 
 import java.util.Objects;
 
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -49,15 +48,13 @@ public final class AddedItemReq implements Requirement {
 
     @Override
     public boolean control(final InventoryInteractEvent event) {
-        if (event instanceof InventoryClickEvent) {
-            return false;
-        } else {
+        if (event instanceof InventoryDragEvent) {
             for (final ItemStack item : ((InventoryDragEvent) event).getNewItems().values()) {
                 if (this.item.equals(item)) {
                     return true;
                 }
             }
-            return false;
         }
+        return false;
     }
 }

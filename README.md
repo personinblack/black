@@ -52,10 +52,10 @@ basic element is the simplest element. it asks for an icon (`ItemStack`) and
 some targets (`Target`).
 
 you should already know what an `ItemStack` is but what you may don't know is the `Target`.
-`Target`s are your event handlers, they take events run them through their `Requirement`s and
+`Target`s are your event handlers; they take events, run them through their `Requirement`s and
 do stuff according to the `Requirement`s' output.
 
-you can create one like this:
+wanna create an element? take a look at this example:
 
 ```java
 final Element myFirstElement = new BasicElement(
