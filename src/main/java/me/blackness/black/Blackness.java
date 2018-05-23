@@ -11,6 +11,7 @@ import org.bukkit.plugin.Plugin;
 
 import me.blackness.black.listener.InventoryClickListener;
 import me.blackness.black.listener.InventoryCloseListener;
+import me.blackness.black.listener.InventoryDragListener;
 import me.blackness.black.listener.PluginListener;
 
 /*
@@ -40,6 +41,7 @@ public final class Blackness {
     private static final Listener[] LISTENERS = {
         new PluginListener(new Blackness()),
         new InventoryClickListener(),
+        new InventoryDragListener(),
         new InventoryCloseListener(),
     };
 
