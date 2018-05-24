@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.inventory.ItemStack;
 
 import me.blackness.black.Element;
 import me.blackness.black.Requirement;
@@ -50,11 +49,8 @@ public final class AddedElementReq implements Requirement {
     @Override
     public boolean control(final InventoryInteractEvent event) {
         if (event instanceof InventoryDragEvent) {
-            for (final ItemStack icon : ((InventoryDragEvent) event).getNewItems().values()) {
-                if (element.is(icon)) {
-                    return true;
-                }
-            }
+            return ((InventoryDragEvent) event).getNewItems().values()
+                .stream().anyMatch(element::is);
         }
         return false;
     }

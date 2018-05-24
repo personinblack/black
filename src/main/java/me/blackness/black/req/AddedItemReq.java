@@ -49,11 +49,8 @@ public final class AddedItemReq implements Requirement {
     @Override
     public boolean control(final InventoryInteractEvent event) {
         if (event instanceof InventoryDragEvent) {
-            for (final ItemStack item : ((InventoryDragEvent) event).getNewItems().values()) {
-                if (this.item.equals(item)) {
-                    return true;
-                }
-            }
+            return ((InventoryDragEvent) event).getNewItems().values()
+                .stream().anyMatch(this.item::equals);
         }
         return false;
     }

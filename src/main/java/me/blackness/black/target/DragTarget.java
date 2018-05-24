@@ -1,5 +1,6 @@
 package me.blackness.black.target;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -53,12 +54,9 @@ public final class DragTarget implements Target {
 
     @Override
     public void handle(final InventoryInteractEvent event) {
-        if (event instanceof InventoryDragEvent) {
-            for (final Requirement req : reqs) {
-                if (!req.control(event)) {
-                    return;
-                }
-            }
+        if (event instanceof InventoryDragEvent &&
+                Arrays.stream(reqs).allMatch(req -> req.control(event))) {
+
             handler.accept(new ElementDragEvent((InventoryDragEvent) event));
         }
     }
