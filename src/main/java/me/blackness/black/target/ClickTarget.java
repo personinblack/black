@@ -1,5 +1,6 @@
 package me.blackness.black.target;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -55,12 +56,9 @@ public final class ClickTarget implements Target {
 
     @Override
     public void handle(final InventoryInteractEvent event) {
-        if (event instanceof InventoryClickEvent) {
-            for (final Requirement req : reqs) {
-                if (!req.control(event)) {
-                    return;
-                }
-            }
+        if (event instanceof InventoryClickEvent &&
+                Arrays.stream(reqs).allMatch(req -> req.control(event))) {
+
             handler.accept(new ElementClickEvent((InventoryClickEvent) event));
         }
     }
