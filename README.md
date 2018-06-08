@@ -131,7 +131,7 @@ like layers, inside pages.
 there are two pane objects that comes with black. those are `BasicPane` and `LivePane`.
 
 basic pane is the simplest pane. it asks for a x location (`int`), a y location (`int`),
-a height (`int`) and a length(`int`).
+a height (`int`) and a length (`int`).
 
 need an example? here it comes...
 
