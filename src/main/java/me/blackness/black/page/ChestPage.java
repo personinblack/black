@@ -82,10 +82,10 @@ public final class ChestPage implements Page {
     @Override
     public void update(final Object argument) {
         viewers.forEach(viewer -> {
-            final Inventory page = viewer.getOpenInventory().getTopInventory();
-            page.clear();
+            final Inventory inventory = viewer.getOpenInventory().getTopInventory();
+            inventory.clear();
             Arrays.stream(panes).forEach(pane -> {
-                pane.displayOn(page);
+                pane.displayOn(inventory);
             });
         });
     }
