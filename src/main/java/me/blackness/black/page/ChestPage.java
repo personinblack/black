@@ -3,6 +3,7 @@ package me.blackness.black.page;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.bukkit.Bukkit;
@@ -41,7 +42,7 @@ import me.blackness.black.Pane;
 public final class ChestPage implements Page {
     private final String title;
     private final int size;
-    private final Pane[] panes;
+    private final List<Pane> panes;
     private final List<Player> viewers;
 
     /**
@@ -54,7 +55,7 @@ public final class ChestPage implements Page {
     public ChestPage(final String title, final int size, final Pane... panes) {
         this.title = Objects.requireNonNull(title);
         this.size = size < 9 ? 9 : size;
-        this.panes = Objects.requireNonNull(panes);
+        this.panes = new ArrayList<>(Arrays.asList(Objects.requireNonNull(panes)));
         viewers = new ArrayList<>();
 
         Arrays.stream(panes).forEach(pane -> pane.subscribe(this));
@@ -84,15 +85,34 @@ public final class ChestPage implements Page {
         viewers.forEach(viewer -> {
             final Inventory inventory = viewer.getOpenInventory().getTopInventory();
             inventory.clear();
-            Arrays.stream(panes).forEach(pane -> {
+            panes.forEach(pane -> {
                 pane.displayOn(inventory);
             });
         });
     }
 
+    @Override
+    public void rearrange(final Map<Integer, Integer> arrangements) {
+        final List<Pane> rearrPanes = new ArrayList<>(panes);
+        arrangements.forEach((pane, position) -> {
+            if (position > rearrPanes.size()) {
+                position = rearrPanes.size();
+            }
+            if (rearrPanes.size() > position) {
+                // shifting
+                for (int i = rearrPanes.size() - 1; i >= position; i--) {
+                    rearrPanes.set(i + 1, rearrPanes.get(i));
+                }
+            }
+            rearrPanes.set(position, panes.get(pane));
+        });
+        panes.clear();
+        panes.addAll(rearrPanes);
+    }
+
     /**
      * {@inheritDoc}
-     * @deprecated because this is against oop.
+     * @deprecated because this is against oop and we don't have a single universal inventory.
      */
     @Override @Deprecated
     public Inventory getInventory() {
@@ -101,8 +121,6 @@ public final class ChestPage implements Page {
 
     @Override
     public void accept(final InventoryInteractEvent event) {
-        for (final Pane pane : panes) {
-            pane.accept(event);
-        }
+        panes.forEach(pane -> pane.accept(event));
     }
 }

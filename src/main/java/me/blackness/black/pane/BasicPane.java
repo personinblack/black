@@ -82,7 +82,7 @@ public final class BasicPane implements Pane {
      * @param length length of this pane
      * @param element element to fill the pane with
      *
-     * @see #replaceAll(Element)
+     * @see #replaceAll(Element...)
      */
     public BasicPane(final int locX, final int locY, final int height, final int length,
             final Element element) {

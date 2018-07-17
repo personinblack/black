@@ -29,9 +29,7 @@ import me.blackness.black.Requirement;
  */
 
 /**
- * a requirement which requires a certain drag type.
- *
- * @return {@code false} for a non drag event
+ * a requirement which requires a certain drag type. returns {@code false} for a non drag event.
  * @see Requirement
  * @see DragType
  */

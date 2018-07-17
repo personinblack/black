@@ -29,9 +29,7 @@ import me.blackness.black.Requirement;
  */
 
 /**
- * a requirement which requires a certain click type.
- *
- * @return {@code false} for a non click event
+ * a requirement which requires a certain click type. returns {@code false} for a non click event.
  * @see Requirement
  * @see ClickType
  */

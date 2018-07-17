@@ -1,5 +1,7 @@
 package me.blackness.black.page;
 
+import java.util.Map;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
@@ -65,9 +67,16 @@ public class TSafePage implements Page {
         }
     }
 
+    @Override
+    public void rearrange(final Map<Integer, Integer> arrangements) {
+        synchronized (basePage) {
+            basePage.rearrange(arrangements);
+        }
+    }
+
     /**
      * {@inheritDoc}
-     * @deprecated because this is against oop.
+     * @deprecated because this is against oop and we don't have a single universal inventory.
      */
     @Override @Deprecated
     public Inventory getInventory() {

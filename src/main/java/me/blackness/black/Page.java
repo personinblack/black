@@ -1,5 +1,7 @@
 package me.blackness.black;
 
+import java.util.Map;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
@@ -63,9 +65,19 @@ public interface Page extends InventoryHolder, Target<Object> {
     void accept(InventoryInteractEvent event);
 
     /**
+     * rearranging the panes from top to bottom. this will shift the panes towards bottom
+     * when they are about to overlap each other.
+     *
+     * @param arrangements map of arrangements. the key is the pane to arrange and the value is
+     *        the new position
+     * @see Map
+     */
+    void rearrange(Map<Integer, Integer> arrangements);
+
+    /**
      * {@inheritDoc}
      *
-     * @deprecated because this is against oop.
+     * @deprecated because this is against oop and we don't have a single universal inventory.
      * @return an empty (null) inventory
      * @see Inventory
      */
