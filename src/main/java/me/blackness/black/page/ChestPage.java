@@ -67,11 +67,13 @@ public final class ChestPage implements Page {
             position > panes.size() ? panes.size() : position,
             pane
         );
+        update(new Object());
     }
 
     @Override
     public void remove(final int position) {
         panes.remove(position);
+        update(new Object());
     }
 
     @Override
@@ -95,6 +97,7 @@ public final class ChestPage implements Page {
         });
         panes.clear();
         panes.addAll(rearrPanes);
+        update(new Object());
     }
 
     @Override
@@ -138,8 +141,7 @@ public final class ChestPage implements Page {
 
     @Override
     public void accept(final InventoryInteractEvent event) {
-        for (int i = 0; i < panes.size(); i++) {
-            panes.get(i).accept(event);
-        }
+        final List<Pane> clonnedPanes = new ArrayList<>(panes);
+        clonnedPanes.forEach(pane -> pane.accept(event));
     }
 }
