@@ -84,7 +84,11 @@ public final class ChestPage implements Page {
             if (rearrPanes.size() > position) {
                 // shifting
                 for (int i = rearrPanes.size() - 1; i >= position; i--) {
-                    rearrPanes.set(i + 1, rearrPanes.get(i));
+                    if (i + 1 >= rearrPanes.size()) {
+                        rearrPanes.add(rearrPanes.get(i));
+                    } else {
+                        rearrPanes.set(i + 1, rearrPanes.get(i));
+                    }
                 }
             }
             rearrPanes.set(position, panes.get(pane));
