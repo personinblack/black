@@ -138,6 +138,8 @@ public final class ChestPage implements Page {
 
     @Override
     public void accept(final InventoryInteractEvent event) {
-        panes.forEach(pane -> pane.accept(event));
+        for (int i = 0; i < panes.size(); i++) {
+            panes.get(i).accept(event);
+        }
     }
 }
