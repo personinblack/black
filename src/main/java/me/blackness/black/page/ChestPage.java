@@ -62,6 +62,38 @@ public final class ChestPage implements Page {
     }
 
     @Override
+    public void add(final Pane pane, final int position) {
+        panes.add(
+            position > panes.size() ? panes.size() : position,
+            pane
+        );
+    }
+
+    @Override
+    public void remove(final int position) {
+        panes.remove(position);
+    }
+
+    @Override
+    public void rearrange(final Map<Integer, Integer> arrangements) {
+        final List<Pane> rearrPanes = new ArrayList<>(panes);
+        arrangements.forEach((pane, position) -> {
+            if (position > rearrPanes.size()) {
+                position = rearrPanes.size();
+            }
+            if (rearrPanes.size() > position) {
+                // shifting
+                for (int i = rearrPanes.size() - 1; i >= position; i--) {
+                    rearrPanes.set(i + 1, rearrPanes.get(i));
+                }
+            }
+            rearrPanes.set(position, panes.get(pane));
+        });
+        panes.clear();
+        panes.addAll(rearrPanes);
+    }
+
+    @Override
     public void showTo(final Player player) {
         final Inventory inventory = Bukkit.createInventory(this, size, title);
 
@@ -89,25 +121,6 @@ public final class ChestPage implements Page {
                 pane.displayOn(inventory);
             });
         });
-    }
-
-    @Override
-    public void rearrange(final Map<Integer, Integer> arrangements) {
-        final List<Pane> rearrPanes = new ArrayList<>(panes);
-        arrangements.forEach((pane, position) -> {
-            if (position > rearrPanes.size()) {
-                position = rearrPanes.size();
-            }
-            if (rearrPanes.size() > position) {
-                // shifting
-                for (int i = rearrPanes.size() - 1; i >= position; i--) {
-                    rearrPanes.set(i + 1, rearrPanes.get(i));
-                }
-            }
-            rearrPanes.set(position, panes.get(pane));
-        });
-        panes.clear();
-        panes.addAll(rearrPanes);
     }
 
     /**

@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 
 import me.blackness.black.Page;
+import me.blackness.black.Pane;
 
 /*
        .                                                    .
@@ -47,6 +48,27 @@ public class TSafePage implements Page {
     }
 
     @Override
+    public void add(final Pane pane, final int position) {
+        synchronized (basePage) {
+            basePage.add(pane, position);
+        }
+    }
+
+    @Override
+    public void remove(final int position) {
+        synchronized (basePage) {
+            basePage.remove(position);
+        }
+    }
+
+    @Override
+    public void rearrange(final Map<Integer, Integer> arrangements) {
+        synchronized (basePage) {
+            basePage.rearrange(arrangements);
+        }
+    }
+
+    @Override
     public void showTo(final Player player) {
         synchronized (basePage) {
             basePage.showTo(player);
@@ -64,13 +86,6 @@ public class TSafePage implements Page {
     public void update(final Object argument) {
         synchronized (basePage) {
             basePage.update(argument);
-        }
-    }
-
-    @Override
-    public void rearrange(final Map<Integer, Integer> arrangements) {
-        synchronized (basePage) {
-            basePage.rearrange(arrangements);
         }
     }
 

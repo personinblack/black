@@ -5,7 +5,6 @@ import java.util.Map;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
 import me.blackness.observer.Target;
@@ -38,6 +37,32 @@ import me.blackness.observer.Target;
  * @see Player
  */
 public interface Page extends InventoryHolder, Target<Object> {
+
+    /**
+     * adds a new pane to the page.
+     *
+     * @param pane pane to add
+     * @param position the position of the new pane
+     */
+    void add(Pane pane, int position);
+
+    /**
+     * removes the pane at the specified position.
+     *
+     * @param position position
+     */
+    void remove(int position);
+
+    /**
+     * rearranges the panes from top to bottom. this will shift the panes towards bottom
+     * when they are about to overlap each other.
+     *
+     * @param arrangements map of arrangements. the key is the pane to arrange and the value is
+     *        the new position
+     * @see Map
+     */
+    void rearrange(Map<Integer, Integer> arrangements);
+
     /**
      * shows this page.
      *
@@ -63,24 +88,4 @@ public interface Page extends InventoryHolder, Target<Object> {
      * @see InventoryInteractEvent
      */
     void accept(InventoryInteractEvent event);
-
-    /**
-     * rearranging the panes from top to bottom. this will shift the panes towards bottom
-     * when they are about to overlap each other.
-     *
-     * @param arrangements map of arrangements. the key is the pane to arrange and the value is
-     *        the new position
-     * @see Map
-     */
-    void rearrange(Map<Integer, Integer> arrangements);
-
-    /**
-     * {@inheritDoc}
-     *
-     * @deprecated because this is against oop and we don't have a single universal inventory.
-     * @return an empty (null) inventory
-     * @see Inventory
-     */
-    @Override @Deprecated
-    Inventory getInventory();
 }
