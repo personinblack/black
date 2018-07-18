@@ -129,7 +129,6 @@ public final class ChestPage implements Page {
 
     @Override
     public void accept(final InventoryInteractEvent event) {
-        final List<Pane> clonnedPanes = new ArrayList<>(panes);
-        clonnedPanes.forEach(pane -> pane.accept(event));
+        new ArrayList<>(panes).forEach(pane -> pane.accept(event));
     }
 }
