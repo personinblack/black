@@ -60,9 +60,9 @@ public class TSafePage implements Page {
     }
 
     @Override
-    public void rearrange(final int paneIndex, final int desiredPosition) {
+    public void rearrange(final int paneIndex, final int position) {
         synchronized (basePage) {
-            basePage.rearrange(paneIndex, desiredPosition);
+            basePage.rearrange(paneIndex, position);
         }
     }
 

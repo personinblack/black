@@ -76,16 +76,13 @@ public final class ChestPage implements Page {
     }
 
     @Override
-    public void rearrange(final int paneIndex, final int desiredPosition) {
+    public void rearrange(final int paneIndex, final int position) {
         final Pane pane = panes.get(paneIndex);
         panes.remove(paneIndex);
-        if (desiredPosition < 0) {
-            panes.add(0, pane);
-        } else if (desiredPosition > panes.size()) {
-            panes.add(pane);
-        } else {
-            panes.add(desiredPosition, pane);
-        }
+        panes.add(
+            position - 1 > panes.size() ? panes.size() : position - 1,
+            pane
+        );
     }
 
     @Override
