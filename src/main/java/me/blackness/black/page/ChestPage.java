@@ -83,6 +83,7 @@ public final class ChestPage implements Page {
             position - 1 > panes.size() ? panes.size() : position - 1,
             pane
         );
+        update(new Object());
     }
 
     @Override
