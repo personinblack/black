@@ -80,7 +80,7 @@ public final class ChestPage implements Page {
         final Pane pane = panes.get(paneIndex);
         panes.remove(paneIndex);
         panes.add(
-            position - 1 > panes.size() ? panes.size() : position - 1,
+            position > panes.size() ? panes.size() : position,
             pane
         );
         update(new Object());
@@ -107,13 +107,17 @@ public final class ChestPage implements Page {
 
     @Override
     public void update(final Object argument) {
-        viewers.forEach(viewer -> {
-            final Inventory inventory = viewer.getOpenInventory().getTopInventory();
-            inventory.clear();
-            panes.forEach(pane -> {
-                pane.displayOn(inventory);
-            });
-        });
+        Bukkit.getScheduler().runTask(
+            Bukkit.getPluginManager().getPlugins()[0], () -> {
+                viewers.forEach(viewer -> {
+                    final Inventory inventory = viewer.getOpenInventory().getTopInventory();
+                    inventory.clear();
+                    panes.forEach(pane -> {
+                        pane.displayOn(inventory);
+                    });
+                });
+            }
+        );
     }
 
     /**
