@@ -3,7 +3,6 @@ package me.blackness.black.page;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import org.bukkit.Bukkit;
@@ -77,27 +76,16 @@ public final class ChestPage implements Page {
     }
 
     @Override
-    public void rearrange(final Map<Integer, Integer> arrangements) {
-        final List<Pane> rearrPanes = new ArrayList<>(panes);
-        arrangements.forEach((pane, position) -> {
-            if (position > rearrPanes.size()) {
-                position = rearrPanes.size();
-            }
-            if (rearrPanes.size() > position) {
-                // shifting
-                for (int i = rearrPanes.size() - 1; i >= position; i--) {
-                    if (i + 1 >= rearrPanes.size()) {
-                        rearrPanes.add(rearrPanes.get(i));
-                    } else {
-                        rearrPanes.set(i + 1, rearrPanes.get(i));
-                    }
-                }
-            }
-            rearrPanes.set(position, panes.get(pane));
-        });
-        panes.clear();
-        panes.addAll(rearrPanes);
-        update(new Object());
+    public void rearrange(final int paneIndex, final int desiredPosition) {
+        final Pane pane = panes.get(paneIndex);
+        panes.remove(paneIndex);
+        if (desiredPosition < 0) {
+            panes.add(0, pane);
+        } else if (desiredPosition > panes.size()) {
+            panes.add(pane);
+        } else {
+            panes.add(desiredPosition, pane);
+        }
     }
 
     @Override

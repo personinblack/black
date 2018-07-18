@@ -61,7 +61,7 @@ public interface Page extends InventoryHolder, Target<Object> {
      *        the new position
      * @see Map
      */
-    void rearrange(Map<Integer, Integer> arrangements);
+    void rearrange(int paneIndex, int desiredPosition);
 
     /**
      * shows this page.

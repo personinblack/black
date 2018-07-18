@@ -1,7 +1,5 @@
 package me.blackness.black.page;
 
-import java.util.Map;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
@@ -62,9 +60,9 @@ public class TSafePage implements Page {
     }
 
     @Override
-    public void rearrange(final Map<Integer, Integer> arrangements) {
+    public void rearrange(final int paneIndex, final int desiredPosition) {
         synchronized (basePage) {
-            basePage.rearrange(arrangements);
+            basePage.rearrange(paneIndex, desiredPosition);
         }
     }
 
