@@ -33,7 +33,7 @@ import me.blackness.observer.Target;
  *
  * @see Pane
  */
-public class TSafePane implements Pane {
+public final class TSafePane implements Pane {
     private final Pane basePane;
 
     /**

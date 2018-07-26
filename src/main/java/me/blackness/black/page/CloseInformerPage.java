@@ -1,5 +1,7 @@
 package me.blackness.black.page;
 
+import java.util.function.Consumer;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
@@ -29,62 +31,55 @@ import me.blackness.black.Pane;
  */
 
 /**
- * thread-safe decorator for any page.
+ * a page decorator which calls a consumer when a player closes the page.
  *
  * @see Page
+ * @see InventoryCloseEvent
  */
-public final class TSafePage implements Page {
+public final class CloseInformerPage implements Page {
     private final Page basePage;
+    private final Consumer<Player> consumer;
 
     /**
      * ctor.
      *
-     * @param basePage the page to make thread-safe
+     * @param basePage the page which will have its close events listened
+     * @param consumer the consumer to call when a close event gets handled
      */
-    public TSafePage(final Page basePage) {
+    public CloseInformerPage(final Page basePage, final Consumer<Player> consumer) {
         this.basePage = basePage;
+        this.consumer = consumer;
     }
 
     @Override
     public void add(final Pane pane, final int position) {
-        synchronized (basePage) {
-            basePage.add(pane, position);
-        }
+        this.basePage.add(pane, position);
     }
 
     @Override
     public void remove(final int position) {
-        synchronized (basePage) {
-            basePage.remove(position);
-        }
+        this.basePage.remove(position);
     }
 
     @Override
     public void rearrange(final int paneIndex, final int position) {
-        synchronized (basePage) {
-            basePage.rearrange(paneIndex, position);
-        }
+        this.basePage.rearrange(paneIndex, position);
     }
 
     @Override
     public void showTo(final Player player) {
-        synchronized (basePage) {
-            basePage.showTo(player);
-        }
+        this.basePage.showTo(player);
     }
 
     @Override
     public void handleClose(final InventoryCloseEvent event) {
-        synchronized (basePage) {
-            basePage.handleClose(event);
-        }
+        this.basePage.handleClose(event);
+        consumer.accept((Player) event.getPlayer());
     }
 
     @Override
     public void update(final Object argument) {
-        synchronized (basePage) {
-            basePage.update(argument);
-        }
+        basePage.update(argument);
     }
 
     /**
@@ -98,8 +93,6 @@ public final class TSafePage implements Page {
 
     @Override
     public void accept(final InventoryInteractEvent event) {
-        synchronized (basePage) {
-            basePage.accept(event);
-        }
+        basePage.accept(event);
     }
 }

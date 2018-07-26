@@ -33,7 +33,7 @@ import me.blackness.black.Element;
  *
  * @see Element
  */
-public class TSafeElement implements Element {
+public final class TSafeElement implements Element {
     private final Element baseElement;
 
     /**
