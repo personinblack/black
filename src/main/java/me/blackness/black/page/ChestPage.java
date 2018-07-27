@@ -43,6 +43,7 @@ public final class ChestPage implements Page {
     private final int size;
     private final List<Pane> panes;
     private final List<Player> viewers;
+    private Page holder;
 
     /**
      * ctor.
@@ -55,13 +56,16 @@ public final class ChestPage implements Page {
         this.title = Objects.requireNonNull(title);
         this.size = size < 9 ? 9 : size;
         this.panes = new ArrayList<>(Arrays.asList(Objects.requireNonNull(panes)));
-        viewers = new ArrayList<>();
+        this.viewers = new ArrayList<>();
+        this.holder = this;
 
         Arrays.stream(panes).forEach(pane -> pane.subscribe(this));
     }
 
     @Override
     public void add(final Pane pane, final int position) {
+        Objects.requireNonNull(pane);
+        Objects.requireNonNull(position);
         panes.add(
             position > panes.size() ? panes.size() : position,
             pane
@@ -71,12 +75,15 @@ public final class ChestPage implements Page {
 
     @Override
     public void remove(final int position) {
+        Objects.requireNonNull(position);
         panes.remove(position);
         update(new Object());
     }
 
     @Override
     public void rearrange(final int paneIndex, final int position) {
+        Objects.requireNonNull(paneIndex);
+        Objects.requireNonNull(position);
         final Pane pane = panes.get(paneIndex);
         panes.remove(paneIndex);
         panes.add(
@@ -87,13 +94,17 @@ public final class ChestPage implements Page {
     }
 
     @Override
-    public void showTo(final Player player) {
-        final Inventory inventory = Bukkit.createInventory(this, size, title);
+    public void defineHolder(final Page holder) {
+        this.holder = holder;
+    }
 
+    @Override
+    public void showTo(final Player player) {
+        Objects.requireNonNull(player);
+        final Inventory inventory = Bukkit.createInventory(holder, size, title);
         for (final Pane pane : panes) {
             pane.displayOn(inventory);
         }
-
         player.openInventory(inventory);
         if (!viewers.contains(player)) {
             viewers.add(player);

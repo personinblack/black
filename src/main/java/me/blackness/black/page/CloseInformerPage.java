@@ -1,5 +1,6 @@
 package me.blackness.black.page;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import org.bukkit.entity.Player;
@@ -47,27 +48,41 @@ public final class CloseInformerPage implements Page {
      * @param consumer the consumer to call when a close event gets handled
      */
     public CloseInformerPage(final Page basePage, final Consumer<Player> consumer) {
+        Objects.requireNonNull(basePage);
+        Objects.requireNonNull(consumer);
         this.basePage = basePage;
         this.consumer = consumer;
+        defineHolder(this);
     }
 
     @Override
     public void add(final Pane pane, final int position) {
+        Objects.requireNonNull(pane);
+        Objects.requireNonNull(position);
         this.basePage.add(pane, position);
     }
 
     @Override
     public void remove(final int position) {
+        Objects.requireNonNull(position);
         this.basePage.remove(position);
     }
 
     @Override
     public void rearrange(final int paneIndex, final int position) {
+        Objects.requireNonNull(paneIndex);
+        Objects.requireNonNull(position);
         this.basePage.rearrange(paneIndex, position);
     }
 
     @Override
+    public void defineHolder(final Page holder) {
+        basePage.defineHolder(holder);
+    }
+
+    @Override
     public void showTo(final Player player) {
+        Objects.requireNonNull(player);
         this.basePage.showTo(player);
     }
 

@@ -67,6 +67,11 @@ public final class TSafePage implements Page {
     }
 
     @Override
+    public void defineHolder(final Page holder) {
+        basePage.defineHolder(holder);
+    }
+
+    @Override
     public void showTo(final Player player) {
         synchronized (basePage) {
             basePage.showTo(player);

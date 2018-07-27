@@ -61,6 +61,13 @@ public interface Page extends InventoryHolder, Target<Object> {
     void rearrange(int paneIndex, int position);
 
     /**
+     * defines a new holder for the page. specifically to be used by page decorators.
+     *
+     * @param holder new holder
+     */
+    void defineHolder(Page holder);
+
+    /**
      * shows this page.
      *
      * @param player player to show the page to
