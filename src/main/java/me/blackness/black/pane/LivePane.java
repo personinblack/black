@@ -125,9 +125,8 @@ public final class LivePane implements Pane {
     public Element[] add(final Element... elements) {
         Element[] leftOvers = elements;
         for (final Pane frame : frames) {
-            leftOvers = frame.add(elements);
-
-            if (elements.length == 0) {
+            leftOvers = frame.add(leftOvers);
+            if (leftOvers.length == 0) {
                 break;
             }
         }
