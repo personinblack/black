@@ -64,26 +64,23 @@ public final class ChestPage implements Page {
 
     @Override
     public void add(final Pane pane, final int position) {
-        Objects.requireNonNull(pane);
-        Objects.requireNonNull(position);
         panes.add(
-            position > panes.size() ? panes.size() : position,
-            pane
+            position > panes.size()
+                ? panes.size()
+                : Objects.requireNonNull(position),
+            Objects.requireNonNull(pane)
         );
         update(new Object());
     }
 
     @Override
     public void remove(final int position) {
-        Objects.requireNonNull(position);
         panes.remove(position);
         update(new Object());
     }
 
     @Override
     public void rearrange(final int paneIndex, final int position) {
-        Objects.requireNonNull(paneIndex);
-        Objects.requireNonNull(position);
         final Pane pane = panes.get(paneIndex);
         panes.remove(paneIndex);
         panes.add(
@@ -95,12 +92,11 @@ public final class ChestPage implements Page {
 
     @Override
     public void defineHolder(final Page holder) {
-        this.holder = holder;
+        this.holder = Objects.requireNonNull(holder);
     }
 
     @Override
     public void showTo(final Player player) {
-        Objects.requireNonNull(player);
         final Inventory inventory = Bukkit.createInventory(holder, size, title);
         for (final Pane pane : panes) {
             pane.displayOn(inventory);

@@ -1,5 +1,7 @@
 package me.blackness.black.element;
 
+import java.util.Objects;
+
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -48,9 +50,9 @@ public final class LiveElement implements Element {
      * @param frames frames to display in order
      */
     public LiveElement(final Plugin plugin, final int period, final Element... frames) {
-        this.plugin = plugin;
-        this.period = period;
-        this.frames = frames;
+        this.plugin = Objects.requireNonNull(plugin);
+        this.period = Objects.requireNonNull(period);
+        this.frames = Objects.requireNonNull(frames);
     }
 
     private Element nullElement() {
@@ -87,7 +89,6 @@ public final class LiveElement implements Element {
     @Override
     public void displayOn(final Inventory inventory, final int locX, final int locY) {
         frames[0].displayOn(inventory, locX, locY);
-
         new BukkitRunnable() {
             private int iterator;
 

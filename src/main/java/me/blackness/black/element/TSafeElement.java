@@ -59,12 +59,11 @@ public final class TSafeElement implements Element {
 
     @Override
     public boolean is(final ItemStack icon) {
-        return baseElement.is(Objects.requireNonNull(icon));
+        return baseElement.is(icon);
     }
 
     @Override
     public boolean is(final Element element) {
-        Objects.requireNonNull(element);
         if (baseElement instanceof TSafeElement) {
             return this.baseElement.is(((TSafeElement) element).baseElement);
         } else {

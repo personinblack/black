@@ -1,5 +1,7 @@
 package me.blackness.black.pane;
 
+import java.util.Objects;
+
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +44,7 @@ public final class TSafePane implements Pane {
      * @param basePane the pane to make thread-safe
      */
     public TSafePane(final Pane basePane) {
-        this.basePane = basePane;
+        this.basePane = Objects.requireNonNull(basePane);
     }
 
     @Override

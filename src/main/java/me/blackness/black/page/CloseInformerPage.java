@@ -48,30 +48,23 @@ public final class CloseInformerPage implements Page {
      * @param consumer the consumer to call when a close event gets handled
      */
     public CloseInformerPage(final Page basePage, final Consumer<Player> consumer) {
-        Objects.requireNonNull(basePage);
-        Objects.requireNonNull(consumer);
-        this.basePage = basePage;
-        this.consumer = consumer;
+        this.basePage = Objects.requireNonNull(basePage);
+        this.consumer = Objects.requireNonNull(consumer);
         defineHolder(this);
     }
 
     @Override
     public void add(final Pane pane, final int position) {
-        Objects.requireNonNull(pane);
-        Objects.requireNonNull(position);
         this.basePage.add(pane, position);
     }
 
     @Override
     public void remove(final int position) {
-        Objects.requireNonNull(position);
         this.basePage.remove(position);
     }
 
     @Override
     public void rearrange(final int paneIndex, final int position) {
-        Objects.requireNonNull(paneIndex);
-        Objects.requireNonNull(position);
         this.basePage.rearrange(paneIndex, position);
     }
 
@@ -82,7 +75,6 @@ public final class CloseInformerPage implements Page {
 
     @Override
     public void showTo(final Player player) {
-        Objects.requireNonNull(player);
         this.basePage.showTo(player);
     }
 

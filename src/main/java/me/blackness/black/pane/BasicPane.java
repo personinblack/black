@@ -106,7 +106,7 @@ public final class BasicPane implements Pane {
             final Element... elements) {
 
         this(locX, locY, height, length);
-        add(Objects.requireNonNull(elements));
+        add(elements);
     }
 
     private int length() {
@@ -164,7 +164,7 @@ public final class BasicPane implements Pane {
     private boolean forEachSlot(final BiFunction<Integer, Integer, Boolean> action) {
         for (int y = 0; isWithinBounds(0, y); y++) {
             for (int x = 0; isWithinBounds(x, y); x++) {
-                if (Objects.requireNonNull(action).apply(y, x)) {
+                if (action.apply(y, x)) {
                     return true;
                 }
             }
@@ -174,7 +174,7 @@ public final class BasicPane implements Pane {
 
     private void forEachSlot(final BiConsumer<Integer, Integer> action) {
         forEachSlot((y, x) -> {
-            Objects.requireNonNull(action).accept(y, x);
+            action.accept(y, x);
             return false;
         });
     }
@@ -227,7 +227,7 @@ public final class BasicPane implements Pane {
                 remainings.add(element);
             }
         }
-        return remainings.toArray(new Element[]{});
+        return remainings.toArray(new Element[0]);
     }
 
     @Override
@@ -287,14 +287,14 @@ public final class BasicPane implements Pane {
     @Override
     public boolean contains(final ItemStack icon) {
         return forEachSlot((y, x) -> {
-            return paneElements[y][x].is(Objects.requireNonNull(icon));
+            return paneElements[y][x].is(icon);
         });
     }
 
     @Override
     public void accept(final InventoryInteractEvent event) {
         forEachSlot((y, x) -> {
-            if (new SlotReq(locX + x + (locY + y) * 9).control(Objects.requireNonNull(event))) {
+            if (new SlotReq(locX + x + (locY + y) * 9).control(event)) {
                 paneElements[y][x].accept(event);
             }
         });
@@ -303,7 +303,7 @@ public final class BasicPane implements Pane {
     @Override
     public void displayOn(final Inventory inventory) {
         try {
-            validate(Objects.requireNonNull(inventory).getSize());
+            validate(inventory.getSize());
         } catch (IllegalArgumentException ex) {
             Bukkit.getLogger().severe(ex.toString());
             return;

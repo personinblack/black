@@ -47,9 +47,8 @@ public final class BasicTarget implements Target {
      * @see Requirement
      */
     public BasicTarget(final Consumer<ElementBasicEvent> handler, final Requirement... reqs) {
-        Objects.requireNonNull(handler);
-        this.handler = handler;
-        this.reqs = reqs;
+        this.handler = Objects.requireNonNull(handler);
+        this.reqs = Objects.requireNonNull(reqs);
     }
 
     @Override

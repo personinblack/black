@@ -1,5 +1,7 @@
 package me.blackness.black.page;
 
+import java.util.Objects;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
@@ -42,7 +44,7 @@ public final class TSafePage implements Page {
      * @param basePage the page to make thread-safe
      */
     public TSafePage(final Page basePage) {
-        this.basePage = basePage;
+        this.basePage = Objects.requireNonNull(basePage);
     }
 
     @Override

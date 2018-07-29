@@ -1,6 +1,7 @@
 package me.blackness.black.pane;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -51,9 +52,9 @@ public final class LivePane implements Pane {
      * @param frames frames to display in order
      */
     public LivePane(final Plugin plugin, final int period, final Pane... frames) {
-        this.plugin = plugin;
-        this.period = period;
-        this.frames = frames;
+        this.plugin = Objects.requireNonNull(plugin);
+        this.period = Objects.requireNonNull(period);
+        this.frames = Objects.requireNonNull(frames);
     }
 
     /**

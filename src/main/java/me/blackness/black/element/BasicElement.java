@@ -59,8 +59,8 @@ public final class BasicElement implements Element {
      * @param targets targets of this element
      */
     public BasicElement(final ItemStack icon, final String id, final Target... targets) {
-        this.id = Objects.requireNonNull(id);
-        this.icon = encrypted(Objects.requireNonNull(icon), this.id);
+        this.icon = encrypted(Objects.requireNonNull(icon), Objects.requireNonNull(id));
+        this.id = id;
         this.targets = Objects.requireNonNull(targets);
         elementReq = new OrReq(
             new ClickedElementReq(this),
@@ -87,7 +87,7 @@ public final class BasicElement implements Element {
      * @param id id of this element. should be unique
      */
     public BasicElement(final ItemStack icon, final String id) {
-        this(icon, id, new Target[]{});
+        this(icon, id, new Target[0]);
     }
 
     /**
@@ -96,7 +96,7 @@ public final class BasicElement implements Element {
      * @param icon an icon to represent this element
      */
     public BasicElement(final ItemStack icon) {
-        this(icon, new Target[]{});
+        this(icon, new Target[0]);
     }
 
     private ItemStack encrypted(final ItemStack itemStack, final String textToEncrypt) {
@@ -121,7 +121,6 @@ public final class BasicElement implements Element {
         for (final char ch : textToEncrypt.toCharArray()) {
             encryptedText.append(ChatColor.COLOR_CHAR).append(ch);
         }
-
         return encryptedText.toString();
     }
 

@@ -1,6 +1,7 @@
 package me.blackness.black;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -54,6 +55,7 @@ public final class Blackness {
      * @see Plugin
      */
     public void prepareFor(final Plugin plugin) {
+        Objects.requireNonNull(plugin);
         if (PLUGINQUEUE.isEmpty()) {
             registerEvents(plugin);
         }
