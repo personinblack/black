@@ -60,10 +60,20 @@ public final class ElementClickEvent implements ElementEvent {
         return baseEvent.getCurrentItem().clone();
     }
 
+    /**
+     * x location of the clicked slot.
+     *
+     * @return x
+     */
     public int clickedX() {
         return baseEvent.getSlot() % 9;
     }
 
+    /**
+     * y location of the clicked slot.
+     *
+     * @return y
+     */
     public int clickedY() {
         return baseEvent.getSlot() / 9;
     }
