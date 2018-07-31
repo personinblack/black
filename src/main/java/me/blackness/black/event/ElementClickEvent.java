@@ -60,6 +60,14 @@ public final class ElementClickEvent implements ElementEvent {
         return baseEvent.getCurrentItem().clone();
     }
 
+    public int clickedX() {
+        return baseEvent.getSlot() % 9;
+    }
+
+    public int clickedY() {
+        return baseEvent.getSlot() / 9;
+    }
+
     @Override
     public Player player() {
         return baseElementEvent.player();
