@@ -33,7 +33,9 @@ import me.blackness.observer.Target;
 /**
  * thread-safe decorator for any pane.
  *
+ * @author personinblack
  * @see Pane
+ * @since 3.1.0
  */
 public final class TSafePane implements Pane {
     private final Pane basePane;

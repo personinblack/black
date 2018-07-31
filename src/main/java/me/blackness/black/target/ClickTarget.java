@@ -34,7 +34,9 @@ import me.blackness.black.event.ElementClickEvent;
 /**
  * the most basic click target.
  *
+ * @author personinblack
  * @see Target
+ * @since 4.0.0-alpha
  */
 public final class ClickTarget implements Target {
     private final Consumer<ElementClickEvent> handler;

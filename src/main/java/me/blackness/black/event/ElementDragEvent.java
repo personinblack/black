@@ -32,7 +32,9 @@ import me.blackness.black.ElementEvent;
 /**
  * an event which represents an inventory drag.
  *
+ * @author personinblack
  * @see ElementEvent
+ * @since 4.0.0-alpha
  */
 public final class ElementDragEvent implements ElementEvent {
     private final InventoryDragEvent baseEvent;

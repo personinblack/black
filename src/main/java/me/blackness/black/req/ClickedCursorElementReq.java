@@ -30,8 +30,10 @@ import java.util.Objects;
 /**
  * a requirement which requires holding a certain element on cursor.
  *
+ * @author Draww
  * @see Requirement
  * @see Element
+ * @since 4.1.0-alpha
  */
 public final class ClickedCursorElementReq implements Requirement {
     private final Element element;

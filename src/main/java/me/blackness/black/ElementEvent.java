@@ -25,7 +25,9 @@ import org.bukkit.entity.Player;
 /**
  * represents an element event.
  *
+ * @author personinblack
  * @see Element
+ * @since 4.0.0-alpha
  */
 public interface ElementEvent {
     /**

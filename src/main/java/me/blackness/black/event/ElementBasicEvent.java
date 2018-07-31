@@ -30,6 +30,9 @@ import me.blackness.black.ElementEvent;
 
 /**
  * an event which contains the implementation of the methods of {@link ElementEvent}.
+ *
+ * @author personinblack
+ * @since 4.0.0-alpha
  */
 public final class ElementBasicEvent implements ElementEvent {
     private final InventoryInteractEvent baseEvent;

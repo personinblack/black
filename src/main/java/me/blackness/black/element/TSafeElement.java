@@ -31,7 +31,9 @@ import me.blackness.black.Element;
 /**
  * thread-safe decorator for any element.
  *
+ * @author personinblack
  * @see Element
+ * @since 3.1.0
  */
 public final class TSafeElement implements Element {
     private final Element baseElement;

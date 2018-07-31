@@ -31,8 +31,10 @@ import me.blackness.black.Requirement;
 /**
  * a requirement which requires an item to be added by dragging.
  *
+ * @author personinblack
  * @see Requirement
  * @see ItemStack
+ * @since 4.0.0-alpha
  */
 public final class AddedItemReq implements Requirement {
     private final ItemStack item;

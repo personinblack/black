@@ -24,6 +24,9 @@ import org.bukkit.event.inventory.InventoryInteractEvent;
 
 /**
  * target is the type of all the event handlers.
+ *
+ * @author personinblack
+ * @since 4.0.0-alpha
  */
 public interface Target {
     /**

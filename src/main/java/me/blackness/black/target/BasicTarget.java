@@ -32,7 +32,9 @@ import me.blackness.black.event.ElementBasicEvent;
 /**
  * the most basic click target which can handle all the interact events.
  *
+ * @author personinblack
  * @see Target
+ * @since 4.0.0-alpha
  */
 public final class BasicTarget implements Target {
     private final Consumer<ElementBasicEvent> handler;

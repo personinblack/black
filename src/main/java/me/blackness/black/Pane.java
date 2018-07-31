@@ -30,8 +30,10 @@ import me.blackness.observer.Target;
  * pane is the type of all the sections of a page which can contain elements and
  * display those elements on a page.
  *
+ * @author personinblack
  * @see Page
  * @see Element
+ * @since 1.0.0
  */
 public interface Pane {
     /**

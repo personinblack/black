@@ -34,7 +34,9 @@ import me.blackness.black.event.ElementDragEvent;
 /**
  * the most basic drag target.
  *
+ * @author personinblack
  * @see Target
+ * @since 4.0.0-alpha
  */
 public final class DragTarget implements Target {
     private final Consumer<ElementDragEvent> handler;

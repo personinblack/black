@@ -29,6 +29,9 @@ import me.blackness.black.Page;
 
 /**
  * a listener that listen for clicks happening on inventories.
+ *
+ * @author personinblack
+ * @since 2.0.0
  */
 public final class InventoryClickListener implements Listener {
     /**

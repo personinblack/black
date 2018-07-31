@@ -29,7 +29,9 @@ import me.blackness.black.Requirement;
 /**
  * a requirement which takes multiple other requirements and matches either one of them.
  *
+ * @author personinblack
  * @see Requirement
+ * @since 4.0.0-alpha
  */
 public final class OrReq implements Requirement {
     private final Requirement[] reqs;

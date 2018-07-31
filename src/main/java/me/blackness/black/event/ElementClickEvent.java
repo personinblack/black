@@ -31,7 +31,9 @@ import me.blackness.black.ElementEvent;
 /**
  * an event which represents an inventory click.
  *
+ * @author personinblack
  * @see ElementEvent
+ * @since 4.0.0-alpha
  */
 public final class ElementClickEvent implements ElementEvent {
     private final InventoryClickEvent baseEvent;

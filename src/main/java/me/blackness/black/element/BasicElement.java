@@ -43,7 +43,9 @@ import me.blackness.black.req.OrReq;
 /**
  * an element that has all the basic stuff.
  *
+ * @author personinblack
  * @see Element
+ * @since 1.0.0
  */
 public final class BasicElement implements Element {
     private final String id;

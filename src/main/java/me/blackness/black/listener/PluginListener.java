@@ -28,6 +28,9 @@ import me.blackness.black.Blackness;
 
 /**
  * a listener that listen for plugins getting disabled.
+ *
+ * @author personinblack
+ * @version 2.0.0
  */
 public final class PluginListener implements Listener {
     private final Blackness blackness;

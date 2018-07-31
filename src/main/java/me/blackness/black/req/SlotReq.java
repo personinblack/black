@@ -32,7 +32,9 @@ import me.blackness.black.Requirement;
  * a requirement which requires a specific slot to be pressed.
  * for drag events, this will check all the affected slots.
  *
+ * @author personinblack
  * @see Requirement
+ * @since 4.0.0-alpha
  */
 public final class SlotReq implements Requirement {
     private final int slot;

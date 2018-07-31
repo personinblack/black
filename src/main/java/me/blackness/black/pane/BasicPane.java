@@ -45,7 +45,9 @@ import me.blackness.observer.source.BasicSource;
 /**
  * a pane that has all the basic stuff.
  *
+ * @author personinblack
  * @see Pane
+ * @since 1.0.0
  */
 public final class BasicPane implements Pane {
     private static final String LOC_OUT =

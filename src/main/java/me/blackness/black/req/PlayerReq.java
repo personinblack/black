@@ -30,8 +30,10 @@ import me.blackness.black.Requirement;
 /**
  * a requirement which requires a player.
  *
+ * @author personinblack
  * @see Requirement
  * @see Player
+ * @since 4.0.0-alpha
  */
 public final class PlayerReq implements Requirement {
     private final Player player;

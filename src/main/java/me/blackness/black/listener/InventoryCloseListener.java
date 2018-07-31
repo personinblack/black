@@ -28,6 +28,9 @@ import me.blackness.black.Page;
 
 /**
  * a listener that listen for players closing inventories.
+ *
+ * @author personinblack
+ * @since 2.0.0
  */
 public final class InventoryCloseListener implements Listener {
     /**

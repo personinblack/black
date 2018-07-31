@@ -34,8 +34,10 @@ import me.blackness.black.Element;
 /**
  * an element which takes some other elements and makes an animation out of them.
  *
+ * @author personinblack
  * @see Element
  * @see BasicElement
+ * @since 1.0.0
  */
 public final class LiveElement implements Element {
     private final Plugin plugin;

@@ -33,7 +33,9 @@ import me.blackness.black.Pane;
 /**
  * thread-safe decorator for any page.
  *
+ * @author personinblack
  * @see Page
+ * @since 3.1.0
  */
 public final class TSafePage implements Page {
     private final Page basePage;

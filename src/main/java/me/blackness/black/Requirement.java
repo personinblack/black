@@ -24,6 +24,9 @@ import org.bukkit.event.inventory.InventoryInteractEvent;
 
 /**
  * requirement is the type of all the event conditions.
+ *
+ * @author personinblack
+ * @since 4.0.0-alpha
  */
 public interface Requirement {
     /**

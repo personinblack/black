@@ -31,8 +31,10 @@ import me.blackness.observer.Target;
  * page is the type of all the inventory pages which made from panes and
  * can be displayed to players.
  *
+ * @author personinblack
  * @see Pane
  * @see Player
+ * @since 1.0.0
  */
 public interface Page extends InventoryHolder, Target<Object> {
 

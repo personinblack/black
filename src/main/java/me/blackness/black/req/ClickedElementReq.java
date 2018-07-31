@@ -31,8 +31,10 @@ import me.blackness.black.Requirement;
 /**
  * a requirement which requires a certain element to be clicked.
  *
+ * @author personinblack
  * @see Requirement
  * @see Element
+ * @since 4.0.0-alpha
  */
 public final class ClickedElementReq implements Requirement {
     private final Element element;

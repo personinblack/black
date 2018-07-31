@@ -31,8 +31,10 @@ import me.blackness.black.Requirement;
 /**
  * a requirement which requires an element to be added by dragging.
  *
+ * @author personinblack
  * @see Requirement
  * @see Element
+ * @since 4.0.0-alpha
  */
 public final class AddedElementReq implements Requirement {
     private final Element element;

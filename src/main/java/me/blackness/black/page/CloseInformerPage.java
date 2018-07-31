@@ -34,8 +34,10 @@ import me.blackness.black.Pane;
 /**
  * a page decorator which calls a consumer when a player closes the page.
  *
+ * @author personinblack
  * @see Page
  * @see InventoryCloseEvent
+ * @since 4.3.0
  */
 public final class CloseInformerPage implements Page {
     private final Page basePage;

@@ -36,8 +36,10 @@ import me.blackness.observer.Target;
 /**
  * a pane which takes some other panes and makes an animation out of them.
  *
+ * @author personinblack
  * @see Pane
  * @see BasicPane
+ * @since 1.0.3
  */
 public final class LivePane implements Pane {
     private final Plugin plugin;

@@ -37,6 +37,9 @@ import me.blackness.black.listener.PluginListener;
 
 /**
  * object that controls the blackness.
+ *
+ * @author personinblack
+ * @since 2.0.0
  */
 public final class Blackness {
     private static final Listener[] LISTENERS = {
@@ -49,7 +52,7 @@ public final class Blackness {
     private static final Queue<Plugin> PLUGINQUEUE = new ConcurrentLinkedQueue<>();
 
     /**
-     * prepares the blackness for the specified plugin or adds it to the {@link #LISTENERS}.
+     * prepares the blackness for the specified plugin or adds it to the {@link #PLUGINQUEUE}.
      *
      * @param plugin plugin that needs blackness prepared
      * @see Plugin
@@ -57,7 +60,7 @@ public final class Blackness {
     public void prepareFor(final Plugin plugin) {
         Objects.requireNonNull(plugin);
         if (PLUGINQUEUE.isEmpty()) {
-            registerEvents(plugin);
+            registerListeners(plugin);
         }
 
         synchronized (this) {
@@ -84,11 +87,17 @@ public final class Blackness {
 
         final Plugin nextPlugin = PLUGINQUEUE.peek();
         if (nextPlugin != null && nextPlugin.isEnabled()) {
-            registerEvents(nextPlugin);
+            registerListeners(nextPlugin);
         }
     }
 
-    private void registerEvents(final Plugin plugin) {
+    /**
+     * registers all the listeners in the name of the plugin.
+     *
+     * @param plugin plugin
+     * @see Plugin
+     */
+    private void registerListeners(final Plugin plugin) {
         synchronized (this) {
             Arrays.stream(LISTENERS).forEach(listener ->
                 Bukkit.getPluginManager().registerEvents(listener, plugin));

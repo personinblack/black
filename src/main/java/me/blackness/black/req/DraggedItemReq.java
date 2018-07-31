@@ -32,8 +32,10 @@ import me.blackness.black.Requirement;
 /**
  * a requirement which requires a certain item to be dragged.
  *
+ * @author personinblack
  * @see Requirement
  * @see ItemStack
+ * @since 4.0.0-alpha
  */
 public final class DraggedItemReq implements Requirement {
     private final ItemStack item;

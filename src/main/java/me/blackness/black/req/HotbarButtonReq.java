@@ -30,7 +30,10 @@ import me.blackness.black.Requirement;
 /**
  * a requirement which requires a certain keyboard button to be pressed.
  * returns {@code false} for a non click event.
+ *
+ * @author personinblack
  * @see Requirement
+ * @since 4.0.0-alpha
  */
 public final class HotbarButtonReq implements Requirement {
     private final int button;

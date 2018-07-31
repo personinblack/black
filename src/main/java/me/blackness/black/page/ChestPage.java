@@ -37,6 +37,9 @@ import me.blackness.black.Pane;
 
 /**
  * a page that uses an inventory of {@link InventoryType#CHEST}.
+ *
+ * @author personinblack
+ * @since 1.0.0
  */
 public final class ChestPage implements Page {
     private final String title;
