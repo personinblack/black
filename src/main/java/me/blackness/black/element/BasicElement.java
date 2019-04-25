@@ -63,7 +63,7 @@ public final class BasicElement implements Element {
     public BasicElement(final ItemStack icon, final String id, final Target... targets) {
         this.icon = encrypted(Objects.requireNonNull(icon), Objects.requireNonNull(id));
         this.id = id;
-        this.targets = Objects.requireNonNull(targets);
+        this.targets = Objects.requireNonNull(targets.clone());
         elementReq = new OrReq(
             new ClickedElementReq(this),
             icon.getType() == Material.AIR
@@ -108,7 +108,7 @@ public final class BasicElement implements Element {
 
         final ItemMeta itemMeta = itemStack.getItemMeta();
         final List<String> lore = itemMeta.getLore() == null
-            ? new ArrayList<String>()
+            ? new ArrayList<>()
             : itemMeta.getLore();
         lore.add(encrypted(textToEncrypt));
         itemMeta.setLore(lore);

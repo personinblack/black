@@ -52,7 +52,7 @@ public final class DragTarget implements Target {
      */
     public DragTarget(final Consumer<ElementDragEvent> handler, final Requirement... reqs) {
         this.handler = Objects.requireNonNull(handler);
-        this.reqs = Objects.requireNonNull(reqs);
+        this.reqs = Objects.requireNonNull(reqs.clone());
     }
 
     @Override

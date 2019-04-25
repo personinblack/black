@@ -54,7 +54,7 @@ public final class LiveElement implements Element {
     public LiveElement(final Plugin plugin, final int period, final Element... frames) {
         this.plugin = Objects.requireNonNull(plugin);
         this.period = Objects.requireNonNull(period);
-        this.frames = Objects.requireNonNull(frames);
+        this.frames = Objects.requireNonNull(frames.clone());
     }
 
     private Element nullElement() {

@@ -52,7 +52,7 @@ public final class ClickTarget implements Target {
      */
     public ClickTarget(final Consumer<ElementClickEvent> handler, final Requirement... reqs) {
         this.handler = Objects.requireNonNull(handler);
-        this.reqs = Objects.requireNonNull(reqs);
+        this.reqs = Objects.requireNonNull(reqs.clone());
     }
 
     @Override

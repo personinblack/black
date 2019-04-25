@@ -50,7 +50,7 @@ public final class BasicTarget implements Target {
      */
     public BasicTarget(final Consumer<ElementBasicEvent> handler, final Requirement... reqs) {
         this.handler = Objects.requireNonNull(handler);
-        this.reqs = Objects.requireNonNull(reqs);
+        this.reqs = Objects.requireNonNull(reqs.clone());
     }
 
     @Override

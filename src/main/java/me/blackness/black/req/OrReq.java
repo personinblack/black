@@ -42,7 +42,7 @@ public final class OrReq implements Requirement {
      * @param reqs requirements to do the *or* check
      */
     public OrReq(final Requirement... reqs) {
-        this.reqs = Objects.requireNonNull(reqs);
+        this.reqs = Objects.requireNonNull(reqs.clone());
     }
 
     @Override

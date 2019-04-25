@@ -56,7 +56,7 @@ public final class LivePane implements Pane {
     public LivePane(final Plugin plugin, final int period, final Pane... frames) {
         this.plugin = Objects.requireNonNull(plugin);
         this.period = Objects.requireNonNull(period);
-        this.frames = Objects.requireNonNull(frames);
+        this.frames = Objects.requireNonNull(frames.clone());
     }
 
     /**
