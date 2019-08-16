@@ -42,8 +42,8 @@ this is required because black needs to register events for your inventories.
 
 ### now lets create some elements
 
-an element is an object that can be placed inside a pane. you can call elements as buttons but they
-are not just handling clicks. they can be used for decorating your inventories too. they determine
+an element is an object that can be placed inside a pane. you can think of elements as buttons but they
+are not just handling clicks; they can be used for decorating your inventories too. they determine
 how your inventories look and how they behave.
 
 black comes with two element objects, `BasicElement` and `LiveElement`.
@@ -55,14 +55,14 @@ you should already know what an `ItemStack` is but what you may don't know is th
 `Target`s are your event handlers; they take events, run them through their `Requirement`s and
 do stuff according to the `Requirement`s' output.
 
-wanna create an element? take a look at this example:
+take a look at this example:
 
 ```java
 final Element myFirstElement = new BasicElement(
     new ItemStack(Material.APPLE),  // this is the icon
     // this is a target which requires you to click on the apple with your keyboard button 1.
     new ClickTarget(event -> {
-        event.player().sendMessage("you have clicked on the apple by using the hotbar button 1");
+        event.player().sendMessage("you have clicked on the apple using the hotbar button 1");
     }, new HotbarButtonReq(1)),
     // and this is a target which only requires a drag event to be happened.
     new DragTarget(event -> {
@@ -96,7 +96,7 @@ final Element mySecondElement = new BasicElement(
 final Plugin myPlugin =
     Bukkit.getPluginManager().getPlugin("myPluginsName");
 
-// live element inside live element ??!!?
+// live element inside live element??!!?
 final Element myThirdElement = new LiveElement(
     myPlugin,
     5,
@@ -108,7 +108,7 @@ myPlugin is your plugin instance,
 20 is the delay between each animation frame and
 elements are the frames in order.
 */
-final Element myFirstLiveElement = new LiveElement(
+final Element mySecondLiveElement = new LiveElement(
     myPlugin,
     20,
     myFirstElement, mySecondElement, myThirdElement
@@ -183,7 +183,7 @@ playerHeads.forEach(mySecondPane::add);
 4 is the x location (center),
 5 is the y location (bottom)
 true is for shifting any other element that could be
-at that location. if there would be an element at the end
+at that location. if there is an element at the end
 it will be vanished.
 */
 mySecondPane.insert(
