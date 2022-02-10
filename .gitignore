@@ -1,9 +1,1 @@
-bin/*
-build/*
-.settings/*
-.gradle/*
-.project
-.classpath
-tasks.json
-.vscode/*
-.gradletasknamecache
+target

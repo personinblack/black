@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<modelVersion>4.0.0</modelVersion>
+<groupId>me.blackness</groupId>
+<artifactId>black</artifactId>
+<name>black</name>
+<version>0.0.0</version>
+
+<properties>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  <maven.compiler.source>1.8</maven.compiler.source>
+  <maven.compiler.target>1.8</maven.compiler.target>
+  <maven.compiler.release>8</maven.compiler.release>
+</properties>
+
+<build>
+  <finalName>${project.name}-${project.version}</finalName>
+  <sourceDirectory>src/main/java</sourceDirectory>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-shade-plugin</artifactId>
+      <version>3.2.4</version>
+      <executions>
+        <execution>
+          <phase>package</phase>
+          <goals>
+            <goal>shade</goal>
+          </goals>
+        </execution>
+      </executions>
+      <configuration>
+        <shadedArtifactAttached>true</shadedArtifactAttached>
+        <createDependencyReducedPom>false</createDependencyReducedPom>
+        <filters>
+          <filter>
+            <artifact>*:*</artifact>
+            <excludes>
+              <exclude>META-INF/MANIFEST.MF</exclude>
+            </excludes>
+          </filter>
+        </filters>
+      </configuration>
+    </plugin>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-deploy-plugin</artifactId>
+      <version>3.0.0-M2</version>
+      <executions>
+        <execution>
+          <phase>package</phase>
+          <goals>
+            <goal>deploy-file</goal>
+          </goals>
+        </execution>
+      </executions>
+      <configuration>
+        <file>
+          ${project.build.directory}/${project.build.finalName}.jar
+        </file>
+        <url>file:///home/menfie/.local/share/maven/repository</url>
+        <groupId>me.blackness</groupId>
+        <artifactId>black</artifactId>
+        <version>0.0.0</version>
+        <packaging>jar</packaging>
+        <overWrite>true</overWrite>
+      </configuration>
+    </plugin>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-checkstyle-plugin</artifactId>
+      <version>3.1.2</version>
+      <configuration>
+        <configLocation>checkstyle.xml</configLocation>
+        <encoding>UTF-8</encoding>
+        <consoleOutput>true</consoleOutput>
+        <failsOnError>true</failsOnError>
+        <linkXRef>false</linkXRef>
+        <suppressionsLocation>
+          checkstyle-suppressions.xml
+        </suppressionsLocation>
+        <suppressionsFileExpression>
+          checkstyle.suppressions.file
+        </suppressionsFileExpression>
+      </configuration>
+      <dependencies>
+        <dependency>
+          <groupId>com.puppycrawl.tools</groupId>
+          <artifactId>checkstyle</artifactId>
+          <version>8.42</version>
+        </dependency>
+      </dependencies>
+    </plugin>
+  </plugins>
+</build>
+
+<repositories>
+  <repository>
+    <id>spigot-repo</id>
+    <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+  </repository>
+  <repository>
+    <id>jitpack</id>
+    <url>https://jitpack.io/</url>
+  </repository>
+</repositories>
+
+<dependencies>
+  <dependency>
+    <groupId>com.github.Personinblack</groupId>
+    <artifactId>observer</artifactId>
+    <version>bfb66b7c69</version>
+    <scope>compile</scope>
+  </dependency>
+  <dependency>
+    <groupId>org.spigotmc</groupId>
+    <artifactId>spigot-api</artifactId>
+    <version>1.8.8-R0.1-SNAPSHOT</version>
+    <scope>provided</scope>
+  </dependency>
+</dependencies>
+</project>
+
