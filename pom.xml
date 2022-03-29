@@ -45,30 +45,6 @@
     </plugin>
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-deploy-plugin</artifactId>
-      <version>3.0.0-M2</version>
-      <executions>
-        <execution>
-          <phase>package</phase>
-          <goals>
-            <goal>deploy-file</goal>
-          </goals>
-        </execution>
-      </executions>
-      <configuration>
-        <file>
-          ${project.build.directory}/${project.build.finalName}.jar
-        </file>
-        <url>file:///home/menfie/.local/share/maven/repository</url>
-        <groupId>me.blackness</groupId>
-        <artifactId>black</artifactId>
-        <version>0.0.0</version>
-        <packaging>jar</packaging>
-        <overWrite>true</overWrite>
-      </configuration>
-    </plugin>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-checkstyle-plugin</artifactId>
       <version>3.1.2</version>
       <configuration>
